@@ -545,7 +545,7 @@
 
         <section class="section-block">
             <div class="section-head">
-                <div class="section-title">Max Drawdown</div>
+                <div class="section-title">Underwater Plot</div>
             </div>
             <div class="chart-panel" style="height: 260px;">
                 <div id="tv-drawdown-chart" style="width: 100%; height: 100%;"></div>
@@ -892,6 +892,10 @@ function filterByYear() {
     }
 }
 
+// Soft green / red tuned to the warm cream page (less neon than default UI greens/reds)
+const HIST_POS = '#5a9e6f';
+const HIST_NEG = '#d96b5c';
+
 function initCurrentMonthCurve() {
     const container = document.getElementById('tv-current-month-chart');
     if (!container) return;
@@ -900,11 +904,23 @@ function initCurrentMonthCurve() {
         container.innerHTML = `<div style="padding:12px;color:var(--text-muted);font-size:12px;">No holdings data for this month</div>`;
         return;
     }
-    waitForCharts(() => initMultiLineChart('tv-current-month-chart', { [STRATEGY_KEY]: curve }, {
-        height: 260,
-        lineWidth: () => 2,
-        errorMsg: 'Failed to render this month\'s return curve. Please refresh.',
-    }), container, 'Chart library failed to load. Check your network and refresh.');
+    const last = curve[curve.length - 1]?.value ?? 0;
+    const lineColor = last >= 0 ? HIST_POS : HIST_NEG;
+    waitForCharts(() => {
+        if (typeof LightweightCharts === 'undefined') return;
+        try {
+            const chart = createTVChart(container, 260);
+            if (!chart || typeof chart.addLineSeries !== 'function') {
+                showChartError(container, 'Failed to render this month\'s return curve. Please refresh.');
+                return;
+            }
+            chart.addLineSeries({ color: lineColor, lineWidth: 2, title: STRATEGY_KEY }).setData(curve);
+            bindChartResize(chart, container, 260);
+        } catch (err) {
+            console.error('tv-current-month-chart', err);
+            showChartError(container, 'Failed to render this month\'s return curve. Please refresh.');
+        }
+    }, container, 'Chart library failed to load. Check your network and refresh.');
 }
 
 function initTradingViewEquity() {
@@ -920,10 +936,6 @@ function initTradingViewEquity() {
 function initTradingViewDrawdown() {
     initMultiLineChart('tv-drawdown-chart', tvDrawdownSeries, { errorMsg: 'Failed to render drawdown chart. Please refresh.' });
 }
-
-// Soft green / red tuned to the warm cream page (less neon than default UI greens/reds)
-const HIST_POS = '#5a9e6f';
-const HIST_NEG = '#d96b5c';
 
 function initTradingViewMonthly() {
     const coloredData = tvMonthlyData.map(d => ({ time: d.time, value: d.value, color: d.value >= 0 ? HIST_POS : HIST_NEG }));
