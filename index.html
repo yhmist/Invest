@@ -34,8 +34,6 @@
             --pos: #16a34a;
             --neg: #e11d48;
             --radius: 2px;
-            --shadow-hard: 6px 6px 0 #383838;
-            --shadow-hard-sm: 3px 3px 0 #383838;
             /* Aeonik Mono + Aeonik Fono */
             --font-display: 'Aeonik Mono', ui-monospace, monospace;
             --font-mono: 'Aeonik Mono', ui-monospace, monospace;
@@ -131,7 +129,6 @@
             background: var(--surface);
             border: 1.5px solid var(--ink);
             border-radius: var(--radius);
-            box-shadow: var(--shadow-hard);
         }
         .panel-padded { padding: 1.35rem 1.4rem; }
         .section-block { margin-bottom: 2rem; }
@@ -186,7 +183,6 @@
             background: var(--surface);
             border: 1.5px solid var(--ink);
             border-radius: var(--radius);
-            box-shadow: var(--shadow-hard);
             padding: 1rem 1.05rem;
             min-height: 5.25rem;
         }
@@ -321,7 +317,6 @@
             background: var(--surface);
             border: 1.5px solid var(--ink);
             border-radius: var(--radius);
-            box-shadow: var(--shadow-hard);
             padding: 1rem;
         }
         .chart-panel .chart-canvas {
@@ -337,7 +332,6 @@
             min-height: 24px;
             padding: 2px 8px;
             font-size: 10px;
-            box-shadow: none;
         }
         .chart-a11y {
             margin-top: 0.75rem;
@@ -380,7 +374,6 @@
             background: var(--surface);
             border: 1.5px solid var(--ink);
             border-radius: var(--radius);
-            box-shadow: var(--shadow-hard-sm);
             font-family: var(--font-mono);
             font-size: 11px;
             line-height: 1.45;
@@ -465,7 +458,6 @@
             letter-spacing: normal;
             text-transform: none;
             color: var(--ink);
-            box-shadow: var(--shadow-hard-sm);
             cursor: pointer;
             white-space: nowrap;
             transition: background 0.12s ease, border-color 0.12s ease;
@@ -487,7 +479,6 @@
             background: var(--surface);
             border: 1.5px solid var(--ink);
             border-radius: var(--radius);
-            box-shadow: var(--shadow-hard-sm);
             padding: 0.9rem;
             display: flex;
             flex-direction: column;
@@ -613,9 +604,6 @@
             .site-nav { flex-wrap: wrap; }
             .chart-panel.chart-tall .chart-canvas { height: 280px; }
             .chart-panel .chart-canvas { height: 200px; }
-            .panel, .metric-card, .chart-panel {
-                box-shadow: var(--shadow-hard-sm);
-            }
         }
     </style>
 </head>
