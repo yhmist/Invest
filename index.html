@@ -343,6 +343,32 @@
         .chart-panel .js-plotly-plot .plotly .main-svg {
             border-radius: 1px;
         }
+        /* Match Plotly zoom/legend tips to page palette */
+        .plotly-notifier {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: var(--letter-spacing-body);
+        }
+        .plotly-notifier .notifier-note {
+            min-width: 180px;
+            max-width: 260px;
+            background: var(--surface);
+            color: var(--ink);
+            border: 1.5px solid var(--ink);
+            border-radius: var(--radius);
+            padding: 0.65rem 0.75rem;
+            box-shadow: none;
+        }
+        .plotly-notifier .notifier-close {
+            color: var(--text-muted);
+            opacity: 1;
+            font-weight: 600;
+            line-height: 1;
+            padding: 0 0.15rem;
+        }
+        .plotly-notifier .notifier-close:hover {
+            color: var(--ink);
+        }
         .mtd-badge {
             display: inline-flex;
             align-items: center;
