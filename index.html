@@ -708,18 +708,15 @@ const chartColors = DATA.colors_map;
 const defaultYear = DATA.default_year;
 const STRATEGY_KEY = 'Strategy';
 
-/** Expand compact {times, series:{name:[y...]}} or legacy {name:[{time,value}]} into Plotly-ready maps. */
+/** Expand compact {times, series:{name:[y...]}} into Plotly-ready maps. */
 function expandSharedSeries(raw) {
-    if (!raw) return {};
-    if (raw.times && raw.series) {
-        const out = {};
-        Object.keys(raw.series).forEach(name => {
-            const ys = raw.series[name] || [];
-            out[name] = raw.times.map((t, i) => ({ time: t, value: ys[i] }));
-        });
-        return out;
-    }
-    return raw;
+    if (!raw || !raw.times || !raw.series) return {};
+    const out = {};
+    Object.keys(raw.series).forEach(name => {
+        const ys = raw.series[name] || [];
+        out[name] = raw.times.map((t, i) => ({ time: t, value: ys[i] }));
+    });
+    return out;
 }
 
 const tvEquityData = expandSharedSeries(DATA.tv_equity_series);
@@ -727,23 +724,14 @@ const tvDrawdownSeries = expandSharedSeries(DATA.tv_drawdown_series);
 const tvReturnDistData = DATA.tv_return_dist_data;
 const tvCurrentMonthCurve = DATA.tv_current_month_curve;
 
-/** Normalize holding row: array [ticker,buy,sell,ret,score] or legacy object. */
+/** Unpack holding row: [ticker, buy, sell, ret, score]. */
 function holdingFields(d) {
-    if (Array.isArray(d)) {
-        return {
-            ticker: d[0],
-            buy_price: Number(d[1]) || 0,
-            sell_price: Number(d[2]) || 0,
-            monthly_return: Number(d[3]) || 0,
-            total_score: Number(d[4]) || 0,
-        };
-    }
     return {
-        ticker: d.ticker,
-        buy_price: Number(d.buy_price) || 0,
-        sell_price: Number(d.sell_price) || 0,
-        monthly_return: Number(d.monthly_return) || 0,
-        total_score: Number(d.total_score) || 0,
+        ticker: d[0],
+        buy_price: Number(d[1]) || 0,
+        sell_price: Number(d[2]) || 0,
+        monthly_return: Number(d[3]) || 0,
+        total_score: Number(d[4]) || 0,
     };
 }
 
@@ -775,7 +763,7 @@ function kpiColorClass(k) {
         return 'val-neg';
     }
     if (label === 'Volatility' || label === 'Win rate') return 'val-neutral';
-    if (label === 'Sharpe' || label === 'Sortino' || label === 'Calmar' || label === 'Profit factor') {
+    if (label === 'Sharpe') {
         return v >= 1 ? 'val-pos' : 'val-neg';
     }
     return 'val-pos';
