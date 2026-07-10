@@ -1424,11 +1424,9 @@ function initMonthlyReturnsChart() {
         m => !String(m.sell_date || '').includes('(open)')
     );
     const narrow = isNarrowViewport(container);
-    const labels = monthly.map(m => shortMonthLabel(m.month, narrow));
-    const maxTicks = narrow ? 4 : 10;
-    const ticks = sparseCategoryTicks(labels, maxTicks);
-    const data = monthly.map((m, i) => ({
-        x: labels[i],
+    // Date axis + nticks: evenly spaced labels (like equity), not blank slots under some bars
+    const data = monthly.map(m => ({
+        x: String(m.month || '').length === 7 ? `${m.month}-01` : m.month,
         y: m.monthly_return,
         label: m.month,
         color: m.monthly_return >= 0 ? HIST_POS : HIST_NEG,
@@ -1439,10 +1437,12 @@ function initMonthlyReturnsChart() {
         hoverTemplate: '%{y:.2%}<extra></extra>',
         yaxis: { tickformat: '.0%' },
         xaxis: {
-            type: 'category',
+            type: 'date',
+            tickformat: narrow ? '%y-%m' : '%Y-%m',
+            hoverformat: '%Y-%m',
+            nticks: narrow ? 4 : 10,
             tickangle: narrow ? -45 : 0,
             tickfont: { size: narrow ? 10 : 11 },
-            ...ticks,
         },
         margin: { l: 44, r: 10, t: 16, b: narrow ? 60 : 48 },
         height: narrow ? 260 : 300,
