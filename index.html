@@ -1129,7 +1129,8 @@ function initMultiLineChart(containerId, seriesMap, options = {}) {
                 line: {
                     color,
                     width: lw,
-                    shape: 'linear',
+                    shape: 'spline',
+                    smoothing: 0.6,
                 },
                 hovertemplate: options.hoverTemplate
                     || ('%{fullData.name}: %{y:.2f}<extra></extra>'),
