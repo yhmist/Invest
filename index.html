@@ -11,7 +11,7 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Stock Picker · as of 2026-07-09">
     <meta name="twitter:description" content="Russell 1000 monthly momentum backtest report. As of 2026-07-09. Period: 2019-12 – 2026-06.">
-    <script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="https://cdn.plot.ly/plotly-basic-2.35.2.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
@@ -331,60 +331,17 @@
             background: var(--surface);
             border: 1.5px solid var(--ink);
             border-radius: var(--radius);
-            padding: 0.75rem;
+            padding: 0.85rem 0.65rem 0.55rem 0.35rem;
             overflow: hidden;
         }
         .chart-panel .chart-canvas {
             width: 100%;
-            height: 280px;
+            height: 300px;
         }
-        .chart-panel.chart-tall .chart-canvas { height: 400px; }
-        .chart-tooltip {
-            position: absolute;
-            z-index: 5;
-            display: none;
-            pointer-events: none;
-            min-width: 120px;
-            max-width: 260px;
-            padding: 8px 10px;
-            background: var(--surface);
-            border: 1.5px solid var(--ink);
-            border-radius: var(--radius);
-            font-family: var(--font-mono);
-            font-size: 11px;
-            line-height: 1.45;
-            color: var(--ink);
-            white-space: nowrap;
-        }
-        .chart-tooltip .tt-time {
-            color: var(--text-muted);
-            margin-bottom: 4px;
-            font-size: 10px;
-            letter-spacing: 0.02em;
-        }
-        .chart-tooltip .tt-row {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .chart-tooltip .tt-row + .tt-row { margin-top: 2px; }
-        .chart-tooltip .tt-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            border: 1px solid var(--ink);
-            flex-shrink: 0;
-        }
-        .chart-tooltip .tt-name {
-            color: var(--text-muted);
-            flex: 1;
-            min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .chart-tooltip .tt-val {
-            font-variant-numeric: tabular-nums;
-            font-weight: 600;
+        .chart-panel.chart-tall .chart-canvas { height: 420px; }
+        .chart-panel .js-plotly-plot .plotly .modebar { display: none !important; }
+        .chart-panel .js-plotly-plot .plotly .main-svg {
+            border-radius: 1px;
         }
         .mtd-badge {
             display: inline-flex;
@@ -518,8 +475,8 @@
             line-height: 1.2;
         }
         .month-card thead th:nth-child(2),
-        .month-card thead th:nth-child(3) { text-align: right; }
-        .month-card thead th:nth-child(4) { text-align: center; }
+        .month-card thead th:nth-child(3),
+        .month-card thead th:nth-child(4) { text-align: right; }
         .month-card td {
             padding: 0.4rem 0.25rem;
             border-bottom: 1px solid var(--border-soft);
@@ -528,11 +485,8 @@
             line-height: 1.2;
         }
         .month-card td:nth-child(2),
-        .month-card td:nth-child(3) { text-align: right; }
-        .month-card td:nth-child(4) {
-            text-align: center;
-            vertical-align: middle;
-        }
+        .month-card td:nth-child(3),
+        .month-card td:nth-child(4) { text-align: right; }
         .month-card tbody tr:last-child td { border-bottom: none; }
         .ret-badge {
             display: inline-flex;
@@ -588,8 +542,9 @@
         @media (max-width: 640px) {
             .page { padding: 1.25rem 1rem 3rem; }
             .site-nav { flex-wrap: wrap; }
-            .chart-panel.chart-tall .chart-canvas { height: 280px; }
-            .chart-panel .chart-canvas { height: 220px; }
+            .chart-panel { padding: 0.85rem 0.75rem 0.8rem; }
+            .chart-panel.chart-tall .chart-canvas { height: 300px; }
+            .chart-panel .chart-canvas { height: 240px; }
         }
     </style>
 </head>
@@ -702,19 +657,58 @@
             <div id="monthly-cards" class="month-cards-grid"></div>
         </section>
 
-        <script id="report-data" type="application/json">{"date_range": "2019-12 – 2026-06", "asof_date_str": "2026-07-09", "next_date_str": "2026-07-10", "next_picks": [{"ticker": "ALAB", "total_score": 0.999471534212324}, {"ticker": "DELL", "total_score": 0.8802208128686282}, {"ticker": "CORT", "total_score": 0.8531898054944427}, {"ticker": "SNDK", "total_score": 0.8006753258852555}, {"ticker": "MRVL", "total_score": 0.7973326207701008}], "current_month": "2026-07", "tv_current_month_curve": [{"time": "2026-07-01", "value": -0.013052}, {"time": "2026-07-02", "value": -0.117404}, {"time": "2026-07-06", "value": -0.093338}, {"time": "2026-07-07", "value": -0.145879}, {"time": "2026-07-08", "value": -0.121322}, {"time": "2026-07-09", "value": -0.073541}], "performance_kpis": [{"label": "2026 YTD (incl. Jul MTD)", "value": 1.3477728006725296, "format": "pct"}, {"label": "Total return", "value": 28.09378618670544, "format": "pct"}, {"label": "CAGR", "value": 0.6685891066521892, "format": "pct"}, {"label": "Max drawdown", "value": -0.3354956992376625, "format": "pct"}, {"label": "Sharpe", "value": 1.3659327624066444, "format": "number"}, {"label": "Volatility", "value": 0.4504719744949581, "format": "pct"}, {"label": "Win rate", "value": 0.5443037974683544, "format": "pct0"}, {"label": "Worst month", "value": -0.3267005485801697, "format": "pct"}], "comparison_rows": [{"row_cls": "", "dot_color": "#16a34a", "name": "Strategy", "total_return": 28.09378618670544, "cagr": 0.6685891066521892, "max_drawdown": -0.3354956992376625, "sharpe": 1.3659327624066444, "win_rate": 0.5443037974683544}, {"row_cls": "", "dot_color": "#6fc2ff", "name": "SPY", "total_return": 1.368034584697543, "cagr": 0.1399060784490629, "max_drawdown": -0.24195410744651813, "sharpe": 0.8351613926785085, "win_rate": 0.6708860759493671}, {"row_cls": "", "dot_color": "#ff9538", "name": "QQQ", "total_return": 2.5550680122860907, "cagr": 0.21247586031186283, "max_drawdown": -0.3267259741886982, "sharpe": 1.019305852759256, "win_rate": 0.6329113924050633}, {"row_cls": "", "dot_color": "#ffde00", "name": "SOXX", "total_return": 6.9181001283697015, "cagr": 0.3693024675690657, "max_drawdown": -0.4095829441178086, "sharpe": 1.1156798535452175, "win_rate": 0.620253164556962}], "colors_map": {"Strategy": "#16a34a", "SPY": "#6fc2ff", "QQQ": "#ff9538", "SOXX": "#ffde00"}, "annual_returns": {"2026": 1.3477728006725296, "2025": 0.6931887062047726, "2024": 0.7115017723719663, "2023": 0.6339976786738286, "2022": 0.0777094624102781, "2021": 0.03342834569801223, "2020": 1.1435254986126986, "2019": 0.015607060920188598}, "years": ["2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019"], "default_year": "2026", "monthly_data": [{"month": "2019-12", "year": "2019", "buy_date": "2019-12-02", "sell_date": "2020-01-02", "num_stocks": 5, "monthly_return": 0.015607060920188553}, {"month": "2020-01", "year": "2020", "buy_date": "2020-01-02", "sell_date": "2020-02-03", "num_stocks": 5, "monthly_return": 0.07174504314799517}, {"month": "2020-02", "year": "2020", "buy_date": "2020-02-03", "sell_date": "2020-03-02", "num_stocks": 5, "monthly_return": -0.013062762250802206}, {"month": "2020-03", "year": "2020", "buy_date": "2020-03-02", "sell_date": "2020-04-01", "num_stocks": 5, "monthly_return": -0.3267005485801697}, {"month": "2020-04", "year": "2020", "buy_date": "2020-04-01", "sell_date": "2020-05-01", "num_stocks": 5, "monthly_return": 0.30418692682049403}, {"month": "2020-05", "year": "2020", "buy_date": "2020-05-01", "sell_date": "2020-06-01", "num_stocks": 5, "monthly_return": 0.18413223772491843}, {"month": "2020-06", "year": "2020", "buy_date": "2020-06-01", "sell_date": "2020-07-01", "num_stocks": 5, "monthly_return": -0.035697468339674646}, {"month": "2020-07", "year": "2020", "buy_date": "2020-07-01", "sell_date": "2020-08-03", "num_stocks": 5, "monthly_return": 0.2329156292435338}, {"month": "2020-08", "year": "2020", "buy_date": "2020-08-03", "sell_date": "2020-09-01", "num_stocks": 5, "monthly_return": 0.25473575927905984}, {"month": "2020-09", "year": "2020", "buy_date": "2020-09-01", "sell_date": "2020-10-01", "num_stocks": 5, "monthly_return": -0.011314298596657378}, {"month": "2020-10", "year": "2020", "buy_date": "2020-10-01", "sell_date": "2020-11-02", "num_stocks": 5, "monthly_return": 0.0365309922633106}, {"month": "2020-11", "year": "2020", "buy_date": "2020-11-02", "sell_date": "2020-12-01", "num_stocks": 5, "monthly_return": 0.12437487272231365}, {"month": "2020-12", "year": "2020", "buy_date": "2020-12-01", "sell_date": "2021-01-04", "num_stocks": 5, "monthly_return": 0.13383200003925105}, {"month": "2021-01", "year": "2021", "buy_date": "2021-01-04", "sell_date": "2021-02-01", "num_stocks": 5, "monthly_return": -0.0008072694985521208}, {"month": "2021-02", "year": "2021", "buy_date": "2021-02-01", "sell_date": "2021-03-01", "num_stocks": 5, "monthly_return": 0.12298307068995364}, {"month": "2021-03", "year": "2021", "buy_date": "2021-03-01", "sell_date": "2021-04-01", "num_stocks": 5, "monthly_return": 0.030281340683711334}, {"month": "2021-04", "year": "2021", "buy_date": "2021-04-01", "sell_date": "2021-05-03", "num_stocks": 5, "monthly_return": 0.07808086497727777}, {"month": "2021-05", "year": "2021", "buy_date": "2021-05-03", "sell_date": "2021-06-01", "num_stocks": 5, "monthly_return": 0.005319710316394155}, {"month": "2021-06", "year": "2021", "buy_date": "2021-06-01", "sell_date": "2021-07-01", "num_stocks": 5, "monthly_return": -0.043048455855123936}, {"month": "2021-07", "year": "2021", "buy_date": "2021-07-01", "sell_date": "2021-08-02", "num_stocks": 5, "monthly_return": 0.039854947524069616}, {"month": "2021-08", "year": "2021", "buy_date": "2021-08-02", "sell_date": "2021-09-01", "num_stocks": 5, "monthly_return": 0.0030239751360976903}, {"month": "2021-09", "year": "2021", "buy_date": "2021-09-01", "sell_date": "2021-10-01", "num_stocks": 5, "monthly_return": -0.0509945411533812}, {"month": "2021-10", "year": "2021", "buy_date": "2021-10-01", "sell_date": "2021-11-01", "num_stocks": 5, "monthly_return": 0.029368343078332537}, {"month": "2021-11", "year": "2021", "buy_date": "2021-11-01", "sell_date": "2021-12-01", "num_stocks": 5, "monthly_return": -0.07788432559423974}, {"month": "2021-12", "year": "2021", "buy_date": "2021-12-01", "sell_date": "2022-01-03", "num_stocks": 5, "monthly_return": -0.0826235691376133}, {"month": "2022-01", "year": "2022", "buy_date": "2022-01-03", "sell_date": "2022-02-01", "num_stocks": 5, "monthly_return": -0.07817738799719991}, {"month": "2022-02", "year": "2022", "buy_date": "2022-02-01", "sell_date": "2022-03-01", "num_stocks": 5, "monthly_return": 0.032949962125332105}, {"month": "2022-03", "year": "2022", "buy_date": "2022-03-01", "sell_date": "2022-04-01", "num_stocks": 5, "monthly_return": 0.13294692948023623}, {"month": "2022-04", "year": "2022", "buy_date": "2022-04-01", "sell_date": "2022-05-02", "num_stocks": 0, "monthly_return": -0.001}, {"month": "2022-05", "year": "2022", "buy_date": "2022-05-02", "sell_date": "2022-06-01", "num_stocks": 0, "monthly_return": -0.0}, {"month": "2022-06", "year": "2022", "buy_date": "2022-06-01", "sell_date": "2022-07-01", "num_stocks": 0, "monthly_return": -0.0}, {"month": "2022-07", "year": "2022", "buy_date": "2022-07-01", "sell_date": "2022-08-01", "num_stocks": 0, "monthly_return": -0.0}, {"month": "2022-08", "year": "2022", "buy_date": "2022-08-01", "sell_date": "2022-09-01", "num_stocks": 0, "monthly_return": -0.0}, {"month": "2022-09", "year": "2022", "buy_date": "2022-09-01", "sell_date": "2022-10-03", "num_stocks": 0, "monthly_return": -0.0}, {"month": "2022-10", "year": "2022", "buy_date": "2022-10-03", "sell_date": "2022-11-01", "num_stocks": 0, "monthly_return": -0.0}, {"month": "2022-11", "year": "2022", "buy_date": "2022-11-01", "sell_date": "2022-12-01", "num_stocks": 0, "monthly_return": -0.0}, {"month": "2022-12", "year": "2022", "buy_date": "2022-12-01", "sell_date": "2023-01-03", "num_stocks": 0, "monthly_return": -0.0}, {"month": "2023-01", "year": "2023", "buy_date": "2023-01-03", "sell_date": "2023-02-01", "num_stocks": 0, "monthly_return": -0.0}, {"month": "2023-02", "year": "2023", "buy_date": "2023-02-01", "sell_date": "2023-03-01", "num_stocks": 0, "monthly_return": -0.0}, {"month": "2023-03", "year": "2023", "buy_date": "2023-03-01", "sell_date": "2023-04-03", "num_stocks": 0, "monthly_return": -0.0}, {"month": "2023-04", "year": "2023", "buy_date": "2023-04-03", "sell_date": "2023-05-01", "num_stocks": 5, "monthly_return": -0.021465574421510224}, {"month": "2023-05", "year": "2023", "buy_date": "2023-05-01", "sell_date": "2023-06-01", "num_stocks": 5, "monthly_return": 0.2574134339532291}, {"month": "2023-06", "year": "2023", "buy_date": "2023-06-01", "sell_date": "2023-07-03", "num_stocks": 5, "monthly_return": 0.07532689274280294}, {"month": "2023-07", "year": "2023", "buy_date": "2023-07-03", "sell_date": "2023-08-01", "num_stocks": 5, "monthly_return": 0.4583656111991907}, {"month": "2023-08", "year": "2023", "buy_date": "2023-08-01", "sell_date": "2023-09-01", "num_stocks": 5, "monthly_return": -0.1764247957290104}, {"month": "2023-09", "year": "2023", "buy_date": "2023-09-01", "sell_date": "2023-10-02", "num_stocks": 5, "monthly_return": -0.07174189083373592}, {"month": "2023-10", "year": "2023", "buy_date": "2023-10-02", "sell_date": "2023-11-01", "num_stocks": 5, "monthly_return": -0.03533435743737781}, {"month": "2023-11", "year": "2023", "buy_date": "2023-11-01", "sell_date": "2023-12-01", "num_stocks": 5, "monthly_return": 0.10895759905477763}, {"month": "2023-12", "year": "2023", "buy_date": "2023-12-01", "sell_date": "2024-01-02", "num_stocks": 5, "monthly_return": 0.035443822229694}, {"month": "2024-01", "year": "2024", "buy_date": "2024-01-02", "sell_date": "2024-02-01", "num_stocks": 5, "monthly_return": -0.05340716154153038}, {"month": "2024-02", "year": "2024", "buy_date": "2024-02-01", "sell_date": "2024-03-01", "num_stocks": 5, "monthly_return": 0.15531058458742142}, {"month": "2024-03", "year": "2024", "buy_date": "2024-03-01", "sell_date": "2024-04-01", "num_stocks": 5, "monthly_return": 0.10264883915129142}, {"month": "2024-04", "year": "2024", "buy_date": "2024-04-01", "sell_date": "2024-05-01", "num_stocks": 5, "monthly_return": -0.08062145595451296}, {"month": "2024-05", "year": "2024", "buy_date": "2024-05-01", "sell_date": "2024-06-03", "num_stocks": 5, "monthly_return": 0.19495641257611462}, {"month": "2024-06", "year": "2024", "buy_date": "2024-06-03", "sell_date": "2024-07-01", "num_stocks": 5, "monthly_return": -0.09209720216578757}, {"month": "2024-07", "year": "2024", "buy_date": "2024-07-01", "sell_date": "2024-08-01", "num_stocks": 5, "monthly_return": -0.06051203192766579}, {"month": "2024-08", "year": "2024", "buy_date": "2024-08-01", "sell_date": "2024-09-03", "num_stocks": 5, "monthly_return": -0.04937169288001819}, {"month": "2024-09", "year": "2024", "buy_date": "2024-09-03", "sell_date": "2024-10-01", "num_stocks": 5, "monthly_return": 0.10168489203518687}, {"month": "2024-10", "year": "2024", "buy_date": "2024-10-01", "sell_date": "2024-11-01", "num_stocks": 5, "monthly_return": 0.03476141064746536}, {"month": "2024-11", "year": "2024", "buy_date": "2024-11-01", "sell_date": "2024-12-02", "num_stocks": 5, "monthly_return": 0.4748947988457483}, {"month": "2024-12", "year": "2024", "buy_date": "2024-12-02", "sell_date": "2025-01-02", "num_stocks": 5, "monthly_return": -0.0523853804513573}, {"month": "2025-01", "year": "2025", "buy_date": "2025-01-02", "sell_date": "2025-02-03", "num_stocks": 5, "monthly_return": -0.00931999722074117}, {"month": "2025-02", "year": "2025", "buy_date": "2025-02-03", "sell_date": "2025-03-03", "num_stocks": 5, "monthly_return": 0.008347255669823661}, {"month": "2025-03", "year": "2025", "buy_date": "2025-03-03", "sell_date": "2025-04-01", "num_stocks": 5, "monthly_return": -0.18914625009914574}, {"month": "2025-04", "year": "2025", "buy_date": "2025-04-01", "sell_date": "2025-05-01", "num_stocks": 5, "monthly_return": 0.08610353907638883}, {"month": "2025-05", "year": "2025", "buy_date": "2025-05-01", "sell_date": "2025-06-02", "num_stocks": 0, "monthly_return": -0.001}, {"month": "2025-06", "year": "2025", "buy_date": "2025-06-02", "sell_date": "2025-07-01", "num_stocks": 5, "monthly_return": 0.12188160542672517}, {"month": "2025-07", "year": "2025", "buy_date": "2025-07-01", "sell_date": "2025-08-01", "num_stocks": 5, "monthly_return": 0.08619752976681223}, {"month": "2025-08", "year": "2025", "buy_date": "2025-08-01", "sell_date": "2025-09-02", "num_stocks": 5, "monthly_return": -0.011556968493199692}, {"month": "2025-09", "year": "2025", "buy_date": "2025-09-02", "sell_date": "2025-10-01", "num_stocks": 5, "monthly_return": 0.06995155473757908}, {"month": "2025-10", "year": "2025", "buy_date": "2025-10-01", "sell_date": "2025-11-03", "num_stocks": 5, "monthly_return": 0.19492269258983658}, {"month": "2025-11", "year": "2025", "buy_date": "2025-11-03", "sell_date": "2025-12-01", "num_stocks": 5, "monthly_return": 0.05928835080608526}, {"month": "2025-12", "year": "2025", "buy_date": "2025-12-01", "sell_date": "2026-01-02", "num_stocks": 5, "monthly_return": 0.181019307892031}, {"month": "2026-01", "year": "2026", "buy_date": "2026-01-02", "sell_date": "2026-02-02", "num_stocks": 5, "monthly_return": 0.3712879630862732}, {"month": "2026-02", "year": "2026", "buy_date": "2026-02-02", "sell_date": "2026-03-02", "num_stocks": 5, "monthly_return": 0.11999985519380062}, {"month": "2026-03", "year": "2026", "buy_date": "2026-03-02", "sell_date": "2026-04-01", "num_stocks": 5, "monthly_return": 0.006935031427061067}, {"month": "2026-04", "year": "2026", "buy_date": "2026-04-01", "sell_date": "2026-05-01", "num_stocks": 5, "monthly_return": 0.14572366676638324}, {"month": "2026-05", "year": "2026", "buy_date": "2026-05-01", "sell_date": "2026-06-01", "num_stocks": 5, "monthly_return": 0.21771205465895863}, {"month": "2026-06", "year": "2026", "buy_date": "2026-06-01", "sell_date": "2026-07-01", "num_stocks": 5, "monthly_return": 0.17451100354795776}, {"month": "2026-07", "year": "2026", "buy_date": "2026-07-01", "sell_date": "2026-07-09 (open)", "num_stocks": 5, "monthly_return": -0.07354056857575482}], "details_by_month": {"2019-12": [{"ticker": "ELS", "buy_price": 73.94, "sell_price": 70.76, "monthly_return": -0.044008, "total_score": 1.0}, {"ticker": "ADT", "buy_price": 8.96, "sell_price": 8.01, "monthly_return": -0.107027, "total_score": 0.663}, {"ticker": "MRNA", "buy_price": 20.3, "sell_price": 19.57, "monthly_return": -0.036961, "total_score": 0.625}, {"ticker": "TSLA", "buy_price": 21.96, "sell_price": 28.3, "monthly_return": 0.287707, "total_score": 0.6019}, {"ticker": "ALNY", "buy_price": 118.01, "sell_price": 115.57, "monthly_return": -0.021676, "total_score": 0.5993}], "2020-01": [{"ticker": "ELS", "buy_price": 70.76, "sell_price": 72.93, "monthly_return": 0.030667, "total_score": 0.851}, {"ticker": "TSLA", "buy_price": 28.3, "sell_price": 44.91, "monthly_return": 0.586926, "total_score": 0.804}, {"ticker": "QRVO", "buy_price": 117.26, "sell_price": 106.16, "monthly_return": -0.095661, "total_score": 0.7013}, {"ticker": "GTES", "buy_price": 13.82, "sell_price": 12.65, "monthly_return": -0.08566, "total_score": 0.6934}, {"ticker": "SWKS", "buy_price": 122.1, "sell_price": 113.12, "monthly_return": -0.074546, "total_score": 0.6799}], "2020-02": [{"ticker": "TSLA", "buy_price": 44.91, "sell_price": 47.43, "monthly_return": 0.056112, "total_score": 0.9889}, {"ticker": "ELS", "buy_price": 72.93, "sell_price": 68.65, "monthly_return": -0.058686, "total_score": 0.7666}, {"ticker": "AMD", "buy_price": 46.42, "sell_price": 47.42, "monthly_return": 0.020542, "total_score": 0.6746}, {"ticker": "AGIO", "buy_price": 49.03, "sell_price": 47.3, "monthly_return": -0.036285, "total_score": 0.658}, {"ticker": "PCG", "buy_price": 16.28, "sell_price": 15.58, "monthly_return": -0.043998, "total_score": 0.6579}], "2020-03": [{"ticker": "PCG", "buy_price": 15.58, "sell_price": 8.48, "monthly_return": -0.455712, "total_score": 0.9337}, {"ticker": "TSLA", "buy_price": 47.43, "sell_price": 33.6, "monthly_return": -0.291588, "total_score": 0.6175}, {"ticker": "DXCM", "buy_price": 69.53, "sell_price": 65.0, "monthly_return": -0.066152, "total_score": 0.4233}, {"ticker": "ZG", "buy_price": 55.71, "sell_price": 32.34, "monthly_return": -0.420494, "total_score": 0.4233}, {"ticker": "Z", "buy_price": 55.82, "sell_price": 33.74, "monthly_return": -0.396557, "total_score": 0.4142}], "2020-04": [{"ticker": "MRNA", "buy_price": 30.05, "sell_price": 48.71, "monthly_return": 0.619965, "total_score": 0.8053}, {"ticker": "TSLA", "buy_price": 33.6, "sell_price": 50.33, "monthly_return": 0.497917, "total_score": 0.8028}, {"ticker": "RNG", "buy_price": 204.34, "sell_price": 225.74, "monthly_return": 0.103727, "total_score": 0.67}, {"ticker": "PCG", "buy_price": 8.48, "sell_price": 10.35, "monthly_return": 0.220519, "total_score": 0.6621}, {"ticker": "REGN", "buy_price": 484.14, "sell_price": 524.23, "monthly_return": 0.081807, "total_score": 0.6364}], "2020-05": [{"ticker": "MRNA", "buy_price": 48.71, "sell_price": 62.69, "monthly_return": 0.287005, "total_score": 0.9855}, {"ticker": "EXEL", "buy_price": 24.35, "sell_price": 24.7, "monthly_return": 0.013374, "total_score": 0.7805}, {"ticker": "TSLA", "buy_price": 50.33, "sell_price": 57.15, "monthly_return": 0.135506, "total_score": 0.7753}, {"ticker": "VIRT", "buy_price": 23.31, "sell_price": 23.89, "monthly_return": 0.023882, "total_score": 0.7716}, {"ticker": "ZS", "buy_price": 66.23, "sell_price": 97.02, "monthly_return": 0.463895, "total_score": 0.7657}], "2020-06": [{"ticker": "MRNA", "buy_price": 62.69, "sell_price": 62.99, "monthly_return": 0.004785, "total_score": 1.0}, {"ticker": "EQT", "buy_price": 12.82, "sell_price": 11.75, "monthly_return": -0.084463, "total_score": 0.6813}, {"ticker": "RRC", "buy_price": 5.92, "sell_price": 5.51, "monthly_return": -0.070257, "total_score": 0.6631}, {"ticker": "AR", "buy_price": 3.0, "sell_price": 2.51, "monthly_return": -0.164333, "total_score": 0.5973}, {"ticker": "W", "buy_price": 172.68, "sell_price": 196.99, "monthly_return": 0.139781, "total_score": 0.5791}], "2020-07": [{"ticker": "W", "buy_price": 196.99, "sell_price": 273.17, "monthly_return": 0.38672, "total_score": 0.9359}, {"ticker": "SPOT", "buy_price": 256.0, "sell_price": 259.0, "monthly_return": 0.010719, "total_score": 0.666}, {"ticker": "ZS", "buy_price": 109.18, "sell_price": 131.32, "monthly_return": 0.201784, "total_score": 0.6568}, {"ticker": "DOCU", "buy_price": 171.25, "sell_price": 218.81, "monthly_return": 0.276723, "total_score": 0.6453}, {"ticker": "TWLO", "buy_price": 218.13, "sell_price": 282.18, "monthly_return": 0.292632, "total_score": 0.6378}], "2020-08": [{"ticker": "W", "buy_price": 273.17, "sell_price": 298.5, "monthly_return": 0.092726, "total_score": 0.9002}, {"ticker": "REZI", "buy_price": 12.5, "sell_price": 13.17, "monthly_return": 0.0526, "total_score": 0.6891}, {"ticker": "TSLA", "buy_price": 96.71, "sell_price": 167.38, "monthly_return": 0.729741, "total_score": 0.6093}, {"ticker": "CVNA", "buy_price": 31.35, "sell_price": 43.02, "monthly_return": 0.371249, "total_score": 0.6026}, {"ticker": "AR", "buy_price": 3.09, "sell_price": 3.19, "monthly_return": 0.031362, "total_score": 0.5947}], "2020-09": [{"ticker": "FSLY", "buy_price": 93.63, "sell_price": 94.6, "monthly_return": 0.00936, "total_score": 0.7811}, {"ticker": "TSLA", "buy_price": 167.38, "sell_price": 146.92, "monthly_return": -0.122237, "total_score": 0.7461}, {"ticker": "CVNA", "buy_price": 43.02, "sell_price": 45.46, "monthly_return": 0.056718, "total_score": 0.5809}, {"ticker": "XYZ", "buy_price": 164.81, "sell_price": 166.14, "monthly_return": 0.00707, "total_score": 0.5012}, {"ticker": "GAP", "buy_price": 17.23, "sell_price": 17.17, "monthly_return": -0.004482, "total_score": 0.4684}], "2020-10": [{"ticker": "TSLA", "buy_price": 146.92, "sell_price": 131.33, "monthly_return": -0.106112, "total_score": 0.8132}, {"ticker": "ZM", "buy_price": 477.0, "sell_price": 462.51, "monthly_return": -0.031377, "total_score": 0.7615}, {"ticker": "CVNA", "buy_price": 45.46, "sell_price": 37.44, "monthly_return": -0.176419, "total_score": 0.6835}, {"ticker": "PINS", "buy_price": 42.29, "sell_price": 58.19, "monthly_return": 0.374975, "total_score": 0.6548}, {"ticker": "PTON", "buy_price": 99.93, "sell_price": 112.48, "monthly_return": 0.124588, "total_score": 0.6271}], "2020-11": [{"ticker": "PINS", "buy_price": 58.19, "sell_price": 70.91, "monthly_return": 0.218594, "total_score": 0.9703}, {"ticker": "NVCR", "buy_price": 117.93, "sell_price": 125.47, "monthly_return": 0.062936, "total_score": 0.8665}, {"ticker": "ENPH", "buy_price": 99.02, "sell_price": 137.85, "monthly_return": 0.391143, "total_score": 0.8525}, {"ticker": "ZM", "buy_price": 462.51, "sell_price": 434.8, "monthly_return": -0.059912, "total_score": 0.8409}, {"ticker": "PTON", "buy_price": 112.48, "sell_price": 113.73, "monthly_return": 0.011113, "total_score": 0.8293}], "2020-12": [{"ticker": "PINS", "buy_price": 70.91, "sell_price": 66.1, "monthly_return": -0.067832, "total_score": 0.8361}, {"ticker": "ENPH", "buy_price": 137.85, "sell_price": 178.38, "monthly_return": 0.294015, "total_score": 0.8224}, {"ticker": "CPRI", "buy_price": 36.05, "sell_price": 44.75, "monthly_return": 0.240331, "total_score": 0.8047}, {"ticker": "TPR", "buy_price": 28.84, "sell_price": 32.04, "monthly_return": 0.109957, "total_score": 0.7966}, {"ticker": "OLN", "buy_price": 22.65, "sell_price": 24.84, "monthly_return": 0.095689, "total_score": 0.708}], "2021-01": [{"ticker": "CPRI", "buy_price": 44.75, "sell_price": 42.13, "monthly_return": -0.058547, "total_score": 1.0}, {"ticker": "COTY", "buy_price": 7.05, "sell_price": 6.5, "monthly_return": -0.079014, "total_score": 0.8005}, {"ticker": "ENPH", "buy_price": 178.38, "sell_price": 185.3, "monthly_return": 0.038794, "total_score": 0.786}, {"ticker": "KSS", "buy_price": 40.76, "sell_price": 44.54, "monthly_return": 0.091738, "total_score": 0.7639}, {"ticker": "TPR", "buy_price": 32.04, "sell_price": 32.2, "monthly_return": 0.004994, "total_score": 0.7517}], "2021-02": [{"ticker": "KSS", "buy_price": 44.54, "sell_price": 56.3, "monthly_return": 0.264032, "total_score": 0.8859}, {"ticker": "ENPH", "buy_price": 185.3, "sell_price": 179.98, "monthly_return": -0.02871, "total_score": 0.8665}, {"ticker": "COTY", "buy_price": 6.5, "sell_price": 7.95, "monthly_return": 0.223077, "total_score": 0.8562}, {"ticker": "CPRI", "buy_price": 42.13, "sell_price": 47.71, "monthly_return": 0.132447, "total_score": 0.8458}, {"ticker": "ROKU", "buy_price": 394.72, "sell_price": 405.01, "monthly_return": 0.025069, "total_score": 0.8058}], "2021-03": [{"ticker": "OXY", "buy_price": 27.39, "sell_price": 26.82, "monthly_return": -0.021811, "total_score": 0.926}, {"ticker": "SBNY", "buy_price": 223.43, "sell_price": 224.78, "monthly_return": 0.005042, "total_score": 0.8727}, {"ticker": "KSS", "buy_price": 56.3, "sell_price": 59.37, "monthly_return": 0.054529, "total_score": 0.8276}, {"ticker": "FANG", "buy_price": 70.71, "sell_price": 74.27, "monthly_return": 0.049346, "total_score": 0.8167}, {"ticker": "TRIP", "buy_price": 51.66, "sell_price": 55.24, "monthly_return": 0.068299, "total_score": 0.7756}], "2021-04": [{"ticker": "TRIP", "buy_price": 55.24, "sell_price": 47.54, "monthly_return": -0.139392, "total_score": 0.9881}, {"ticker": "SBNY", "buy_price": 224.78, "sell_price": 255.6, "monthly_return": 0.137112, "total_score": 0.8923}, {"ticker": "KSS", "buy_price": 59.37, "sell_price": 58.98, "monthly_return": -0.006569, "total_score": 0.8174}, {"ticker": "WAL", "buy_price": 94.47, "sell_price": 106.67, "monthly_return": 0.128142, "total_score": 0.8084}, {"ticker": "TDC", "buy_price": 39.4, "sell_price": 50.2, "monthly_return": 0.273112, "total_score": 0.801}], "2021-05": [{"ticker": "TDC", "buy_price": 50.2, "sell_price": 48.24, "monthly_return": -0.039044, "total_score": 1.0}, {"ticker": "SBNY", "buy_price": 255.6, "sell_price": 251.76, "monthly_return": -0.015023, "total_score": 0.8334}, {"ticker": "WSM", "buy_price": 86.25, "sell_price": 86.42, "monthly_return": 0.000971, "total_score": 0.8152}, {"ticker": "WAL", "buy_price": 106.67, "sell_price": 101.09, "monthly_return": -0.052311, "total_score": 0.7893}, {"ticker": "OLN", "buy_price": 43.85, "sell_price": 49.77, "monthly_return": 0.134006, "total_score": 0.7882}], "2021-06": [{"ticker": "NUE", "buy_price": 105.0, "sell_price": 97.0, "monthly_return": -0.07719, "total_score": 0.9781}, {"ticker": "OLN", "buy_price": 49.77, "sell_price": 47.0, "monthly_return": -0.055656, "total_score": 0.939}, {"ticker": "TDC", "buy_price": 48.24, "sell_price": 49.82, "monthly_return": 0.032753, "total_score": 0.8751}, {"ticker": "STLD", "buy_price": 64.85, "sell_price": 60.55, "monthly_return": -0.067307, "total_score": 0.8499}, {"ticker": "SNX", "buy_price": 127.96, "sell_price": 122.35, "monthly_return": -0.044842, "total_score": 0.7868}], "2021-07": [{"ticker": "MRNA", "buy_price": 236.3, "sell_price": 360.23, "monthly_return": 0.52346, "total_score": 0.8289}, {"ticker": "NUE", "buy_price": 97.0, "sell_price": 104.7, "monthly_return": 0.079381, "total_score": 0.8105}, {"ticker": "NVDA", "buy_price": 20.13, "sell_price": 19.69, "monthly_return": -0.022858, "total_score": 0.8089}, {"ticker": "MUR", "buy_price": 24.43, "sell_price": 21.53, "monthly_return": -0.119707, "total_score": 0.7867}, {"ticker": "NVCR", "buy_price": 206.99, "sell_price": 154.0, "monthly_return": -0.257003, "total_score": 0.7763}], "2021-08": [{"ticker": "MRNA", "buy_price": 360.23, "sell_price": 382.84, "monthly_return": 0.062765, "total_score": 1.0}, {"ticker": "NET", "buy_price": 119.27, "sell_price": 120.0, "monthly_return": 0.005121, "total_score": 0.6263}, {"ticker": "DOCU", "buy_price": 299.92, "sell_price": 296.34, "monthly_return": -0.012937, "total_score": 0.5498}, {"ticker": "ROKU", "buy_price": 432.0, "sell_price": 354.87, "monthly_return": -0.179542, "total_score": 0.5365}, {"ticker": "NVDA", "buy_price": 19.69, "sell_price": 22.5, "monthly_return": 0.142712, "total_score": 0.5207}], "2021-09": [{"ticker": "MRNA", "buy_price": 382.84, "sell_price": 359.19, "monthly_return": -0.061775, "total_score": 0.9025}, {"ticker": "BILL", "buy_price": 273.15, "sell_price": 269.02, "monthly_return": -0.01612, "total_score": 0.7921}, {"ticker": "DDOG", "buy_price": 137.87, "sell_price": 141.18, "monthly_return": 0.023008, "total_score": 0.6958}, {"ticker": "DKS", "buy_price": 141.94, "sell_price": 120.97, "monthly_return": -0.148738, "total_score": 0.6592}, {"ticker": "ZS", "buy_price": 275.96, "sell_price": 263.17, "monthly_return": -0.047347, "total_score": 0.6424}], "2021-10": [{"ticker": "UPST", "buy_price": 312.65, "sell_price": 323.78, "monthly_return": 0.034599, "total_score": 0.8485}, {"ticker": "MRNA", "buy_price": 359.19, "sell_price": 334.99, "monthly_return": -0.067374, "total_score": 0.7754}, {"ticker": "BILL", "buy_price": 269.02, "sell_price": 292.99, "monthly_return": 0.089101, "total_score": 0.6908}, {"ticker": "PCTY", "buy_price": 281.52, "sell_price": 306.37, "monthly_return": 0.087271, "total_score": 0.6693}, {"ticker": "RGEN", "buy_price": 288.49, "sell_price": 290.58, "monthly_return": 0.006245, "total_score": 0.6408}], "2021-11": [{"ticker": "UPST", "buy_price": 323.78, "sell_price": 207.0, "monthly_return": -0.360677, "total_score": 1.0}, {"ticker": "RJF", "buy_price": 99.42, "sell_price": 100.3, "monthly_return": 0.007851, "total_score": 0.6776}, {"ticker": "NET", "buy_price": 194.75, "sell_price": 190.12, "monthly_return": -0.024774, "total_score": 0.5697}, {"ticker": "BILL", "buy_price": 292.99, "sell_price": 286.86, "monthly_return": -0.020922, "total_score": 0.5585}, {"ticker": "TSLA", "buy_price": 381.67, "sell_price": 386.67, "monthly_return": 0.0121, "total_score": 0.5466}], "2021-12": [{"ticker": "RJF", "buy_price": 100.3, "sell_price": 100.83, "monthly_return": 0.005284, "total_score": 0.8287}, {"ticker": "TSLA", "buy_price": 386.67, "sell_price": 382.59, "monthly_return": -0.010552, "total_score": 0.8225}, {"ticker": "NET", "buy_price": 190.12, "sell_price": 131.07, "monthly_return": -0.310593, "total_score": 0.7979}, {"ticker": "DVN", "buy_price": 43.94, "sell_price": 44.28, "monthly_return": 0.006738, "total_score": 0.789}, {"ticker": "NVDA", "buy_price": 33.17, "sell_price": 29.82, "monthly_return": -0.101995, "total_score": 0.769}], "2022-01": [{"ticker": "ON", "buy_price": 68.77, "sell_price": 59.71, "monthly_return": -0.132743, "total_score": 0.9203}, {"ticker": "BLDR", "buy_price": 86.2, "sell_price": 68.71, "monthly_return": -0.2039, "total_score": 0.9202}, {"ticker": "F", "buy_price": 21.27, "sell_price": 20.61, "monthly_return": -0.03203, "total_score": 0.9147}, {"ticker": "DLTR", "buy_price": 140.52, "sell_price": 130.91, "monthly_return": -0.069389, "total_score": 0.9064}, {"ticker": "RJF", "buy_price": 100.83, "sell_price": 105.99, "monthly_return": 0.051175, "total_score": 0.8651}], "2022-02": [{"ticker": "APA", "buy_price": 33.02, "sell_price": 36.26, "monthly_return": 0.097122, "total_score": 0.8531}, {"ticker": "DLTR", "buy_price": 130.91, "sell_price": 141.72, "monthly_return": 0.082576, "total_score": 0.8159}, {"ticker": "F", "buy_price": 20.61, "sell_price": 17.41, "monthly_return": -0.155264, "total_score": 0.8109}, {"ticker": "CIEN", "buy_price": 66.13, "sell_price": 68.11, "monthly_return": 0.028941, "total_score": 0.7973}, {"ticker": "BLDR", "buy_price": 68.71, "sell_price": 76.5, "monthly_return": 0.113375, "total_score": 0.792}], "2022-03": [{"ticker": "DVN", "buy_price": 60.0, "sell_price": 59.37, "monthly_return": -0.0115, "total_score": 0.9556}, {"ticker": "AA", "buy_price": 77.9, "sell_price": 91.69, "monthly_return": 0.176022, "total_score": 0.9535}, {"ticker": "HAL", "buy_price": 33.98, "sell_price": 37.98, "monthly_return": 0.116716, "total_score": 0.9109}, {"ticker": "CF", "buy_price": 81.96, "sell_price": 102.07, "monthly_return": 0.244364, "total_score": 0.891}, {"ticker": "APA", "buy_price": 36.26, "sell_price": 41.45, "monthly_return": 0.143133, "total_score": 0.8898}], "2023-04": [{"ticker": "SHC", "buy_price": 17.8, "sell_price": 16.82, "monthly_return": -0.056056, "total_score": 0.9776}, {"ticker": "META", "buy_price": 208.85, "sell_price": 238.53, "monthly_return": 0.141112, "total_score": 0.8303}, {"ticker": "NVDA", "buy_price": 27.5, "sell_price": 27.84, "monthly_return": 0.011364, "total_score": 0.7894}, {"ticker": "SPOT", "buy_price": 132.37, "sell_price": 134.0, "monthly_return": 0.011314, "total_score": 0.7787}, {"ticker": "OKTA", "buy_price": 85.77, "sell_price": 67.41, "monthly_return": -0.215061, "total_score": 0.7488}], "2023-05": [{"ticker": "SHC", "buy_price": 16.82, "sell_price": 14.07, "monthly_return": -0.163496, "total_score": 0.9073}, {"ticker": "CVNA", "buy_price": 1.46, "sell_price": 2.76, "monthly_return": 0.889411, "total_score": 0.9013}, {"ticker": "META", "buy_price": 238.53, "sell_price": 266.67, "monthly_return": 0.117973, "total_score": 0.8894}, {"ticker": "DKNG", "buy_price": 22.0, "sell_price": 23.4, "monthly_return": 0.062636, "total_score": 0.8866}, {"ticker": "NVDA", "buy_price": 27.84, "sell_price": 38.49, "monthly_return": 0.382543, "total_score": 0.8848}], "2023-06": [{"ticker": "APP", "buy_price": 24.49, "sell_price": 25.7, "monthly_return": 0.048408, "total_score": 0.9326}, {"ticker": "META", "buy_price": 266.67, "sell_price": 286.51, "monthly_return": 0.074399, "total_score": 0.8576}, {"ticker": "NVDA", "buy_price": 38.49, "sell_price": 42.51, "monthly_return": 0.104443, "total_score": 0.8282}, {"ticker": "DKNG", "buy_price": 23.4, "sell_price": 26.5, "monthly_return": 0.132479, "total_score": 0.8165}, {"ticker": "FCNCA", "buy_price": 1254.89, "sell_price": 1279.87, "monthly_return": 0.018906, "total_score": 0.7953}], "2023-07": [{"ticker": "OPEN", "buy_price": 4.07, "sell_price": 4.99, "monthly_return": 0.225044, "total_score": 0.909}, {"ticker": "CVNA", "buy_price": 5.18, "sell_price": 8.93, "monthly_return": 0.722938, "total_score": 0.9025}, {"ticker": "PLTR", "buy_price": 15.49, "sell_price": 19.47, "monthly_return": 0.25594, "total_score": 0.7812}, {"ticker": "UPST", "buy_price": 35.7, "sell_price": 67.16, "monthly_return": 0.880232, "total_score": 0.7711}, {"ticker": "APP", "buy_price": 25.7, "sell_price": 31.14, "monthly_return": 0.211673, "total_score": 0.7544}], "2023-08": [{"ticker": "CVNA", "buy_price": 8.93, "sell_price": 10.11, "monthly_return": 0.132139, "total_score": 0.9912}, {"ticker": "UPST", "buy_price": 67.16, "sell_price": 32.66, "monthly_return": -0.513699, "total_score": 0.8699}, {"ticker": "OPEN", "buy_price": 4.99, "sell_price": 4.02, "monthly_return": -0.194389, "total_score": 0.6209}, {"ticker": "W", "buy_price": 76.32, "sell_price": 70.0, "monthly_return": -0.083809, "total_score": 0.4499}, {"ticker": "PLTR", "buy_price": 19.47, "sell_price": 15.16, "monthly_return": -0.221366, "total_score": 0.4391}], "2023-09": [{"ticker": "VRT", "buy_price": 39.62, "sell_price": 38.05, "monthly_return": -0.040626, "total_score": 1.0}, {"ticker": "APP", "buy_price": 43.49, "sell_price": 40.13, "monthly_return": -0.078259, "total_score": 0.9035}, {"ticker": "AFRM", "buy_price": 20.98, "sell_price": 21.18, "monthly_return": 0.008533, "total_score": 0.7585}, {"ticker": "W", "buy_price": 70.0, "sell_price": 60.42, "monthly_return": -0.136857, "total_score": 0.7464}, {"ticker": "XP", "buy_price": 25.54, "sell_price": 22.82, "monthly_return": -0.1075, "total_score": 0.6998}], "2023-10": [{"ticker": "VRT", "buy_price": 38.05, "sell_price": 39.35, "monthly_return": 0.034166, "total_score": 0.9928}, {"ticker": "VNO", "buy_price": 22.63, "sell_price": 19.3, "monthly_return": -0.14815, "total_score": 0.8378}, {"ticker": "APP", "buy_price": 40.13, "sell_price": 36.57, "monthly_return": -0.088712, "total_score": 0.8192}, {"ticker": "CPRI", "buy_price": 52.6, "sell_price": 51.1, "monthly_return": -0.029517, "total_score": 0.814}, {"ticker": "FTI", "buy_price": 20.49, "sell_price": 21.71, "monthly_return": 0.058541, "total_score": 0.7859}], "2023-11": [{"ticker": "VRT", "buy_price": 39.35, "sell_price": 43.5, "monthly_return": 0.105464, "total_score": 0.8774}, {"ticker": "GAP", "buy_price": 12.73, "sell_price": 20.0, "monthly_return": 0.570092, "total_score": 0.8577}, {"ticker": "CPRI", "buy_price": 51.1, "sell_price": 48.45, "monthly_return": -0.051859, "total_score": 0.8437}, {"ticker": "TPL", "buy_price": 208.13, "sell_price": 185.9, "monthly_return": -0.107808, "total_score": 0.7923}, {"ticker": "APP", "buy_price": 36.57, "sell_price": 37.7, "monthly_return": 0.0309, "total_score": 0.7908}], "2023-12": [{"ticker": "GAP", "buy_price": 20.0, "sell_price": 20.58, "monthly_return": 0.029, "total_score": 0.9871}, {"ticker": "NTNX", "buy_price": 43.05, "sell_price": 46.82, "monthly_return": 0.086573, "total_score": 0.7676}, {"ticker": "CPRI", "buy_price": 48.45, "sell_price": 50.07, "monthly_return": 0.033437, "total_score": 0.7674}, {"ticker": "PGR", "buy_price": 164.16, "sell_price": 159.8, "monthly_return": -0.027559, "total_score": 0.7585}, {"ticker": "WING", "buy_price": 239.42, "sell_price": 253.73, "monthly_return": 0.058769, "total_score": 0.7507}], "2024-01": [{"ticker": "AFRM", "buy_price": 47.79, "sell_price": 41.0, "monthly_return": -0.14308, "total_score": 1.0}, {"ticker": "COIN", "buy_price": 173.33, "sell_price": 128.91, "monthly_return": -0.257274, "total_score": 0.8037}, {"ticker": "GAP", "buy_price": 20.58, "sell_price": 18.84, "monthly_return": -0.084548, "total_score": 0.8035}, {"ticker": "CRWD", "buy_price": 251.47, "sell_price": 296.14, "monthly_return": 0.176636, "total_score": 0.6931}, {"ticker": "ESTC", "buy_price": 111.83, "sell_price": 117.0, "monthly_return": 0.045231, "total_score": 0.6409}], "2024-02": [{"ticker": "AFRM", "buy_price": 41.0, "sell_price": 37.6, "monthly_return": -0.082927, "total_score": 0.9037}, {"ticker": "S", "buy_price": 27.12, "sell_price": 28.25, "monthly_return": 0.040667, "total_score": 0.763}, {"ticker": "AMD", "buy_price": 169.2, "sell_price": 197.92, "monthly_return": 0.16874, "total_score": 0.7627}, {"ticker": "CRWD", "buy_price": 296.14, "sell_price": 319.73, "monthly_return": 0.079658, "total_score": 0.7519}, {"ticker": "COIN", "buy_price": 128.91, "sell_price": 202.7, "monthly_return": 0.572415, "total_score": 0.7498}], "2024-03": [{"ticker": "COIN", "buy_price": 202.7, "sell_price": 261.87, "monthly_return": 0.291909, "total_score": 0.9894}, {"ticker": "COHR", "buy_price": 60.0, "sell_price": 61.0, "monthly_return": 0.015667, "total_score": 0.8066}, {"ticker": "NVDA", "buy_price": 80.0, "sell_price": 90.29, "monthly_return": 0.127625, "total_score": 0.7981}, {"ticker": "NTRA", "buy_price": 86.6, "sell_price": 90.91, "monthly_return": 0.048769, "total_score": 0.7892}, {"ticker": "WING", "buy_price": 353.91, "sell_price": 366.04, "monthly_return": 0.033274, "total_score": 0.7737}], "2024-04": [{"ticker": "HOOD", "buy_price": 19.98, "sell_price": 16.43, "monthly_return": -0.178678, "total_score": 0.9283}, {"ticker": "COIN", "buy_price": 261.87, "sell_price": 199.0, "monthly_return": -0.240081, "total_score": 0.914}, {"ticker": "CAVA", "buy_price": 71.38, "sell_price": 71.12, "monthly_return": -0.004642, "total_score": 0.8114}, {"ticker": "VST", "buy_price": 70.0, "sell_price": 75.67, "monthly_return": 0.08, "total_score": 0.7922}, {"ticker": "NVDA", "buy_price": 90.29, "sell_price": 85.17, "monthly_return": -0.056706, "total_score": 0.7651}], "2024-05": [{"ticker": "VST", "buy_price": 75.67, "sell_price": 99.87, "monthly_return": 0.31981, "total_score": 1.0}, {"ticker": "VRT", "buy_price": 92.13, "sell_price": 98.2, "monthly_return": 0.064885, "total_score": 0.9296}, {"ticker": "APP", "buy_price": 70.73, "sell_price": 83.05, "monthly_return": 0.173184, "total_score": 0.8351}, {"ticker": "EME", "buy_price": 359.75, "sell_price": 391.0, "monthly_return": 0.085866, "total_score": 0.8143}, {"ticker": "NVDA", "buy_price": 85.17, "sell_price": 113.62, "monthly_return": 0.334038, "total_score": 0.804}], "2024-06": [{"ticker": "VST", "buy_price": 99.87, "sell_price": 88.74, "monthly_return": -0.111445, "total_score": 0.9104}, {"ticker": "TNDM", "buy_price": 52.12, "sell_price": 40.41, "monthly_return": -0.225674, "total_score": 0.8261}, {"ticker": "APP", "buy_price": 83.05, "sell_price": 85.12, "monthly_return": 0.024925, "total_score": 0.7666}, {"ticker": "MRVI", "buy_price": 8.87, "sell_price": 7.21, "monthly_return": -0.188148, "total_score": 0.7379}, {"ticker": "HOOD", "buy_price": 21.89, "sell_price": 22.85, "monthly_return": 0.042856, "total_score": 0.7141}], "2024-07": [{"ticker": "FSLR", "buy_price": 224.75, "sell_price": 219.1, "monthly_return": -0.026139, "total_score": 0.8512}, {"ticker": "GME", "buy_price": 23.35, "sell_price": 22.92, "monthly_return": -0.019415, "total_score": 0.8099}, {"ticker": "VST", "buy_price": 88.74, "sell_price": 79.48, "monthly_return": -0.10435, "total_score": 0.8032}, {"ticker": "WOOF", "buy_price": 3.67, "sell_price": 3.47, "monthly_return": -0.055496, "total_score": 0.7744}, {"ticker": "CAVA", "buy_price": 93.75, "sell_price": 85.11, "monthly_return": -0.09316, "total_score": 0.7624}], "2024-08": [{"ticker": "GME", "buy_price": 22.92, "sell_price": 24.15, "monthly_return": 0.053665, "total_score": 0.8043}, {"ticker": "ALNY", "buy_price": 250.0, "sell_price": 260.44, "monthly_return": 0.04076, "total_score": 0.7703}, {"ticker": "WOOF", "buy_price": 3.47, "sell_price": 3.07, "monthly_return": -0.115274, "total_score": 0.733}, {"ticker": "AMC", "buy_price": 5.3, "sell_price": 4.83, "monthly_return": -0.089679, "total_score": 0.7328}, {"ticker": "NATL", "buy_price": 32.57, "sell_price": 28.26, "monthly_return": -0.13333, "total_score": 0.7166}], "2024-09": [{"ticker": "RUN", "buy_price": 20.27, "sell_price": 18.04, "monthly_return": -0.111015, "total_score": 0.9246}, {"ticker": "UI", "buy_price": 192.51, "sell_price": 220.93, "monthly_return": 0.146629, "total_score": 0.7853}, {"ticker": "ALNY", "buy_price": 260.44, "sell_price": 274.88, "monthly_return": 0.055445, "total_score": 0.7804}, {"ticker": "WOOF", "buy_price": 3.07, "sell_price": 4.51, "monthly_return": 0.469055, "total_score": 0.7555}, {"ticker": "GME", "buy_price": 24.15, "sell_price": 22.95, "monthly_return": -0.049689, "total_score": 0.7169}], "2024-10": [{"ticker": "ALNY", "buy_price": 274.88, "sell_price": 267.05, "monthly_return": -0.028485, "total_score": 0.8363}, {"ticker": "ICUI", "buy_price": 180.66, "sell_price": 172.06, "monthly_return": -0.048603, "total_score": 0.8214}, {"ticker": "VFC", "buy_price": 19.76, "sell_price": 20.98, "monthly_return": 0.060741, "total_score": 0.7629}, {"ticker": "PLTR", "buy_price": 37.21, "sell_price": 41.93, "monthly_return": 0.125848, "total_score": 0.7496}, {"ticker": "VNO", "buy_price": 39.39, "sell_price": 42.12, "monthly_return": 0.068307, "total_score": 0.748}], "2024-11": [{"ticker": "APP", "buy_price": 171.14, "sell_price": 335.79, "monthly_return": 0.961078, "total_score": 0.9771}, {"ticker": "PTON", "buy_price": 8.48, "sell_price": 10.36, "monthly_return": 0.220698, "total_score": 0.9643}, {"ticker": "VSXY", "buy_price": 30.29, "sell_price": 39.13, "monthly_return": 0.290845, "total_score": 0.8851}, {"ticker": "UI", "buy_price": 266.47, "sell_price": 346.0, "monthly_return": 0.297458, "total_score": 0.8468}, {"ticker": "PLTR", "buy_price": 41.93, "sell_price": 67.44, "monthly_return": 0.608395, "total_score": 0.8118}], "2024-12": [{"ticker": "APP", "buy_price": 335.79, "sell_price": 331.06, "monthly_return": -0.014086, "total_score": 1.0}, {"ticker": "MSTR", "buy_price": 393.64, "sell_price": 300.11, "monthly_return": -0.238603, "total_score": 0.6607}, {"ticker": "AFRM", "buy_price": 71.87, "sell_price": 62.23, "monthly_return": -0.135131, "total_score": 0.5872}, {"ticker": "UAL", "buy_price": 97.29, "sell_price": 97.29, "monthly_return": -0.001, "total_score": 0.5641}, {"ticker": "PLTR", "buy_price": 67.44, "sell_price": 76.2, "monthly_return": 0.129893, "total_score": 0.5636}], "2025-01": [{"ticker": "APP", "buy_price": 331.06, "sell_price": 353.51, "monthly_return": 0.067812, "total_score": 0.904}, {"ticker": "ALAB", "buy_price": 130.27, "sell_price": 89.02, "monthly_return": -0.31765, "total_score": 0.8544}, {"ticker": "PLTR", "buy_price": 76.2, "sell_price": 80.13, "monthly_return": 0.051575, "total_score": 0.6418}, {"ticker": "AS", "buy_price": 28.22, "sell_price": 31.23, "monthly_return": 0.105662, "total_score": 0.5805}, {"ticker": "UAL", "buy_price": 97.29, "sell_price": 101.96, "monthly_return": 0.048001, "total_score": 0.5673}], "2025-02": [{"ticker": "APP", "buy_price": 353.51, "sell_price": 350.16, "monthly_return": -0.009476, "total_score": 0.8427}, {"ticker": "TWLO", "buy_price": 142.54, "sell_price": 119.98, "monthly_return": -0.159271, "total_score": 0.7881}, {"ticker": "HOOD", "buy_price": 48.49, "sell_price": 54.88, "monthly_return": 0.13078, "total_score": 0.747}, {"ticker": "PLTR", "buy_price": 80.13, "sell_price": 88.55, "monthly_return": 0.105079, "total_score": 0.7094}, {"ticker": "AS", "buy_price": 31.23, "sell_price": 30.5, "monthly_return": -0.023375, "total_score": 0.6891}], "2025-03": [{"ticker": "BROS", "buy_price": 79.46, "sell_price": 61.68, "monthly_return": -0.22476, "total_score": 0.8829}, {"ticker": "APP", "buy_price": 350.16, "sell_price": 264.22, "monthly_return": -0.245431, "total_score": 0.8472}, {"ticker": "HOOD", "buy_price": 54.88, "sell_price": 41.8, "monthly_return": -0.238338, "total_score": 0.7543}, {"ticker": "PLTR", "buy_price": 88.55, "sell_price": 83.79, "monthly_return": -0.053755, "total_score": 0.739}, {"ticker": "TWLO", "buy_price": 119.98, "sell_price": 98.09, "monthly_return": -0.182447, "total_score": 0.7005}], "2025-04": [{"ticker": "MPT", "buy_price": 6.08, "sell_price": 5.57, "monthly_return": -0.084882, "total_score": 0.7562}, {"ticker": "GRAL", "buy_price": 25.27, "sell_price": 35.13, "monthly_return": 0.389186, "total_score": 0.7427}, {"ticker": "VRSN", "buy_price": 255.08, "sell_price": 283.31, "monthly_return": 0.109671, "total_score": 0.7079}, {"ticker": "OKTA", "buy_price": 104.8, "sell_price": 113.34, "monthly_return": 0.080489, "total_score": 0.6461}, {"ticker": "GILD", "buy_price": 112.0, "sell_price": 105.51, "monthly_return": -0.058946, "total_score": 0.6459}], "2025-06": [{"ticker": "PLTR", "buy_price": 131.44, "sell_price": 135.3, "monthly_return": 0.028367, "total_score": 0.9062}, {"ticker": "NRG", "buy_price": 156.54, "sell_price": 160.26, "monthly_return": 0.022764, "total_score": 0.8139}, {"ticker": "CELH", "buy_price": 37.94, "sell_price": 46.25, "monthly_return": 0.21803, "total_score": 0.8018}, {"ticker": "XP", "buy_price": 19.44, "sell_price": 20.13, "monthly_return": 0.034494, "total_score": 0.788}, {"ticker": "GRAL", "buy_price": 38.5, "sell_price": 50.31, "monthly_return": 0.305753, "total_score": 0.7705}], "2025-07": [{"ticker": "CAR", "buy_price": 167.98, "sell_price": 163.43, "monthly_return": -0.028087, "total_score": 1.0}, {"ticker": "ELF", "buy_price": 123.75, "sell_price": 118.6, "monthly_return": -0.042616, "total_score": 0.9321}, {"ticker": "HOOD", "buy_price": 95.02, "sell_price": 97.75, "monthly_return": 0.027731, "total_score": 0.8919}, {"ticker": "RBLX", "buy_price": 104.61, "sell_price": 132.41, "monthly_return": 0.264749, "total_score": 0.8257}, {"ticker": "GEV", "buy_price": 525.16, "sell_price": 638.18, "monthly_return": 0.214211, "total_score": 0.8008}], "2025-08": [{"ticker": "CAR", "buy_price": 163.43, "sell_price": 153.3, "monthly_return": -0.061984, "total_score": 0.851}, {"ticker": "HOOD", "buy_price": 97.75, "sell_price": 100.34, "monthly_return": 0.026496, "total_score": 0.8479}, {"ticker": "QS", "buy_price": 8.2, "sell_price": 7.77, "monthly_return": -0.053439, "total_score": 0.7936}, {"ticker": "MP", "buy_price": 60.39, "sell_price": 68.91, "monthly_return": 0.140083, "total_score": 0.7655}, {"ticker": "COIN", "buy_price": 335.14, "sell_price": 299.97, "monthly_return": -0.105941, "total_score": 0.7402}], "2025-09": [{"ticker": "MP", "buy_price": 68.91, "sell_price": 66.04, "monthly_return": -0.041649, "total_score": 0.9915}, {"ticker": "ALAB", "buy_price": 177.13, "sell_price": 191.8, "monthly_return": 0.081821, "total_score": 0.9312}, {"ticker": "W", "buy_price": 73.4, "sell_price": 88.95, "monthly_return": 0.210853, "total_score": 0.7906}, {"ticker": "RKLB", "buy_price": 46.74, "sell_price": 47.4, "monthly_return": 0.013121, "total_score": 0.7371}, {"ticker": "SOFI", "buy_price": 24.5, "sell_price": 26.72, "monthly_return": 0.089612, "total_score": 0.728}], "2025-10": [{"ticker": "MP", "buy_price": 66.04, "sell_price": 62.21, "monthly_return": -0.057995, "total_score": 0.786}, {"ticker": "QS", "buy_price": 12.3, "sell_price": 17.72, "monthly_return": 0.43965, "total_score": 0.7725}, {"ticker": "WDC", "buy_price": 118.18, "sell_price": 152.4, "monthly_return": 0.288558, "total_score": 0.6739}, {"ticker": "LITE", "buy_price": 159.24, "sell_price": 208.69, "monthly_return": 0.309538, "total_score": 0.657}, {"ticker": "ALAB", "buy_price": 191.8, "sell_price": 191.39, "monthly_return": -0.002138, "total_score": 0.6208}], "2025-11": [{"ticker": "QS", "buy_price": 17.72, "sell_price": 12.02, "monthly_return": -0.32167, "total_score": 0.9815}, {"ticker": "CIEN", "buy_price": 193.34, "sell_price": 193.9, "monthly_return": 0.001896, "total_score": 0.9157}, {"ticker": "WDC", "buy_price": 152.4, "sell_price": 160.2, "monthly_return": 0.051181, "total_score": 0.8234}, {"ticker": "LITE", "buy_price": 208.69, "sell_price": 314.99, "monthly_return": 0.509368, "total_score": 0.8094}, {"ticker": "WBD", "buy_price": 22.5, "sell_price": 23.82, "monthly_return": 0.057667, "total_score": 0.7727}], "2025-12": [{"ticker": "SNDK", "buy_price": 212.4, "sell_price": 244.35, "monthly_return": 0.149424, "total_score": 0.9903}, {"ticker": "LITE", "buy_price": 314.99, "sell_price": 379.42, "monthly_return": 0.204546, "total_score": 0.6634}, {"ticker": "RVMD", "buy_price": 77.06, "sell_price": 80.35, "monthly_return": 0.041694, "total_score": 0.4968}, {"ticker": "CIEN", "buy_price": 193.9, "sell_price": 241.0, "monthly_return": 0.242909, "total_score": 0.4816}, {"ticker": "MU", "buy_price": 232.29, "sell_price": 295.13, "monthly_return": 0.269524, "total_score": 0.452}], "2026-01": [{"ticker": "SNDK", "buy_price": 244.35, "sell_price": 588.81, "monthly_return": 1.409699, "total_score": 0.8804}, {"ticker": "LITE", "buy_price": 379.42, "sell_price": 405.28, "monthly_return": 0.068157, "total_score": 0.7263}, {"ticker": "MU", "buy_price": 295.13, "sell_price": 412.18, "monthly_return": 0.396605, "total_score": 0.5909}, {"ticker": "CIEN", "buy_price": 241.0, "sell_price": 247.93, "monthly_return": 0.028755, "total_score": 0.581}, {"ticker": "WBD", "buy_price": 28.81, "sell_price": 27.52, "monthly_return": -0.045776, "total_score": 0.5715}], "2026-02": [{"ticker": "SNDK", "buy_price": 588.81, "sell_price": 618.64, "monthly_return": 0.050662, "total_score": 1.0}, {"ticker": "MU", "buy_price": 412.18, "sell_price": 401.49, "monthly_return": -0.025935, "total_score": 0.5706}, {"ticker": "ALB", "buy_price": 168.5, "sell_price": 173.4, "monthly_return": 0.02808, "total_score": 0.5387}, {"ticker": "ASTS", "buy_price": 109.94, "sell_price": 78.845, "monthly_return": -0.283836, "total_score": 0.4891}, {"ticker": "LITE", "buy_price": 405.28, "sell_price": 742.89, "monthly_return": 0.833029, "total_score": 0.4801}], "2026-03": [{"ticker": "SNDK", "buy_price": 618.64, "sell_price": 652.98, "monthly_return": 0.055509, "total_score": 0.9965}, {"ticker": "LITE", "buy_price": 742.89, "sell_price": 734.19, "monthly_return": -0.011711, "total_score": 0.8846}, {"ticker": "WDC", "buy_price": 270.5, "sell_price": 280.5, "monthly_return": 0.035969, "total_score": 0.6306}, {"ticker": "MRNA", "buy_price": 52.42, "sell_price": 51.64, "monthly_return": -0.01588, "total_score": 0.6001}, {"ticker": "TER", "buy_price": 309.78, "sell_price": 301.97, "monthly_return": -0.026211, "total_score": 0.5974}], "2026-04": [{"ticker": "SNDK", "buy_price": 652.98, "sell_price": 1060.0, "monthly_return": 0.623327, "total_score": 0.7505}, {"ticker": "LITE", "buy_price": 734.19, "sell_price": 911.85, "monthly_return": 0.241981, "total_score": 0.7505}, {"ticker": "APA", "buy_price": 41.3, "sell_price": 40.26, "monthly_return": -0.026182, "total_score": 0.6394}, {"ticker": "MRNA", "buy_price": 51.64, "sell_price": 46.64, "monthly_return": -0.096824, "total_score": 0.613}, {"ticker": "WLK", "buy_price": 117.0, "sell_price": 115.75, "monthly_return": -0.011684, "total_score": 0.6117}], "2026-05": [{"ticker": "SNDK", "buy_price": 1060.0, "sell_price": 1731.15, "monthly_return": 0.63316, "total_score": 0.9229}, {"ticker": "INTC", "buy_price": 93.2, "sell_price": 109.44, "monthly_return": 0.173249, "total_score": 0.5684}, {"ticker": "IRDM", "buy_price": 39.2, "sell_price": 51.78, "monthly_return": 0.319918, "total_score": 0.547}, {"ticker": "CIEN", "buy_price": 527.25, "sell_price": 559.52, "monthly_return": 0.060204, "total_score": 0.5192}, {"ticker": "LITE", "buy_price": 911.85, "sell_price": 825.25, "monthly_return": -0.094972, "total_score": 0.519}], "2026-06": [{"ticker": "SNDK", "buy_price": 1731.15, "sell_price": 2085.17, "monthly_return": 0.2045, "total_score": 0.9388}, {"ticker": "INTC", "buy_price": 109.44, "sell_price": 135.0, "monthly_return": 0.233553, "total_score": 0.8776}, {"ticker": "DELL", "buy_price": 426.15, "sell_price": 418.0, "monthly_return": -0.020125, "total_score": 0.8525}, {"ticker": "MRVL", "buy_price": 198.91, "sell_price": 282.48, "monthly_return": 0.41914, "total_score": 0.7831}, {"ticker": "IRDM", "buy_price": 51.78, "sell_price": 53.98, "monthly_return": 0.042487, "total_score": 0.7324}], "2026-07": [{"ticker": "ALAB", "buy_price": 468.33, "sell_price": 417.45, "monthly_return": -0.109641, "total_score": 1.0}, {"ticker": "MRVL", "buy_price": 282.48, "sell_price": 243.27, "monthly_return": -0.139806, "total_score": 0.8004}, {"ticker": "SNDK", "buy_price": 2085.17, "sell_price": 1858.27, "monthly_return": -0.109816, "total_score": 0.7885}, {"ticker": "DELL", "buy_price": 418.0, "sell_price": 450.22, "monthly_return": 0.076081, "total_score": 0.7544}, {"ticker": "MU", "buy_price": 1082.01, "sell_price": 991.64, "monthly_return": -0.08452, "total_score": 0.7244}]}, "tv_equity_series": {"Strategy": [{"time": "2019-12-01", "value": 1.015607}, {"time": "2020-01-01", "value": 1.088472}, {"time": "2020-02-01", "value": 1.074253}, {"time": "2020-03-01", "value": 0.723294}, {"time": "2020-04-01", "value": 0.943311}, {"time": "2020-05-01", "value": 1.117005}, {"time": "2020-06-01", "value": 1.077131}, {"time": "2020-07-01", "value": 1.328011}, {"time": "2020-08-01", "value": 1.666303}, {"time": "2020-09-01", "value": 1.64745}, {"time": "2020-10-01", "value": 1.707633}, {"time": "2020-11-01", "value": 1.92002}, {"time": "2020-12-01", "value": 2.17698}, {"time": "2021-01-01", "value": 2.175222}, {"time": "2021-02-01", "value": 2.442738}, {"time": "2021-03-01", "value": 2.516707}, {"time": "2021-04-01", "value": 2.713214}, {"time": "2021-05-01", "value": 2.727647}, {"time": "2021-06-01", "value": 2.610226}, {"time": "2021-07-01", "value": 2.714257}, {"time": "2021-08-01", "value": 2.722465}, {"time": "2021-09-01", "value": 2.583634}, {"time": "2021-10-01", "value": 2.659511}, {"time": "2021-11-01", "value": 2.452377}, {"time": "2021-12-01", "value": 2.249752}, {"time": "2022-01-01", "value": 2.073873}, {"time": "2022-02-01", "value": 2.142207}, {"time": "2022-03-01", "value": 2.427007}, {"time": "2022-04-01", "value": 2.42458}, {"time": "2022-05-01", "value": 2.42458}, {"time": "2022-06-01", "value": 2.42458}, {"time": "2022-07-01", "value": 2.42458}, {"time": "2022-08-01", "value": 2.42458}, {"time": "2022-09-01", "value": 2.42458}, {"time": "2022-10-01", "value": 2.42458}, {"time": "2022-11-01", "value": 2.42458}, {"time": "2022-12-01", "value": 2.42458}, {"time": "2023-01-01", "value": 2.42458}, {"time": "2023-02-01", "value": 2.42458}, {"time": "2023-03-01", "value": 2.42458}, {"time": "2023-04-01", "value": 2.372535}, {"time": "2023-05-01", "value": 2.983257}, {"time": "2023-06-01", "value": 3.207976}, {"time": "2023-07-01", "value": 4.678402}, {"time": "2023-08-01", "value": 3.853016}, {"time": "2023-09-01", "value": 3.576593}, {"time": "2023-10-01", "value": 3.450217}, {"time": "2023-11-01", "value": 3.826144}, {"time": "2023-12-01", "value": 3.961757}, {"time": "2024-01-01", "value": 3.750171}, {"time": "2024-02-01", "value": 4.332612}, {"time": "2024-03-01", "value": 4.77735}, {"time": "2024-04-01", "value": 4.392193}, {"time": "2024-05-01", "value": 5.248479}, {"time": "2024-06-01", "value": 4.765109}, {"time": "2024-07-01", "value": 4.476763}, {"time": "2024-08-01", "value": 4.255737}, {"time": "2024-09-01", "value": 4.688481}, {"time": "2024-10-01", "value": 4.85146}, {"time": "2024-11-01", "value": 7.155393}, {"time": "2024-12-01", "value": 6.780555}, {"time": "2025-01-01", "value": 6.71736}, {"time": "2025-02-01", "value": 6.773431}, {"time": "2025-03-01", "value": 5.492262}, {"time": "2025-04-01", "value": 5.965165}, {"time": "2025-05-01", "value": 5.9592}, {"time": "2025-06-01", "value": 6.685517}, {"time": "2025-07-01", "value": 7.261792}, {"time": "2025-08-01", "value": 7.177868}, {"time": "2025-09-01", "value": 7.679971}, {"time": "2025-10-01", "value": 9.176972}, {"time": "2025-11-01", "value": 9.721059}, {"time": "2025-12-01", "value": 11.480759}, {"time": "2026-01-01", "value": 15.743426}, {"time": "2026-02-01", "value": 17.632635}, {"time": "2026-03-01", "value": 17.754918}, {"time": "2026-04-01", "value": 20.342229}, {"time": "2026-05-01", "value": 24.770978}, {"time": "2026-06-01", "value": 29.093786}], "SPY": [{"time": "2019-12-01", "value": 1.028482}, {"time": "2020-01-01", "value": 1.027846}, {"time": "2020-02-01", "value": 0.9479}, {"time": "2020-03-01", "value": 0.788264}, {"time": "2020-04-01", "value": 0.906926}, {"time": "2020-05-01", "value": 0.965097}, {"time": "2020-06-01", "value": 0.984011}, {"time": "2020-07-01", "value": 1.043644}, {"time": "2020-08-01", "value": 1.113227}, {"time": "2020-09-01", "value": 1.073429}, {"time": "2020-10-01", "value": 1.04962}, {"time": "2020-11-01", "value": 1.16202}, {"time": "2020-12-01", "value": 1.193013}, {"time": "2021-01-01", "value": 1.187959}, {"time": "2021-02-01", "value": 1.225691}, {"time": "2021-03-01", "value": 1.26641}, {"time": "2021-04-01", "value": 1.333259}, {"time": "2021-05-01", "value": 1.343272}, {"time": "2021-06-01", "value": 1.363139}, {"time": "2021-07-01", "value": 1.399695}, {"time": "2021-08-01", "value": 1.438634}, {"time": "2021-09-01", "value": 1.369974}, {"time": "2021-10-01", "value": 1.463174}, {"time": "2021-11-01", "value": 1.467402}, {"time": "2021-12-01", "value": 1.51413}, {"time": "2022-01-01", "value": 1.432722}, {"time": "2022-02-01", "value": 1.382879}, {"time": "2022-03-01", "value": 1.440987}, {"time": "2022-04-01", "value": 1.309864}, {"time": "2022-05-01", "value": 1.319654}, {"time": "2022-06-01", "value": 1.196891}, {"time": "2022-07-01", "value": 1.300582}, {"time": "2022-08-01", "value": 1.248895}, {"time": "2022-09-01", "value": 1.14778}, {"time": "2022-10-01", "value": 1.240154}, {"time": "2022-11-01", "value": 1.299501}, {"time": "2022-12-01", "value": 1.221971}, {"time": "2023-01-01", "value": 1.288057}, {"time": "2023-02-01", "value": 1.256906}, {"time": "2023-03-01", "value": 1.29966}, {"time": "2023-04-01", "value": 1.320576}, {"time": "2023-05-01", "value": 1.329}, {"time": "2023-06-01", "value": 1.407928}, {"time": "2023-07-01", "value": 1.450364}, {"time": "2023-08-01", "value": 1.44051}, {"time": "2023-09-01", "value": 1.356083}, {"time": "2023-10-01", "value": 1.332528}, {"time": "2023-11-01", "value": 1.448711}, {"time": "2023-12-01", "value": 1.500874}, {"time": "2024-01-01", "value": 1.540513}, {"time": "2024-02-01", "value": 1.617915}, {"time": "2024-03-01", "value": 1.66512}, {"time": "2024-04-01", "value": 1.593757}, {"time": "2024-05-01", "value": 1.681617}, {"time": "2024-06-01", "value": 1.734416}, {"time": "2024-07-01", "value": 1.756477}, {"time": "2024-08-01", "value": 1.781589}, {"time": "2024-09-01", "value": 1.822658}, {"time": "2024-10-01", "value": 1.816078}, {"time": "2024-11-01", "value": 1.916685}, {"time": "2024-12-01", "value": 1.873518}, {"time": "2025-01-01", "value": 1.883944}, {"time": "2025-02-01", "value": 1.895102}, {"time": "2025-03-01", "value": 1.771989}, {"time": "2025-04-01", "value": 1.781271}, {"time": "2025-05-01", "value": 1.868337}, {"time": "2025-06-01", "value": 1.959249}, {"time": "2025-07-01", "value": 1.990877}, {"time": "2025-08-01", "value": 2.026542}, {"time": "2025-09-01", "value": 2.108014}, {"time": "2025-10-01", "value": 2.179535}, {"time": "2025-11-01", "value": 2.157697}, {"time": "2025-12-01", "value": 2.179662}, {"time": "2026-01-01", "value": 2.191996}, {"time": "2026-02-01", "value": 2.157284}, {"time": "2026-03-01", "value": 2.07842}, {"time": "2026-04-01", "value": 2.292667}, {"time": "2026-05-01", "value": 2.400966}, {"time": "2026-06-01", "value": 2.368035}], "QQQ": [{"time": "2019-12-01", "value": 1.045098}, {"time": "2020-01-01", "value": 1.073278}, {"time": "2020-02-01", "value": 1.018332}, {"time": "2020-03-01", "value": 0.900882}, {"time": "2020-04-01", "value": 1.045878}, {"time": "2020-05-01", "value": 1.133051}, {"time": "2020-06-01", "value": 1.207206}, {"time": "2020-07-01", "value": 1.30686}, {"time": "2020-08-01", "value": 1.450929}, {"time": "2020-09-01", "value": 1.374092}, {"time": "2020-10-01", "value": 1.324801}, {"time": "2020-11-01", "value": 1.471747}, {"time": "2020-12-01", "value": 1.536298}, {"time": "2021-01-01", "value": 1.551119}, {"time": "2021-02-01", "value": 1.556921}, {"time": "2021-03-01", "value": 1.575106}, {"time": "2021-04-01", "value": 1.653942}, {"time": "2021-05-01", "value": 1.634781}, {"time": "2021-06-01", "value": 1.726244}, {"time": "2021-07-01", "value": 1.785773}, {"time": "2021-08-01", "value": 1.857784}, {"time": "2021-09-01", "value": 1.74833}, {"time": "2021-10-01", "value": 1.884647}, {"time": "2021-11-01", "value": 1.941836}, {"time": "2021-12-01", "value": 1.945541}, {"time": "2022-01-01", "value": 1.776754}, {"time": "2022-02-01", "value": 1.685681}, {"time": "2022-03-01", "value": 1.768856}, {"time": "2022-04-01", "value": 1.525133}, {"time": "2022-05-01", "value": 1.513676}, {"time": "2022-06-01", "value": 1.360002}, {"time": "2022-07-01", "value": 1.529228}, {"time": "2022-08-01", "value": 1.446638}, {"time": "2022-09-01", "value": 1.311833}, {"time": "2022-10-01", "value": 1.372434}, {"time": "2022-11-01", "value": 1.431768}, {"time": "2022-12-01", "value": 1.309883}, {"time": "2023-01-01", "value": 1.435376}, {"time": "2023-02-01", "value": 1.429623}, {"time": "2023-03-01", "value": 1.554142}, {"time": "2023-04-01", "value": 1.570328}, {"time": "2023-05-01", "value": 1.695334}, {"time": "2023-06-01", "value": 1.804251}, {"time": "2023-07-01", "value": 1.863927}, {"time": "2023-08-01", "value": 1.854615}, {"time": "2023-09-01", "value": 1.748038}, {"time": "2023-10-01", "value": 1.714787}, {"time": "2023-11-01", "value": 1.890254}, {"time": "2023-12-01", "value": 1.978646}, {"time": "2024-01-01", "value": 2.041782}, {"time": "2024-02-01", "value": 2.144703}, {"time": "2024-03-01", "value": 2.169421}, {"time": "2024-04-01", "value": 2.063039}, {"time": "2024-05-01", "value": 2.216225}, {"time": "2024-06-01", "value": 2.340451}, {"time": "2024-07-01", "value": 2.300034}, {"time": "2024-08-01", "value": 2.307006}, {"time": "2024-09-01", "value": 2.377749}, {"time": "2024-10-01", "value": 2.36712}, {"time": "2024-11-01", "value": 2.491395}, {"time": "2024-12-01", "value": 2.507581}, {"time": "2025-01-01", "value": 2.503388}, {"time": "2025-02-01", "value": 2.493881}, {"time": "2025-03-01", "value": 2.27829}, {"time": "2025-04-01", "value": 2.356833}, {"time": "2025-05-01", "value": 2.521915}, {"time": "2025-06-01", "value": 2.680172}, {"time": "2025-07-01", "value": 2.724636}, {"time": "2025-08-01", "value": 2.736629}, {"time": "2025-09-01", "value": 2.911511}, {"time": "2025-10-01", "value": 3.096485}, {"time": "2025-11-01", "value": 2.991614}, {"time": "2025-12-01", "value": 3.023207}, {"time": "2026-01-01", "value": 3.016381}, {"time": "2026-02-01", "value": 2.919799}, {"time": "2026-03-01", "value": 2.835015}, {"time": "2026-04-01", "value": 3.262347}, {"time": "2026-05-01", "value": 3.593438}, {"time": "2026-06-01", "value": 3.555068}], "SOXX": [{"time": "2019-12-01", "value": 1.087933}, {"time": "2020-01-01", "value": 1.043261}, {"time": "2020-02-01", "value": 1.009884}, {"time": "2020-03-01", "value": 0.849166}, {"time": "2020-04-01", "value": 0.979718}, {"time": "2020-05-01", "value": 1.072144}, {"time": "2020-06-01", "value": 1.160077}, {"time": "2020-07-01", "value": 1.250193}, {"time": "2020-08-01", "value": 1.32516}, {"time": "2020-09-01", "value": 1.321181}, {"time": "2020-10-01", "value": 1.31887}, {"time": "2020-11-01", "value": 1.561874}, {"time": "2020-12-01", "value": 1.632991}, {"time": "2021-01-01", "value": 1.704621}, {"time": "2021-02-01", "value": 1.81104}, {"time": "2021-03-01", "value": 1.845828}, {"time": "2021-04-01", "value": 1.818742}, {"time": "2021-05-01", "value": 1.865469}, {"time": "2021-06-01", "value": 1.94172}, {"time": "2021-07-01", "value": 1.973813}, {"time": "2021-08-01", "value": 2.01335}, {"time": "2021-09-01", "value": 1.917202}, {"time": "2021-10-01", "value": 2.033248}, {"time": "2021-11-01", "value": 2.297818}, {"time": "2021-12-01", "value": 2.3362}, {"time": "2022-01-01", "value": 2.071759}, {"time": "2022-02-01", "value": 2.020668}, {"time": "2022-03-01", "value": 2.033761}, {"time": "2022-04-01", "value": 1.71656}, {"time": "2022-05-01", "value": 1.832734}, {"time": "2022-06-01", "value": 1.471887}, {"time": "2022-07-01", "value": 1.729525}, {"time": "2022-08-01", "value": 1.541592}, {"time": "2022-09-01", "value": 1.379332}, {"time": "2022-10-01", "value": 1.425032}, {"time": "2022-11-01", "value": 1.670347}, {"time": "2022-12-01", "value": 1.514249}, {"time": "2023-01-01", "value": 1.735815}, {"time": "2023-02-01", "value": 1.760077}, {"time": "2023-03-01", "value": 1.891656}, {"time": "2023-04-01", "value": 1.772529}, {"time": "2023-05-01", "value": 2.052246}, {"time": "2023-06-01", "value": 2.18267}, {"time": "2023-07-01", "value": 2.269576}, {"time": "2023-08-01", "value": 2.199615}, {"time": "2023-09-01", "value": 2.030424}, {"time": "2023-10-01", "value": 1.893196}, {"time": "2023-11-01", "value": 2.186521}, {"time": "2023-12-01", "value": 2.423363}, {"time": "2024-01-01", "value": 2.517843}, {"time": "2024-02-01", "value": 2.822593}, {"time": "2024-03-01", "value": 2.901926}, {"time": "2024-04-01", "value": 2.696277}, {"time": "2024-05-01", "value": 3.052632}, {"time": "2024-06-01", "value": 3.164185}, {"time": "2024-07-01", "value": 2.970475}, {"time": "2024-08-01", "value": 2.912067}, {"time": "2024-09-01", "value": 2.958922}, {"time": "2024-10-01", "value": 2.82439}, {"time": "2024-11-01", "value": 2.781772}, {"time": "2024-12-01", "value": 2.794352}, {"time": "2025-01-01", "value": 2.726444}, {"time": "2025-02-01", "value": 2.715148}, {"time": "2025-03-01", "value": 2.40629}, {"time": "2025-04-01", "value": 2.387677}, {"time": "2025-05-01", "value": 2.624134}, {"time": "2025-06-01", "value": 3.038511}, {"time": "2025-07-01", "value": 3.023235}, {"time": "2025-08-01", "value": 3.0638}, {"time": "2025-09-01", "value": 3.458023}, {"time": "2025-10-01", "value": 3.984596}, {"time": "2025-11-01", "value": 3.758408}, {"time": "2025-12-01", "value": 3.960462}, {"time": "2026-01-01", "value": 4.393838}, {"time": "2026-02-01", "value": 4.413222}, {"time": "2026-03-01", "value": 4.281001}, {"time": "2026-04-01", "value": 5.885366}, {"time": "2026-05-01", "value": 7.235815}, {"time": "2026-06-01", "value": 7.9181}]}, "tv_drawdown_series": {"Strategy": [{"time": "2019-12-01", "value": 0.0}, {"time": "2020-01-01", "value": 0.0}, {"time": "2020-02-01", "value": -0.013063}, {"time": "2020-03-01", "value": -0.335496}, {"time": "2020-04-01", "value": -0.133362}, {"time": "2020-05-01", "value": 0.0}, {"time": "2020-06-01", "value": -0.035697}, {"time": "2020-07-01", "value": 0.0}, {"time": "2020-08-01", "value": 0.0}, {"time": "2020-09-01", "value": -0.011314}, {"time": "2020-10-01", "value": 0.0}, {"time": "2020-11-01", "value": 0.0}, {"time": "2020-12-01", "value": 0.0}, {"time": "2021-01-01", "value": -0.000807}, {"time": "2021-02-01", "value": 0.0}, {"time": "2021-03-01", "value": 0.0}, {"time": "2021-04-01", "value": 0.0}, {"time": "2021-05-01", "value": 0.0}, {"time": "2021-06-01", "value": -0.043048}, {"time": "2021-07-01", "value": -0.004909}, {"time": "2021-08-01", "value": -0.0019}, {"time": "2021-09-01", "value": -0.052798}, {"time": "2021-10-01", "value": -0.02498}, {"time": "2021-11-01", "value": -0.100919}, {"time": "2021-12-01", "value": -0.175204}, {"time": "2022-01-01", "value": -0.239684}, {"time": "2022-02-01", "value": -0.214632}, {"time": "2022-03-01", "value": -0.11022}, {"time": "2022-04-01", "value": -0.11111}, {"time": "2022-05-01", "value": -0.11111}, {"time": "2022-06-01", "value": -0.11111}, {"time": "2022-07-01", "value": -0.11111}, {"time": "2022-08-01", "value": -0.11111}, {"time": "2022-09-01", "value": -0.11111}, {"time": "2022-10-01", "value": -0.11111}, {"time": "2022-11-01", "value": -0.11111}, {"time": "2022-12-01", "value": -0.11111}, {"time": "2023-01-01", "value": -0.11111}, {"time": "2023-02-01", "value": -0.11111}, {"time": "2023-03-01", "value": -0.11111}, {"time": "2023-04-01", "value": -0.13019}, {"time": "2023-05-01", "value": 0.0}, {"time": "2023-06-01", "value": 0.0}, {"time": "2023-07-01", "value": 0.0}, {"time": "2023-08-01", "value": -0.176425}, {"time": "2023-09-01", "value": -0.23551}, {"time": "2023-10-01", "value": -0.262522}, {"time": "2023-11-01", "value": -0.182169}, {"time": "2023-12-01", "value": -0.153182}, {"time": "2024-01-01", "value": -0.198408}, {"time": "2024-02-01", "value": -0.073912}, {"time": "2024-03-01", "value": 0.0}, {"time": "2024-04-01", "value": -0.080621}, {"time": "2024-05-01", "value": 0.0}, {"time": "2024-06-01", "value": -0.092097}, {"time": "2024-07-01", "value": -0.147036}, {"time": "2024-08-01", "value": -0.189149}, {"time": "2024-09-01", "value": -0.106697}, {"time": "2024-10-01", "value": -0.075645}, {"time": "2024-11-01", "value": 0.0}, {"time": "2024-12-01", "value": -0.052385}, {"time": "2025-01-01", "value": -0.061217}, {"time": "2025-02-01", "value": -0.053381}, {"time": "2025-03-01", "value": -0.23243}, {"time": "2025-04-01", "value": -0.16634}, {"time": "2025-05-01", "value": -0.167174}, {"time": "2025-06-01", "value": -0.065667}, {"time": "2025-07-01", "value": 0.0}, {"time": "2025-08-01", "value": -0.011557}, {"time": "2025-09-01", "value": 0.0}, {"time": "2025-10-01", "value": 0.0}, {"time": "2025-11-01", "value": 0.0}, {"time": "2025-12-01", "value": 0.0}, {"time": "2026-01-01", "value": 0.0}, {"time": "2026-02-01", "value": 0.0}, {"time": "2026-03-01", "value": 0.0}, {"time": "2026-04-01", "value": 0.0}, {"time": "2026-05-01", "value": 0.0}, {"time": "2026-06-01", "value": 0.0}], "SPY": [{"time": "2019-12-01", "value": 0.0}, {"time": "2020-01-01", "value": -0.000618}, {"time": "2020-02-01", "value": -0.07835}, {"time": "2020-03-01", "value": -0.233565}, {"time": "2020-04-01", "value": -0.118189}, {"time": "2020-05-01", "value": -0.061629}, {"time": "2020-06-01", "value": -0.043239}, {"time": "2020-07-01", "value": 0.0}, {"time": "2020-08-01", "value": 0.0}, {"time": "2020-09-01", "value": -0.03575}, {"time": "2020-10-01", "value": -0.057137}, {"time": "2020-11-01", "value": 0.0}, {"time": "2020-12-01", "value": 0.0}, {"time": "2021-01-01", "value": -0.004236}, {"time": "2021-02-01", "value": 0.0}, {"time": "2021-03-01", "value": 0.0}, {"time": "2021-04-01", "value": 0.0}, {"time": "2021-05-01", "value": 0.0}, {"time": "2021-06-01", "value": 0.0}, {"time": "2021-07-01", "value": 0.0}, {"time": "2021-08-01", "value": 0.0}, {"time": "2021-09-01", "value": -0.047726}, {"time": "2021-10-01", "value": 0.0}, {"time": "2021-11-01", "value": 0.0}, {"time": "2021-12-01", "value": 0.0}, {"time": "2022-01-01", "value": -0.053765}, {"time": "2022-02-01", "value": -0.086684}, {"time": "2022-03-01", "value": -0.048307}, {"time": "2022-04-01", "value": -0.134906}, {"time": "2022-05-01", "value": -0.12844}, {"time": "2022-06-01", "value": -0.209519}, {"time": "2022-07-01", "value": -0.141037}, {"time": "2022-08-01", "value": -0.175173}, {"time": "2022-09-01", "value": -0.241954}, {"time": "2022-10-01", "value": -0.180946}, {"time": "2022-11-01", "value": -0.14175}, {"time": "2022-12-01", "value": -0.192954}, {"time": "2023-01-01", "value": -0.149308}, {"time": "2023-02-01", "value": -0.169882}, {"time": "2023-03-01", "value": -0.141645}, {"time": "2023-04-01", "value": -0.127832}, {"time": "2023-05-01", "value": -0.122268}, {"time": "2023-06-01", "value": -0.07014}, {"time": "2023-07-01", "value": -0.042114}, {"time": "2023-08-01", "value": -0.048622}, {"time": "2023-09-01", "value": -0.104381}, {"time": "2023-10-01", "value": -0.119938}, {"time": "2023-11-01", "value": -0.043205}, {"time": "2023-12-01", "value": -0.008754}, {"time": "2024-01-01", "value": 0.0}, {"time": "2024-02-01", "value": 0.0}, {"time": "2024-03-01", "value": 0.0}, {"time": "2024-04-01", "value": -0.042857}, {"time": "2024-05-01", "value": 0.0}, {"time": "2024-06-01", "value": 0.0}, {"time": "2024-07-01", "value": 0.0}, {"time": "2024-08-01", "value": 0.0}, {"time": "2024-09-01", "value": 0.0}, {"time": "2024-10-01", "value": -0.00361}, {"time": "2024-11-01", "value": 0.0}, {"time": "2024-12-01", "value": -0.022522}, {"time": "2025-01-01", "value": -0.017082}, {"time": "2025-02-01", "value": -0.011261}, {"time": "2025-03-01", "value": -0.075493}, {"time": "2025-04-01", "value": -0.07065}, {"time": "2025-05-01", "value": -0.025225}, {"time": "2025-06-01", "value": 0.0}, {"time": "2025-07-01", "value": 0.0}, {"time": "2025-08-01", "value": 0.0}, {"time": "2025-09-01", "value": 0.0}, {"time": "2025-10-01", "value": 0.0}, {"time": "2025-11-01", "value": -0.01002}, {"time": "2025-12-01", "value": 0.0}, {"time": "2026-01-01", "value": 0.0}, {"time": "2026-02-01", "value": -0.015836}, {"time": "2026-03-01", "value": -0.051814}, {"time": "2026-04-01", "value": 0.0}, {"time": "2026-05-01", "value": 0.0}, {"time": "2026-06-01", "value": -0.013716}], "QQQ": [{"time": "2019-12-01", "value": 0.0}, {"time": "2020-01-01", "value": 0.0}, {"time": "2020-02-01", "value": -0.051195}, {"time": "2020-03-01", "value": -0.160625}, {"time": "2020-04-01", "value": -0.025529}, {"time": "2020-05-01", "value": 0.0}, {"time": "2020-06-01", "value": 0.0}, {"time": "2020-07-01", "value": 0.0}, {"time": "2020-08-01", "value": 0.0}, {"time": "2020-09-01", "value": -0.052957}, {"time": "2020-10-01", "value": -0.086929}, {"time": "2020-11-01", "value": 0.0}, {"time": "2020-12-01", "value": 0.0}, {"time": "2021-01-01", "value": 0.0}, {"time": "2021-02-01", "value": 0.0}, {"time": "2021-03-01", "value": 0.0}, {"time": "2021-04-01", "value": 0.0}, {"time": "2021-05-01", "value": -0.011585}, {"time": "2021-06-01", "value": 0.0}, {"time": "2021-07-01", "value": 0.0}, {"time": "2021-08-01", "value": 0.0}, {"time": "2021-09-01", "value": -0.058916}, {"time": "2021-10-01", "value": 0.0}, {"time": "2021-11-01", "value": 0.0}, {"time": "2021-12-01", "value": 0.0}, {"time": "2022-01-01", "value": -0.086756}, {"time": "2022-02-01", "value": -0.133567}, {"time": "2022-03-01", "value": -0.090816}, {"time": "2022-04-01", "value": -0.216088}, {"time": "2022-05-01", "value": -0.221977}, {"time": "2022-06-01", "value": -0.300965}, {"time": "2022-07-01", "value": -0.213983}, {"time": "2022-08-01", "value": -0.256434}, {"time": "2022-09-01", "value": -0.325724}, {"time": "2022-10-01", "value": -0.294575}, {"time": "2022-11-01", "value": -0.264077}, {"time": "2022-12-01", "value": -0.326726}, {"time": "2023-01-01", "value": -0.262223}, {"time": "2023-02-01", "value": -0.26518}, {"time": "2023-03-01", "value": -0.201178}, {"time": "2023-04-01", "value": -0.192858}, {"time": "2023-05-01", "value": -0.128605}, {"time": "2023-06-01", "value": -0.072622}, {"time": "2023-07-01", "value": -0.04195}, {"time": "2023-08-01", "value": -0.046736}, {"time": "2023-09-01", "value": -0.101516}, {"time": "2023-10-01", "value": -0.118607}, {"time": "2023-11-01", "value": -0.028417}, {"time": "2023-12-01", "value": 0.0}, {"time": "2024-01-01", "value": 0.0}, {"time": "2024-02-01", "value": 0.0}, {"time": "2024-03-01", "value": 0.0}, {"time": "2024-04-01", "value": -0.049037}, {"time": "2024-05-01", "value": 0.0}, {"time": "2024-06-01", "value": 0.0}, {"time": "2024-07-01", "value": -0.017269}, {"time": "2024-08-01", "value": -0.01429}, {"time": "2024-09-01", "value": 0.0}, {"time": "2024-10-01", "value": -0.00447}, {"time": "2024-11-01", "value": 0.0}, {"time": "2024-12-01", "value": 0.0}, {"time": "2025-01-01", "value": -0.001672}, {"time": "2025-02-01", "value": -0.005463}, {"time": "2025-03-01", "value": -0.091439}, {"time": "2025-04-01", "value": -0.060117}, {"time": "2025-05-01", "value": 0.0}, {"time": "2025-06-01", "value": 0.0}, {"time": "2025-07-01", "value": 0.0}, {"time": "2025-08-01", "value": 0.0}, {"time": "2025-09-01", "value": 0.0}, {"time": "2025-10-01", "value": 0.0}, {"time": "2025-11-01", "value": -0.033868}, {"time": "2025-12-01", "value": -0.023665}, {"time": "2026-01-01", "value": -0.025869}, {"time": "2026-02-01", "value": -0.05706}, {"time": "2026-03-01", "value": -0.084441}, {"time": "2026-04-01", "value": 0.0}, {"time": "2026-05-01", "value": 0.0}, {"time": "2026-06-01", "value": -0.010678}], "SOXX": [{"time": "2019-12-01", "value": 0.0}, {"time": "2020-01-01", "value": -0.041062}, {"time": "2020-02-01", "value": -0.07174}, {"time": "2020-03-01", "value": -0.219469}, {"time": "2020-04-01", "value": -0.099469}, {"time": "2020-05-01", "value": -0.014513}, {"time": "2020-06-01", "value": 0.0}, {"time": "2020-07-01", "value": 0.0}, {"time": "2020-08-01", "value": 0.0}, {"time": "2020-09-01", "value": -0.003003}, {"time": "2020-10-01", "value": -0.004747}, {"time": "2020-11-01", "value": 0.0}, {"time": "2020-12-01", "value": 0.0}, {"time": "2021-01-01", "value": 0.0}, {"time": "2021-02-01", "value": 0.0}, {"time": "2021-03-01", "value": 0.0}, {"time": "2021-04-01", "value": -0.014674}, {"time": "2021-05-01", "value": 0.0}, {"time": "2021-06-01", "value": 0.0}, {"time": "2021-07-01", "value": 0.0}, {"time": "2021-08-01", "value": 0.0}, {"time": "2021-09-01", "value": -0.047756}, {"time": "2021-10-01", "value": 0.0}, {"time": "2021-11-01", "value": 0.0}, {"time": "2021-12-01", "value": 0.0}, {"time": "2022-01-01", "value": -0.113193}, {"time": "2022-02-01", "value": -0.135062}, {"time": "2022-03-01", "value": -0.129458}, {"time": "2022-04-01", "value": -0.265234}, {"time": "2022-05-01", "value": -0.215506}, {"time": "2022-06-01", "value": -0.369965}, {"time": "2022-07-01", "value": -0.259685}, {"time": "2022-08-01", "value": -0.340129}, {"time": "2022-09-01", "value": -0.409583}, {"time": "2022-10-01", "value": -0.390021}, {"time": "2022-11-01", "value": -0.285016}, {"time": "2022-12-01", "value": -0.351833}, {"time": "2023-01-01", "value": -0.256992}, {"time": "2023-02-01", "value": -0.246607}, {"time": "2023-03-01", "value": -0.190285}, {"time": "2023-04-01", "value": -0.241277}, {"time": "2023-05-01", "value": -0.121545}, {"time": "2023-06-01", "value": -0.065718}, {"time": "2023-07-01", "value": -0.028518}, {"time": "2023-08-01", "value": -0.058465}, {"time": "2023-09-01", "value": -0.130886}, {"time": "2023-10-01", "value": -0.189626}, {"time": "2023-11-01", "value": -0.064069}, {"time": "2023-12-01", "value": 0.0}, {"time": "2024-01-01", "value": 0.0}, {"time": "2024-02-01", "value": 0.0}, {"time": "2024-03-01", "value": 0.0}, {"time": "2024-04-01", "value": -0.070866}, {"time": "2024-05-01", "value": 0.0}, {"time": "2024-06-01", "value": 0.0}, {"time": "2024-07-01", "value": -0.06122}, {"time": "2024-08-01", "value": -0.079679}, {"time": "2024-09-01", "value": -0.064871}, {"time": "2024-10-01", "value": -0.107388}, {"time": "2024-11-01", "value": -0.120857}, {"time": "2024-12-01", "value": -0.116881}, {"time": "2025-01-01", "value": -0.138342}, {"time": "2025-02-01", "value": -0.141912}, {"time": "2025-03-01", "value": -0.239523}, {"time": "2025-04-01", "value": -0.245405}, {"time": "2025-05-01", "value": -0.170676}, {"time": "2025-06-01", "value": -0.039718}, {"time": "2025-07-01", "value": -0.044545}, {"time": "2025-08-01", "value": -0.031725}, {"time": "2025-09-01", "value": 0.0}, {"time": "2025-10-01", "value": 0.0}, {"time": "2025-11-01", "value": -0.056765}, {"time": "2025-12-01", "value": -0.006057}, {"time": "2026-01-01", "value": 0.0}, {"time": "2026-02-01", "value": 0.0}, {"time": "2026-03-01", "value": -0.02996}, {"time": "2026-04-01", "value": 0.0}, {"time": "2026-05-01", "value": 0.0}, {"time": "2026-06-01", "value": 0.0}]}, "tv_return_dist_data": [{"time": 96750, "value": 1, "pct": -32.5}, {"time": 97250, "value": 0, "pct": -27.5}, {"time": 97750, "value": 0, "pct": -22.5}, {"time": 98250, "value": 2, "pct": -17.5}, {"time": 98750, "value": 0, "pct": -12.5}, {"time": 99250, "value": 10, "pct": -7.5}, {"time": 99750, "value": 12, "pct": -2.5}, {"time": 100250, "value": 23, "pct": 2.5}, {"time": 100750, "value": 7, "pct": 7.5}, {"time": 101250, "value": 10, "pct": 12.5}, {"time": 101750, "value": 6, "pct": 17.5}, {"time": 102250, "value": 2, "pct": 22.5}, {"time": 102750, "value": 2, "pct": 27.5}, {"time": 103250, "value": 1, "pct": 32.5}, {"time": 103750, "value": 1, "pct": 37.5}, {"time": 104250, "value": 0, "pct": 42.5}, {"time": 104750, "value": 2, "pct": 47.5}]}</script>
+        <script id="report-data" type="application/json">{"date_range": "2019-12 – 2026-06", "asof_date_str": "2026-07-09", "next_date_str": "2026-07-10", "next_picks": [{"ticker": "ALAB", "total_score": 0.999471534212324}, {"ticker": "DELL", "total_score": 0.8802208128686282}, {"ticker": "CORT", "total_score": 0.8531898054944427}, {"ticker": "SNDK", "total_score": 0.8006753258852555}, {"ticker": "MRVL", "total_score": 0.7973326207701008}], "current_month": "2026-07", "tv_current_month_curve": [{"time": "2026-07-01", "value": -0.0131}, {"time": "2026-07-02", "value": -0.1174}, {"time": "2026-07-06", "value": -0.0933}, {"time": "2026-07-07", "value": -0.1459}, {"time": "2026-07-08", "value": -0.1213}, {"time": "2026-07-09", "value": -0.0735}], "performance_kpis": [{"label": "2026 YTD (incl. Jul MTD)", "value": 1.3477211014317447, "format": "pct"}, {"label": "Total return", "value": 28.09378618670544, "format": "pct"}, {"label": "CAGR", "value": 0.6685891066521892, "format": "pct"}, {"label": "Max drawdown", "value": -0.3354956992376625, "format": "pct"}, {"label": "Sharpe", "value": 1.3659327624066444, "format": "number"}, {"label": "Volatility", "value": 0.4504719744949581, "format": "pct"}, {"label": "Win rate", "value": 0.5443037974683544, "format": "pct0"}, {"label": "Worst month", "value": -0.3267005485801697, "format": "pct"}], "comparison_rows": [{"dot_color": "#16a34a", "name": "Strategy", "total_return": 28.0938, "cagr": 0.6686, "max_drawdown": -0.3355, "sharpe": 1.37, "win_rate": 0.5443}, {"dot_color": "#6fc2ff", "name": "SPY", "total_return": 1.368, "cagr": 0.1399, "max_drawdown": -0.242, "sharpe": 0.84, "win_rate": 0.6709}, {"dot_color": "#ff9538", "name": "QQQ", "total_return": 2.5551, "cagr": 0.2125, "max_drawdown": -0.3267, "sharpe": 1.02, "win_rate": 0.6329}, {"dot_color": "#ffde00", "name": "SOXX", "total_return": 6.9181, "cagr": 0.3693, "max_drawdown": -0.4096, "sharpe": 1.12, "win_rate": 0.6203}], "colors_map": {"Strategy": "#16a34a", "SPY": "#6fc2ff", "QQQ": "#ff9538", "SOXX": "#ffde00"}, "annual_returns": {"2026": 1.3477, "2025": 0.6932, "2024": 0.7116, "2023": 0.6341, "2022": 0.0776, "2021": 0.0336, "2020": 1.1432, "2019": 0.0156}, "years": ["2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019"], "default_year": "2026", "monthly_data": [{"month": "2019-12", "buy_date": "2019-12-02", "sell_date": "2020-01-02", "monthly_return": 0.0156}, {"month": "2020-01", "buy_date": "2020-01-02", "sell_date": "2020-02-03", "monthly_return": 0.0717}, {"month": "2020-02", "buy_date": "2020-02-03", "sell_date": "2020-03-02", "monthly_return": -0.0131}, {"month": "2020-03", "buy_date": "2020-03-02", "sell_date": "2020-04-01", "monthly_return": -0.3267}, {"month": "2020-04", "buy_date": "2020-04-01", "sell_date": "2020-05-01", "monthly_return": 0.3042}, {"month": "2020-05", "buy_date": "2020-05-01", "sell_date": "2020-06-01", "monthly_return": 0.1841}, {"month": "2020-06", "buy_date": "2020-06-01", "sell_date": "2020-07-01", "monthly_return": -0.0357}, {"month": "2020-07", "buy_date": "2020-07-01", "sell_date": "2020-08-03", "monthly_return": 0.2329}, {"month": "2020-08", "buy_date": "2020-08-03", "sell_date": "2020-09-01", "monthly_return": 0.2547}, {"month": "2020-09", "buy_date": "2020-09-01", "sell_date": "2020-10-01", "monthly_return": -0.0113}, {"month": "2020-10", "buy_date": "2020-10-01", "sell_date": "2020-11-02", "monthly_return": 0.0365}, {"month": "2020-11", "buy_date": "2020-11-02", "sell_date": "2020-12-01", "monthly_return": 0.1244}, {"month": "2020-12", "buy_date": "2020-12-01", "sell_date": "2021-01-04", "monthly_return": 0.1338}, {"month": "2021-01", "buy_date": "2021-01-04", "sell_date": "2021-02-01", "monthly_return": -0.0008}, {"month": "2021-02", "buy_date": "2021-02-01", "sell_date": "2021-03-01", "monthly_return": 0.123}, {"month": "2021-03", "buy_date": "2021-03-01", "sell_date": "2021-04-01", "monthly_return": 0.0303}, {"month": "2021-04", "buy_date": "2021-04-01", "sell_date": "2021-05-03", "monthly_return": 0.0781}, {"month": "2021-05", "buy_date": "2021-05-03", "sell_date": "2021-06-01", "monthly_return": 0.0053}, {"month": "2021-06", "buy_date": "2021-06-01", "sell_date": "2021-07-01", "monthly_return": -0.043}, {"month": "2021-07", "buy_date": "2021-07-01", "sell_date": "2021-08-02", "monthly_return": 0.0399}, {"month": "2021-08", "buy_date": "2021-08-02", "sell_date": "2021-09-01", "monthly_return": 0.003}, {"month": "2021-09", "buy_date": "2021-09-01", "sell_date": "2021-10-01", "monthly_return": -0.051}, {"month": "2021-10", "buy_date": "2021-10-01", "sell_date": "2021-11-01", "monthly_return": 0.0294}, {"month": "2021-11", "buy_date": "2021-11-01", "sell_date": "2021-12-01", "monthly_return": -0.0779}, {"month": "2021-12", "buy_date": "2021-12-01", "sell_date": "2022-01-03", "monthly_return": -0.0826}, {"month": "2022-01", "buy_date": "2022-01-03", "sell_date": "2022-02-01", "monthly_return": -0.0782}, {"month": "2022-02", "buy_date": "2022-02-01", "sell_date": "2022-03-01", "monthly_return": 0.0329}, {"month": "2022-03", "buy_date": "2022-03-01", "sell_date": "2022-04-01", "monthly_return": 0.1329}, {"month": "2022-04", "buy_date": "2022-04-01", "sell_date": "2022-05-02", "monthly_return": -0.001}, {"month": "2022-05", "buy_date": "2022-05-02", "sell_date": "2022-06-01", "monthly_return": -0.0}, {"month": "2022-06", "buy_date": "2022-06-01", "sell_date": "2022-07-01", "monthly_return": -0.0}, {"month": "2022-07", "buy_date": "2022-07-01", "sell_date": "2022-08-01", "monthly_return": -0.0}, {"month": "2022-08", "buy_date": "2022-08-01", "sell_date": "2022-09-01", "monthly_return": -0.0}, {"month": "2022-09", "buy_date": "2022-09-01", "sell_date": "2022-10-03", "monthly_return": -0.0}, {"month": "2022-10", "buy_date": "2022-10-03", "sell_date": "2022-11-01", "monthly_return": -0.0}, {"month": "2022-11", "buy_date": "2022-11-01", "sell_date": "2022-12-01", "monthly_return": -0.0}, {"month": "2022-12", "buy_date": "2022-12-01", "sell_date": "2023-01-03", "monthly_return": -0.0}, {"month": "2023-01", "buy_date": "2023-01-03", "sell_date": "2023-02-01", "monthly_return": -0.0}, {"month": "2023-02", "buy_date": "2023-02-01", "sell_date": "2023-03-01", "monthly_return": -0.0}, {"month": "2023-03", "buy_date": "2023-03-01", "sell_date": "2023-04-03", "monthly_return": -0.0}, {"month": "2023-04", "buy_date": "2023-04-03", "sell_date": "2023-05-01", "monthly_return": -0.0215}, {"month": "2023-05", "buy_date": "2023-05-01", "sell_date": "2023-06-01", "monthly_return": 0.2574}, {"month": "2023-06", "buy_date": "2023-06-01", "sell_date": "2023-07-03", "monthly_return": 0.0753}, {"month": "2023-07", "buy_date": "2023-07-03", "sell_date": "2023-08-01", "monthly_return": 0.4584}, {"month": "2023-08", "buy_date": "2023-08-01", "sell_date": "2023-09-01", "monthly_return": -0.1764}, {"month": "2023-09", "buy_date": "2023-09-01", "sell_date": "2023-10-02", "monthly_return": -0.0717}, {"month": "2023-10", "buy_date": "2023-10-02", "sell_date": "2023-11-01", "monthly_return": -0.0353}, {"month": "2023-11", "buy_date": "2023-11-01", "sell_date": "2023-12-01", "monthly_return": 0.109}, {"month": "2023-12", "buy_date": "2023-12-01", "sell_date": "2024-01-02", "monthly_return": 0.0354}, {"month": "2024-01", "buy_date": "2024-01-02", "sell_date": "2024-02-01", "monthly_return": -0.0534}, {"month": "2024-02", "buy_date": "2024-02-01", "sell_date": "2024-03-01", "monthly_return": 0.1553}, {"month": "2024-03", "buy_date": "2024-03-01", "sell_date": "2024-04-01", "monthly_return": 0.1026}, {"month": "2024-04", "buy_date": "2024-04-01", "sell_date": "2024-05-01", "monthly_return": -0.0806}, {"month": "2024-05", "buy_date": "2024-05-01", "sell_date": "2024-06-03", "monthly_return": 0.195}, {"month": "2024-06", "buy_date": "2024-06-03", "sell_date": "2024-07-01", "monthly_return": -0.0921}, {"month": "2024-07", "buy_date": "2024-07-01", "sell_date": "2024-08-01", "monthly_return": -0.0605}, {"month": "2024-08", "buy_date": "2024-08-01", "sell_date": "2024-09-03", "monthly_return": -0.0494}, {"month": "2024-09", "buy_date": "2024-09-03", "sell_date": "2024-10-01", "monthly_return": 0.1017}, {"month": "2024-10", "buy_date": "2024-10-01", "sell_date": "2024-11-01", "monthly_return": 0.0348}, {"month": "2024-11", "buy_date": "2024-11-01", "sell_date": "2024-12-02", "monthly_return": 0.4749}, {"month": "2024-12", "buy_date": "2024-12-02", "sell_date": "2025-01-02", "monthly_return": -0.0524}, {"month": "2025-01", "buy_date": "2025-01-02", "sell_date": "2025-02-03", "monthly_return": -0.0093}, {"month": "2025-02", "buy_date": "2025-02-03", "sell_date": "2025-03-03", "monthly_return": 0.0083}, {"month": "2025-03", "buy_date": "2025-03-03", "sell_date": "2025-04-01", "monthly_return": -0.1891}, {"month": "2025-04", "buy_date": "2025-04-01", "sell_date": "2025-05-01", "monthly_return": 0.0861}, {"month": "2025-05", "buy_date": "2025-05-01", "sell_date": "2025-06-02", "monthly_return": -0.001}, {"month": "2025-06", "buy_date": "2025-06-02", "sell_date": "2025-07-01", "monthly_return": 0.1219}, {"month": "2025-07", "buy_date": "2025-07-01", "sell_date": "2025-08-01", "monthly_return": 0.0862}, {"month": "2025-08", "buy_date": "2025-08-01", "sell_date": "2025-09-02", "monthly_return": -0.0116}, {"month": "2025-09", "buy_date": "2025-09-02", "sell_date": "2025-10-01", "monthly_return": 0.07}, {"month": "2025-10", "buy_date": "2025-10-01", "sell_date": "2025-11-03", "monthly_return": 0.1949}, {"month": "2025-11", "buy_date": "2025-11-03", "sell_date": "2025-12-01", "monthly_return": 0.0593}, {"month": "2025-12", "buy_date": "2025-12-01", "sell_date": "2026-01-02", "monthly_return": 0.181}, {"month": "2026-01", "buy_date": "2026-01-02", "sell_date": "2026-02-02", "monthly_return": 0.3713}, {"month": "2026-02", "buy_date": "2026-02-02", "sell_date": "2026-03-02", "monthly_return": 0.12}, {"month": "2026-03", "buy_date": "2026-03-02", "sell_date": "2026-04-01", "monthly_return": 0.0069}, {"month": "2026-04", "buy_date": "2026-04-01", "sell_date": "2026-05-01", "monthly_return": 0.1457}, {"month": "2026-05", "buy_date": "2026-05-01", "sell_date": "2026-06-01", "monthly_return": 0.2177}, {"month": "2026-06", "buy_date": "2026-06-01", "sell_date": "2026-07-01", "monthly_return": 0.1745}, {"month": "2026-07", "buy_date": "2026-07-01", "sell_date": "2026-07-09 (open)", "monthly_return": -0.0735}], "details_by_month": {"2019-12": [["ELS", 73.94, 70.76, -0.044, 1.0], ["ADT", 8.96, 8.01, -0.107, 0.663], ["MRNA", 20.3, 19.57, -0.037, 0.625], ["TSLA", 21.96, 28.3, 0.2877, 0.6019], ["ALNY", 118.01, 115.57, -0.0217, 0.5993]], "2020-01": [["ELS", 70.76, 72.93, 0.0307, 0.851], ["TSLA", 28.3, 44.91, 0.5869, 0.804], ["QRVO", 117.26, 106.16, -0.0957, 0.7013], ["GTES", 13.82, 12.65, -0.0857, 0.6934], ["SWKS", 122.1, 113.12, -0.0745, 0.6799]], "2020-02": [["TSLA", 44.91, 47.43, 0.0561, 0.9889], ["ELS", 72.93, 68.65, -0.0587, 0.7666], ["AMD", 46.42, 47.42, 0.0205, 0.6746], ["AGIO", 49.03, 47.3, -0.0363, 0.658], ["PCG", 16.28, 15.58, -0.044, 0.6579]], "2020-03": [["PCG", 15.58, 8.48, -0.4557, 0.9337], ["TSLA", 47.43, 33.6, -0.2916, 0.6175], ["DXCM", 69.53, 65.0, -0.0662, 0.4233], ["ZG", 55.71, 32.34, -0.4205, 0.4233], ["Z", 55.82, 33.74, -0.3966, 0.4142]], "2020-04": [["MRNA", 30.05, 48.71, 0.62, 0.8053], ["TSLA", 33.6, 50.33, 0.4979, 0.8028], ["RNG", 204.34, 225.74, 0.1037, 0.67], ["PCG", 8.48, 10.35, 0.2205, 0.6621], ["REGN", 484.14, 524.23, 0.0818, 0.6364]], "2020-05": [["MRNA", 48.71, 62.69, 0.287, 0.9855], ["EXEL", 24.35, 24.7, 0.0134, 0.7805], ["TSLA", 50.33, 57.15, 0.1355, 0.7753], ["VIRT", 23.31, 23.89, 0.0239, 0.7716], ["ZS", 66.23, 97.02, 0.4639, 0.7657]], "2020-06": [["MRNA", 62.69, 62.99, 0.0048, 1.0], ["EQT", 12.82, 11.75, -0.0845, 0.6813], ["RRC", 5.92, 5.51, -0.0703, 0.6631], ["AR", 3.0, 2.51, -0.1643, 0.5973], ["W", 172.68, 196.99, 0.1398, 0.5791]], "2020-07": [["W", 196.99, 273.17, 0.3867, 0.9359], ["SPOT", 256.0, 259.0, 0.0107, 0.666], ["ZS", 109.18, 131.32, 0.2018, 0.6568], ["DOCU", 171.25, 218.81, 0.2767, 0.6453], ["TWLO", 218.13, 282.18, 0.2926, 0.6378]], "2020-08": [["W", 273.17, 298.5, 0.0927, 0.9002], ["REZI", 12.5, 13.17, 0.0526, 0.6891], ["TSLA", 96.71, 167.38, 0.7297, 0.6093], ["CVNA", 31.35, 43.02, 0.3712, 0.6026], ["AR", 3.09, 3.19, 0.0314, 0.5947]], "2020-09": [["FSLY", 93.63, 94.6, 0.0094, 0.7811], ["TSLA", 167.38, 146.92, -0.1222, 0.7461], ["CVNA", 43.02, 45.46, 0.0567, 0.5809], ["XYZ", 164.81, 166.14, 0.0071, 0.5012], ["GAP", 17.23, 17.17, -0.0045, 0.4684]], "2020-10": [["TSLA", 146.92, 131.33, -0.1061, 0.8132], ["ZM", 477.0, 462.51, -0.0314, 0.7615], ["CVNA", 45.46, 37.44, -0.1764, 0.6835], ["PINS", 42.29, 58.19, 0.375, 0.6548], ["PTON", 99.93, 112.48, 0.1246, 0.6271]], "2020-11": [["PINS", 58.19, 70.91, 0.2186, 0.9703], ["NVCR", 117.93, 125.47, 0.0629, 0.8665], ["ENPH", 99.02, 137.85, 0.3911, 0.8525], ["ZM", 462.51, 434.8, -0.0599, 0.8409], ["PTON", 112.48, 113.73, 0.0111, 0.8293]], "2020-12": [["PINS", 70.91, 66.1, -0.0678, 0.8361], ["ENPH", 137.85, 178.38, 0.294, 0.8224], ["CPRI", 36.05, 44.75, 0.2403, 0.8047], ["TPR", 28.84, 32.04, 0.11, 0.7966], ["OLN", 22.65, 24.84, 0.0957, 0.708]], "2021-01": [["CPRI", 44.75, 42.13, -0.0585, 1.0], ["COTY", 7.05, 6.5, -0.079, 0.8005], ["ENPH", 178.38, 185.3, 0.0388, 0.786], ["KSS", 40.76, 44.54, 0.0917, 0.7639], ["TPR", 32.04, 32.2, 0.005, 0.7517]], "2021-02": [["KSS", 44.54, 56.3, 0.264, 0.8859], ["ENPH", 185.3, 179.98, -0.0287, 0.8665], ["COTY", 6.5, 7.95, 0.2231, 0.8562], ["CPRI", 42.13, 47.71, 0.1324, 0.8458], ["ROKU", 394.72, 405.01, 0.0251, 0.8058]], "2021-03": [["OXY", 27.39, 26.82, -0.0218, 0.926], ["SBNY", 223.43, 224.78, 0.005, 0.8727], ["KSS", 56.3, 59.37, 0.0545, 0.8276], ["FANG", 70.71, 74.27, 0.0493, 0.8167], ["TRIP", 51.66, 55.24, 0.0683, 0.7756]], "2021-04": [["TRIP", 55.24, 47.54, -0.1394, 0.9881], ["SBNY", 224.78, 255.6, 0.1371, 0.8923], ["KSS", 59.37, 58.98, -0.0066, 0.8174], ["WAL", 94.47, 106.67, 0.1281, 0.8084], ["TDC", 39.4, 50.2, 0.2731, 0.801]], "2021-05": [["TDC", 50.2, 48.24, -0.039, 1.0], ["SBNY", 255.6, 251.76, -0.015, 0.8334], ["WSM", 86.25, 86.42, 0.001, 0.8152], ["WAL", 106.67, 101.09, -0.0523, 0.7893], ["OLN", 43.85, 49.77, 0.134, 0.7882]], "2021-06": [["NUE", 105.0, 97.0, -0.0772, 0.9781], ["OLN", 49.77, 47.0, -0.0557, 0.939], ["TDC", 48.24, 49.82, 0.0328, 0.8751], ["STLD", 64.85, 60.55, -0.0673, 0.8499], ["SNX", 127.96, 122.35, -0.0448, 0.7868]], "2021-07": [["MRNA", 236.3, 360.23, 0.5235, 0.8289], ["NUE", 97.0, 104.7, 0.0794, 0.8105], ["NVDA", 20.13, 19.69, -0.0229, 0.8089], ["MUR", 24.43, 21.53, -0.1197, 0.7867], ["NVCR", 206.99, 154.0, -0.257, 0.7763]], "2021-08": [["MRNA", 360.23, 382.84, 0.0628, 1.0], ["NET", 119.27, 120.0, 0.0051, 0.6263], ["DOCU", 299.92, 296.34, -0.0129, 0.5498], ["ROKU", 432.0, 354.87, -0.1795, 0.5365], ["NVDA", 19.69, 22.5, 0.1427, 0.5207]], "2021-09": [["MRNA", 382.84, 359.19, -0.0618, 0.9025], ["BILL", 273.15, 269.02, -0.0161, 0.7921], ["DDOG", 137.87, 141.18, 0.023, 0.6958], ["DKS", 141.94, 120.97, -0.1487, 0.6592], ["ZS", 275.96, 263.17, -0.0473, 0.6424]], "2021-10": [["UPST", 312.65, 323.78, 0.0346, 0.8485], ["MRNA", 359.19, 334.99, -0.0674, 0.7754], ["BILL", 269.02, 292.99, 0.0891, 0.6908], ["PCTY", 281.52, 306.37, 0.0873, 0.6693], ["RGEN", 288.49, 290.58, 0.0062, 0.6408]], "2021-11": [["UPST", 323.78, 207.0, -0.3607, 1.0], ["RJF", 99.42, 100.3, 0.0079, 0.6776], ["NET", 194.75, 190.12, -0.0248, 0.5697], ["BILL", 292.99, 286.86, -0.0209, 0.5585], ["TSLA", 381.67, 386.67, 0.0121, 0.5466]], "2021-12": [["RJF", 100.3, 100.83, 0.0053, 0.8287], ["TSLA", 386.67, 382.59, -0.0106, 0.8225], ["NET", 190.12, 131.07, -0.3106, 0.7979], ["DVN", 43.94, 44.28, 0.0067, 0.789], ["NVDA", 33.17, 29.82, -0.102, 0.769]], "2022-01": [["ON", 68.77, 59.71, -0.1327, 0.9203], ["BLDR", 86.2, 68.71, -0.2039, 0.9202], ["F", 21.27, 20.61, -0.032, 0.9147], ["DLTR", 140.52, 130.91, -0.0694, 0.9064], ["RJF", 100.83, 105.99, 0.0512, 0.8651]], "2022-02": [["APA", 33.02, 36.26, 0.0971, 0.8531], ["DLTR", 130.91, 141.72, 0.0826, 0.8159], ["F", 20.61, 17.41, -0.1553, 0.8109], ["CIEN", 66.13, 68.11, 0.0289, 0.7973], ["BLDR", 68.71, 76.5, 0.1134, 0.792]], "2022-03": [["DVN", 60.0, 59.37, -0.0115, 0.9556], ["AA", 77.9, 91.69, 0.176, 0.9535], ["HAL", 33.98, 37.98, 0.1167, 0.9109], ["CF", 81.96, 102.07, 0.2444, 0.891], ["APA", 36.26, 41.45, 0.1431, 0.8898]], "2023-04": [["SHC", 17.8, 16.82, -0.0561, 0.9776], ["META", 208.85, 238.53, 0.1411, 0.8303], ["NVDA", 27.5, 27.84, 0.0114, 0.7894], ["SPOT", 132.37, 134.0, 0.0113, 0.7787], ["OKTA", 85.77, 67.41, -0.2151, 0.7488]], "2023-05": [["SHC", 16.82, 14.07, -0.1635, 0.9073], ["CVNA", 1.46, 2.76, 0.8894, 0.9013], ["META", 238.53, 266.67, 0.118, 0.8894], ["DKNG", 22.0, 23.4, 0.0626, 0.8866], ["NVDA", 27.84, 38.49, 0.3825, 0.8848]], "2023-06": [["APP", 24.49, 25.7, 0.0484, 0.9326], ["META", 266.67, 286.51, 0.0744, 0.8576], ["NVDA", 38.49, 42.51, 0.1044, 0.8282], ["DKNG", 23.4, 26.5, 0.1325, 0.8165], ["FCNCA", 1254.89, 1279.87, 0.0189, 0.7953]], "2023-07": [["OPEN", 4.07, 4.99, 0.225, 0.909], ["CVNA", 5.18, 8.93, 0.7229, 0.9025], ["PLTR", 15.49, 19.47, 0.2559, 0.7812], ["UPST", 35.7, 67.16, 0.8802, 0.7711], ["APP", 25.7, 31.14, 0.2117, 0.7544]], "2023-08": [["CVNA", 8.93, 10.11, 0.1321, 0.9912], ["UPST", 67.16, 32.66, -0.5137, 0.8699], ["OPEN", 4.99, 4.02, -0.1944, 0.6209], ["W", 76.32, 70.0, -0.0838, 0.4499], ["PLTR", 19.47, 15.16, -0.2214, 0.4391]], "2023-09": [["VRT", 39.62, 38.05, -0.0406, 1.0], ["APP", 43.49, 40.13, -0.0783, 0.9035], ["AFRM", 20.98, 21.18, 0.0085, 0.7585], ["W", 70.0, 60.42, -0.1369, 0.7464], ["XP", 25.54, 22.82, -0.1075, 0.6998]], "2023-10": [["VRT", 38.05, 39.35, 0.0342, 0.9928], ["VNO", 22.63, 19.3, -0.1482, 0.8378], ["APP", 40.13, 36.57, -0.0887, 0.8192], ["CPRI", 52.6, 51.1, -0.0295, 0.814], ["FTI", 20.49, 21.71, 0.0585, 0.7859]], "2023-11": [["VRT", 39.35, 43.5, 0.1055, 0.8774], ["GAP", 12.73, 20.0, 0.5701, 0.8577], ["CPRI", 51.1, 48.45, -0.0519, 0.8437], ["TPL", 208.13, 185.9, -0.1078, 0.7923], ["APP", 36.57, 37.7, 0.0309, 0.7908]], "2023-12": [["GAP", 20.0, 20.58, 0.029, 0.9871], ["NTNX", 43.05, 46.82, 0.0866, 0.7676], ["CPRI", 48.45, 50.07, 0.0334, 0.7674], ["PGR", 164.16, 159.8, -0.0276, 0.7585], ["WING", 239.42, 253.73, 0.0588, 0.7507]], "2024-01": [["AFRM", 47.79, 41.0, -0.1431, 1.0], ["COIN", 173.33, 128.91, -0.2573, 0.8037], ["GAP", 20.58, 18.84, -0.0845, 0.8035], ["CRWD", 251.47, 296.14, 0.1766, 0.6931], ["ESTC", 111.83, 117.0, 0.0452, 0.6409]], "2024-02": [["AFRM", 41.0, 37.6, -0.0829, 0.9037], ["S", 27.12, 28.25, 0.0407, 0.763], ["AMD", 169.2, 197.92, 0.1687, 0.7627], ["CRWD", 296.14, 319.73, 0.0797, 0.7519], ["COIN", 128.91, 202.7, 0.5724, 0.7498]], "2024-03": [["COIN", 202.7, 261.87, 0.2919, 0.9894], ["COHR", 60.0, 61.0, 0.0157, 0.8066], ["NVDA", 80.0, 90.29, 0.1276, 0.7981], ["NTRA", 86.6, 90.91, 0.0488, 0.7892], ["WING", 353.91, 366.04, 0.0333, 0.7737]], "2024-04": [["HOOD", 19.98, 16.43, -0.1787, 0.9283], ["COIN", 261.87, 199.0, -0.2401, 0.914], ["CAVA", 71.38, 71.12, -0.0046, 0.8114], ["VST", 70.0, 75.67, 0.08, 0.7922], ["NVDA", 90.29, 85.17, -0.0567, 0.7651]], "2024-05": [["VST", 75.67, 99.87, 0.3198, 1.0], ["VRT", 92.13, 98.2, 0.0649, 0.9296], ["APP", 70.73, 83.05, 0.1732, 0.8351], ["EME", 359.75, 391.0, 0.0859, 0.8143], ["NVDA", 85.17, 113.62, 0.334, 0.804]], "2024-06": [["VST", 99.87, 88.74, -0.1114, 0.9104], ["TNDM", 52.12, 40.41, -0.2257, 0.8261], ["APP", 83.05, 85.12, 0.0249, 0.7666], ["MRVI", 8.87, 7.21, -0.1881, 0.7379], ["HOOD", 21.89, 22.85, 0.0429, 0.7141]], "2024-07": [["FSLR", 224.75, 219.1, -0.0261, 0.8512], ["GME", 23.35, 22.92, -0.0194, 0.8099], ["VST", 88.74, 79.48, -0.1043, 0.8032], ["WOOF", 3.67, 3.47, -0.0555, 0.7744], ["CAVA", 93.75, 85.11, -0.0932, 0.7624]], "2024-08": [["GME", 22.92, 24.15, 0.0537, 0.8043], ["ALNY", 250.0, 260.44, 0.0408, 0.7703], ["WOOF", 3.47, 3.07, -0.1153, 0.733], ["AMC", 5.3, 4.83, -0.0897, 0.7328], ["NATL", 32.57, 28.26, -0.1333, 0.7166]], "2024-09": [["RUN", 20.27, 18.04, -0.111, 0.9246], ["UI", 192.51, 220.93, 0.1466, 0.7853], ["ALNY", 260.44, 274.88, 0.0554, 0.7804], ["WOOF", 3.07, 4.51, 0.4691, 0.7555], ["GME", 24.15, 22.95, -0.0497, 0.7169]], "2024-10": [["ALNY", 274.88, 267.05, -0.0285, 0.8363], ["ICUI", 180.66, 172.06, -0.0486, 0.8214], ["VFC", 19.76, 20.98, 0.0607, 0.7629], ["PLTR", 37.21, 41.93, 0.1258, 0.7496], ["VNO", 39.39, 42.12, 0.0683, 0.748]], "2024-11": [["APP", 171.14, 335.79, 0.9611, 0.9771], ["PTON", 8.48, 10.36, 0.2207, 0.9643], ["VSXY", 30.29, 39.13, 0.2908, 0.8851], ["UI", 266.47, 346.0, 0.2975, 0.8468], ["PLTR", 41.93, 67.44, 0.6084, 0.8118]], "2024-12": [["APP", 335.79, 331.06, -0.0141, 1.0], ["MSTR", 393.64, 300.11, -0.2386, 0.6607], ["AFRM", 71.87, 62.23, -0.1351, 0.5872], ["UAL", 97.29, 97.29, -0.001, 0.5641], ["PLTR", 67.44, 76.2, 0.1299, 0.5636]], "2025-01": [["APP", 331.06, 353.51, 0.0678, 0.904], ["ALAB", 130.27, 89.02, -0.3176, 0.8544], ["PLTR", 76.2, 80.13, 0.0516, 0.6418], ["AS", 28.22, 31.23, 0.1057, 0.5805], ["UAL", 97.29, 101.96, 0.048, 0.5673]], "2025-02": [["APP", 353.51, 350.16, -0.0095, 0.8427], ["TWLO", 142.54, 119.98, -0.1593, 0.7881], ["HOOD", 48.49, 54.88, 0.1308, 0.747], ["PLTR", 80.13, 88.55, 0.1051, 0.7094], ["AS", 31.23, 30.5, -0.0234, 0.6891]], "2025-03": [["BROS", 79.46, 61.68, -0.2248, 0.8829], ["APP", 350.16, 264.22, -0.2454, 0.8472], ["HOOD", 54.88, 41.8, -0.2383, 0.7543], ["PLTR", 88.55, 83.79, -0.0538, 0.739], ["TWLO", 119.98, 98.09, -0.1824, 0.7005]], "2025-04": [["MPT", 6.08, 5.57, -0.0849, 0.7562], ["GRAL", 25.27, 35.13, 0.3892, 0.7427], ["VRSN", 255.08, 283.31, 0.1097, 0.7079], ["OKTA", 104.8, 113.34, 0.0805, 0.6461], ["GILD", 112.0, 105.51, -0.0589, 0.6459]], "2025-06": [["PLTR", 131.44, 135.3, 0.0284, 0.9062], ["NRG", 156.54, 160.26, 0.0228, 0.8139], ["CELH", 37.94, 46.25, 0.218, 0.8018], ["XP", 19.44, 20.13, 0.0345, 0.788], ["GRAL", 38.5, 50.31, 0.3058, 0.7705]], "2025-07": [["CAR", 167.98, 163.43, -0.0281, 1.0], ["ELF", 123.75, 118.6, -0.0426, 0.9321], ["HOOD", 95.02, 97.75, 0.0277, 0.8919], ["RBLX", 104.61, 132.41, 0.2647, 0.8257], ["GEV", 525.16, 638.18, 0.2142, 0.8008]], "2025-08": [["CAR", 163.43, 153.3, -0.062, 0.851], ["HOOD", 97.75, 100.34, 0.0265, 0.8479], ["QS", 8.2, 7.77, -0.0534, 0.7936], ["MP", 60.39, 68.91, 0.1401, 0.7655], ["COIN", 335.14, 299.97, -0.1059, 0.7402]], "2025-09": [["MP", 68.91, 66.04, -0.0416, 0.9915], ["ALAB", 177.13, 191.8, 0.0818, 0.9312], ["W", 73.4, 88.95, 0.2109, 0.7906], ["RKLB", 46.74, 47.4, 0.0131, 0.7371], ["SOFI", 24.5, 26.72, 0.0896, 0.728]], "2025-10": [["MP", 66.04, 62.21, -0.058, 0.786], ["QS", 12.3, 17.72, 0.4396, 0.7725], ["WDC", 118.18, 152.4, 0.2886, 0.6739], ["LITE", 159.24, 208.69, 0.3095, 0.657], ["ALAB", 191.8, 191.39, -0.0021, 0.6208]], "2025-11": [["QS", 17.72, 12.02, -0.3217, 0.9815], ["CIEN", 193.34, 193.9, 0.0019, 0.9157], ["WDC", 152.4, 160.2, 0.0512, 0.8234], ["LITE", 208.69, 314.99, 0.5094, 0.8094], ["WBD", 22.5, 23.82, 0.0577, 0.7727]], "2025-12": [["SNDK", 212.4, 244.35, 0.1494, 0.9903], ["LITE", 314.99, 379.42, 0.2045, 0.6634], ["RVMD", 77.06, 80.35, 0.0417, 0.4968], ["CIEN", 193.9, 241.0, 0.2429, 0.4816], ["MU", 232.29, 295.13, 0.2695, 0.452]], "2026-01": [["SNDK", 244.35, 588.81, 1.4097, 0.8804], ["LITE", 379.42, 405.28, 0.0682, 0.7263], ["MU", 295.13, 412.18, 0.3966, 0.5909], ["CIEN", 241.0, 247.93, 0.0288, 0.581], ["WBD", 28.81, 27.52, -0.0458, 0.5715]], "2026-02": [["SNDK", 588.81, 618.64, 0.0507, 1.0], ["MU", 412.18, 401.49, -0.0259, 0.5706], ["ALB", 168.5, 173.4, 0.0281, 0.5387], ["ASTS", 109.94, 78.84, -0.2838, 0.4891], ["LITE", 405.28, 742.89, 0.833, 0.4801]], "2026-03": [["SNDK", 618.64, 652.98, 0.0555, 0.9965], ["LITE", 742.89, 734.19, -0.0117, 0.8846], ["WDC", 270.5, 280.5, 0.036, 0.6306], ["MRNA", 52.42, 51.64, -0.0159, 0.6001], ["TER", 309.78, 301.97, -0.0262, 0.5974]], "2026-04": [["SNDK", 652.98, 1060.0, 0.6233, 0.7505], ["LITE", 734.19, 911.85, 0.242, 0.7505], ["APA", 41.3, 40.26, -0.0262, 0.6394], ["MRNA", 51.64, 46.64, -0.0968, 0.613], ["WLK", 117.0, 115.75, -0.0117, 0.6117]], "2026-05": [["SNDK", 1060.0, 1731.15, 0.6332, 0.9229], ["INTC", 93.2, 109.44, 0.1732, 0.5684], ["IRDM", 39.2, 51.78, 0.3199, 0.547], ["CIEN", 527.25, 559.52, 0.0602, 0.5192], ["LITE", 911.85, 825.25, -0.095, 0.519]], "2026-06": [["SNDK", 1731.15, 2085.17, 0.2045, 0.9388], ["INTC", 109.44, 135.0, 0.2336, 0.8776], ["DELL", 426.15, 418.0, -0.0201, 0.8525], ["MRVL", 198.91, 282.48, 0.4191, 0.7831], ["IRDM", 51.78, 53.98, 0.0425, 0.7324]], "2026-07": [["ALAB", 468.33, 417.45, -0.1096, 1.0], ["MRVL", 282.48, 243.27, -0.1398, 0.8004], ["SNDK", 2085.17, 1858.27, -0.1098, 0.7885], ["DELL", 418.0, 450.22, 0.0761, 0.7544], ["MU", 1082.01, 991.64, -0.0845, 0.7244]]}, "tv_equity_series": {"times": ["2019-12-01", "2020-01-01", "2020-02-01", "2020-03-01", "2020-04-01", "2020-05-01", "2020-06-01", "2020-07-01", "2020-08-01", "2020-09-01", "2020-10-01", "2020-11-01", "2020-12-01", "2021-01-01", "2021-02-01", "2021-03-01", "2021-04-01", "2021-05-01", "2021-06-01", "2021-07-01", "2021-08-01", "2021-09-01", "2021-10-01", "2021-11-01", "2021-12-01", "2022-01-01", "2022-02-01", "2022-03-01", "2022-04-01", "2022-05-01", "2022-06-01", "2022-07-01", "2022-08-01", "2022-09-01", "2022-10-01", "2022-11-01", "2022-12-01", "2023-01-01", "2023-02-01", "2023-03-01", "2023-04-01", "2023-05-01", "2023-06-01", "2023-07-01", "2023-08-01", "2023-09-01", "2023-10-01", "2023-11-01", "2023-12-01", "2024-01-01", "2024-02-01", "2024-03-01", "2024-04-01", "2024-05-01", "2024-06-01", "2024-07-01", "2024-08-01", "2024-09-01", "2024-10-01", "2024-11-01", "2024-12-01", "2025-01-01", "2025-02-01", "2025-03-01", "2025-04-01", "2025-05-01", "2025-06-01", "2025-07-01", "2025-08-01", "2025-09-01", "2025-10-01", "2025-11-01", "2025-12-01", "2026-01-01", "2026-02-01", "2026-03-01", "2026-04-01", "2026-05-01", "2026-06-01"], "series": {"Strategy": [1.0156, 1.0885, 1.0743, 0.7233, 0.9433, 1.117, 1.0771, 1.328, 1.6663, 1.6474, 1.7076, 1.92, 2.177, 2.1752, 2.4427, 2.5167, 2.7132, 2.7276, 2.6102, 2.7143, 2.7225, 2.5836, 2.6595, 2.4524, 2.2498, 2.0739, 2.1422, 2.427, 2.4246, 2.4246, 2.4246, 2.4246, 2.4246, 2.4246, 2.4246, 2.4246, 2.4246, 2.4246, 2.4246, 2.4246, 2.3725, 2.9833, 3.208, 4.6784, 3.853, 3.5766, 3.4502, 3.8261, 3.9618, 3.7502, 4.3326, 4.7773, 4.3922, 5.2485, 4.7651, 4.4768, 4.2557, 4.6885, 4.8515, 7.1554, 6.7806, 6.7174, 6.7734, 5.4923, 5.9652, 5.9592, 6.6855, 7.2618, 7.1779, 7.68, 9.177, 9.7211, 11.4808, 15.7434, 17.6326, 17.7549, 20.3422, 24.771, 29.0938], "SPY": [1.0285, 1.0278, 0.9479, 0.7883, 0.9069, 0.9651, 0.984, 1.0436, 1.1132, 1.0734, 1.0496, 1.162, 1.193, 1.188, 1.2257, 1.2664, 1.3333, 1.3433, 1.3631, 1.3997, 1.4386, 1.37, 1.4632, 1.4674, 1.5141, 1.4327, 1.3829, 1.441, 1.3099, 1.3197, 1.1969, 1.3006, 1.2489, 1.1478, 1.2402, 1.2995, 1.222, 1.2881, 1.2569, 1.2997, 1.3206, 1.329, 1.4079, 1.4504, 1.4405, 1.3561, 1.3325, 1.4487, 1.5009, 1.5405, 1.6179, 1.6651, 1.5938, 1.6816, 1.7344, 1.7565, 1.7816, 1.8227, 1.8161, 1.9167, 1.8735, 1.8839, 1.8951, 1.772, 1.7813, 1.8683, 1.9592, 1.9909, 2.0265, 2.108, 2.1795, 2.1577, 2.1797, 2.192, 2.1573, 2.0784, 2.2927, 2.401, 2.368], "QQQ": [1.0451, 1.0733, 1.0183, 0.9009, 1.0459, 1.1331, 1.2072, 1.3069, 1.4509, 1.3741, 1.3248, 1.4717, 1.5363, 1.5511, 1.5569, 1.5751, 1.6539, 1.6348, 1.7262, 1.7858, 1.8578, 1.7483, 1.8846, 1.9418, 1.9455, 1.7768, 1.6857, 1.7689, 1.5251, 1.5137, 1.36, 1.5292, 1.4466, 1.3118, 1.3724, 1.4318, 1.3099, 1.4354, 1.4296, 1.5541, 1.5703, 1.6953, 1.8043, 1.8639, 1.8546, 1.748, 1.7148, 1.8903, 1.9786, 2.0418, 2.1447, 2.1694, 2.063, 2.2162, 2.3405, 2.3, 2.307, 2.3777, 2.3671, 2.4914, 2.5076, 2.5034, 2.4939, 2.2783, 2.3568, 2.5219, 2.6802, 2.7246, 2.7366, 2.9115, 3.0965, 2.9916, 3.0232, 3.0164, 2.9198, 2.835, 3.2623, 3.5934, 3.5551], "SOXX": [1.0879, 1.0433, 1.0099, 0.8492, 0.9797, 1.0721, 1.1601, 1.2502, 1.3252, 1.3212, 1.3189, 1.5619, 1.633, 1.7046, 1.811, 1.8458, 1.8187, 1.8655, 1.9417, 1.9738, 2.0134, 1.9172, 2.0332, 2.2978, 2.3362, 2.0718, 2.0207, 2.0338, 1.7166, 1.8327, 1.4719, 1.7295, 1.5416, 1.3793, 1.425, 1.6703, 1.5142, 1.7358, 1.7601, 1.8917, 1.7725, 2.0522, 2.1827, 2.2696, 2.1996, 2.0304, 1.8932, 2.1865, 2.4234, 2.5178, 2.8226, 2.9019, 2.6963, 3.0526, 3.1642, 2.9705, 2.9121, 2.9589, 2.8244, 2.7818, 2.7944, 2.7264, 2.7151, 2.4063, 2.3877, 2.6241, 3.0385, 3.0232, 3.0638, 3.458, 3.9846, 3.7584, 3.9605, 4.3938, 4.4132, 4.281, 5.8854, 7.2358, 7.9181]}}, "tv_drawdown_series": {"times": ["2019-12-01", "2020-01-01", "2020-02-01", "2020-03-01", "2020-04-01", "2020-05-01", "2020-06-01", "2020-07-01", "2020-08-01", "2020-09-01", "2020-10-01", "2020-11-01", "2020-12-01", "2021-01-01", "2021-02-01", "2021-03-01", "2021-04-01", "2021-05-01", "2021-06-01", "2021-07-01", "2021-08-01", "2021-09-01", "2021-10-01", "2021-11-01", "2021-12-01", "2022-01-01", "2022-02-01", "2022-03-01", "2022-04-01", "2022-05-01", "2022-06-01", "2022-07-01", "2022-08-01", "2022-09-01", "2022-10-01", "2022-11-01", "2022-12-01", "2023-01-01", "2023-02-01", "2023-03-01", "2023-04-01", "2023-05-01", "2023-06-01", "2023-07-01", "2023-08-01", "2023-09-01", "2023-10-01", "2023-11-01", "2023-12-01", "2024-01-01", "2024-02-01", "2024-03-01", "2024-04-01", "2024-05-01", "2024-06-01", "2024-07-01", "2024-08-01", "2024-09-01", "2024-10-01", "2024-11-01", "2024-12-01", "2025-01-01", "2025-02-01", "2025-03-01", "2025-04-01", "2025-05-01", "2025-06-01", "2025-07-01", "2025-08-01", "2025-09-01", "2025-10-01", "2025-11-01", "2025-12-01", "2026-01-01", "2026-02-01", "2026-03-01", "2026-04-01", "2026-05-01", "2026-06-01"], "series": {"Strategy": [0.0, 0.0, -0.0131, -0.3355, -0.1334, 0.0, -0.0357, 0.0, 0.0, -0.0113, 0.0, 0.0, 0.0, -0.0008, 0.0, 0.0, 0.0, 0.0, -0.043, -0.0049, -0.0019, -0.0528, -0.025, -0.1009, -0.1752, -0.2397, -0.2146, -0.1102, -0.1111, -0.1111, -0.1111, -0.1111, -0.1111, -0.1111, -0.1111, -0.1111, -0.1111, -0.1111, -0.1111, -0.1111, -0.1302, 0.0, 0.0, 0.0, -0.1764, -0.2355, -0.2625, -0.1822, -0.1532, -0.1984, -0.0739, 0.0, -0.0806, 0.0, -0.0921, -0.147, -0.1891, -0.1067, -0.0756, 0.0, -0.0524, -0.0612, -0.0534, -0.2324, -0.1663, -0.1672, -0.0657, 0.0, -0.0116, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "SPY": [0.0, -0.0006, -0.0783, -0.2336, -0.1182, -0.0616, -0.0432, 0.0, 0.0, -0.0357, -0.0571, 0.0, 0.0, -0.0042, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0477, 0.0, 0.0, 0.0, -0.0538, -0.0867, -0.0483, -0.1349, -0.1284, -0.2095, -0.141, -0.1752, -0.242, -0.1809, -0.1418, -0.193, -0.1493, -0.1699, -0.1416, -0.1278, -0.1223, -0.0701, -0.0421, -0.0486, -0.1044, -0.1199, -0.0432, -0.0088, 0.0, 0.0, 0.0, -0.0429, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0036, 0.0, -0.0225, -0.0171, -0.0113, -0.0755, -0.0707, -0.0252, 0.0, 0.0, 0.0, 0.0, 0.0, -0.01, 0.0, 0.0, -0.0158, -0.0518, 0.0, 0.0, -0.0137], "QQQ": [0.0, 0.0, -0.0512, -0.1606, -0.0255, 0.0, 0.0, 0.0, 0.0, -0.053, -0.0869, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0116, 0.0, 0.0, 0.0, -0.0589, 0.0, 0.0, 0.0, -0.0868, -0.1336, -0.0908, -0.2161, -0.222, -0.301, -0.214, -0.2564, -0.3257, -0.2946, -0.2641, -0.3267, -0.2622, -0.2652, -0.2012, -0.1929, -0.1286, -0.0726, -0.0419, -0.0467, -0.1015, -0.1186, -0.0284, 0.0, 0.0, 0.0, 0.0, -0.049, 0.0, 0.0, -0.0173, -0.0143, 0.0, -0.0045, 0.0, 0.0, -0.0017, -0.0055, -0.0914, -0.0601, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0339, -0.0237, -0.0259, -0.0571, -0.0844, 0.0, 0.0, -0.0107], "SOXX": [0.0, -0.0411, -0.0717, -0.2195, -0.0995, -0.0145, 0.0, 0.0, 0.0, -0.003, -0.0047, 0.0, 0.0, 0.0, 0.0, 0.0, -0.0147, 0.0, 0.0, 0.0, 0.0, -0.0478, 0.0, 0.0, 0.0, -0.1132, -0.1351, -0.1295, -0.2652, -0.2155, -0.37, -0.2597, -0.3401, -0.4096, -0.39, -0.285, -0.3518, -0.257, -0.2466, -0.1903, -0.2413, -0.1215, -0.0657, -0.0285, -0.0585, -0.1309, -0.1896, -0.0641, 0.0, 0.0, 0.0, 0.0, -0.0709, 0.0, 0.0, -0.0612, -0.0797, -0.0649, -0.1074, -0.1209, -0.1169, -0.1383, -0.1419, -0.2395, -0.2454, -0.1707, -0.0397, -0.0445, -0.0317, 0.0, 0.0, -0.0568, -0.0061, 0.0, 0.0, -0.03, 0.0, 0.0, 0.0]}}, "tv_return_dist_data": [{"value": 1, "pct": -32.5}, {"value": 0, "pct": -27.5}, {"value": 0, "pct": -22.5}, {"value": 2, "pct": -17.5}, {"value": 0, "pct": -12.5}, {"value": 10, "pct": -7.5}, {"value": 12, "pct": -2.5}, {"value": 23, "pct": 2.5}, {"value": 7, "pct": 7.5}, {"value": 10, "pct": 12.5}, {"value": 6, "pct": 17.5}, {"value": 2, "pct": 22.5}, {"value": 2, "pct": 27.5}, {"value": 1, "pct": 32.5}, {"value": 1, "pct": 37.5}, {"value": 0, "pct": 42.5}, {"value": 2, "pct": 47.5}]}</script>
         <script>
         // Frontend logic: render dynamic content from #report-data and init charts.
 const DATA = JSON.parse(document.getElementById('report-data').textContent);
 
 const annualReturns = DATA.annual_returns;
-const tvEquityData = DATA.tv_equity_series;
 const chartColors = DATA.colors_map;
-const tvDrawdownSeries = DATA.tv_drawdown_series;
-const tvReturnDistData = DATA.tv_return_dist_data;
-const tvCurrentMonthCurve = DATA.tv_current_month_curve;
 const defaultYear = DATA.default_year;
 const STRATEGY_KEY = 'Strategy';
+
+/** Expand compact {times, series:{name:[y...]}} or legacy {name:[{time,value}]} into Plotly-ready maps. */
+function expandSharedSeries(raw) {
+    if (!raw) return {};
+    if (raw.times && raw.series) {
+        const out = {};
+        Object.keys(raw.series).forEach(name => {
+            const ys = raw.series[name] || [];
+            out[name] = raw.times.map((t, i) => ({ time: t, value: ys[i] }));
+        });
+        return out;
+    }
+    return raw;
+}
+
+const tvEquityData = expandSharedSeries(DATA.tv_equity_series);
+const tvDrawdownSeries = expandSharedSeries(DATA.tv_drawdown_series);
+const tvReturnDistData = DATA.tv_return_dist_data;
+const tvCurrentMonthCurve = DATA.tv_current_month_curve;
+
+/** Normalize holding row: array [ticker,buy,sell,ret,score] or legacy object. */
+function holdingFields(d) {
+    if (Array.isArray(d)) {
+        return {
+            ticker: d[0],
+            buy_price: Number(d[1]) || 0,
+            sell_price: Number(d[2]) || 0,
+            monthly_return: Number(d[3]) || 0,
+            total_score: Number(d[4]) || 0,
+        };
+    }
+    return {
+        ticker: d.ticker,
+        buy_price: Number(d.buy_price) || 0,
+        sell_price: Number(d.sell_price) || 0,
+        monthly_return: Number(d.monthly_return) || 0,
+        total_score: Number(d.total_score) || 0,
+    };
+}
+
+function monthYear(m) {
+    return m.year || (m.month ? String(m.month).slice(0, 4) : '');
+}
 
 // ===== Number formatting (matches former Python _fmt_pct) =====
 function fmtPct(v, digits = 1) {
@@ -800,7 +794,7 @@ function retBadgeClass(ret) {
 function renderComparison() {
     const tbody = document.getElementById('comparison-tbody');
     tbody.innerHTML = DATA.comparison_rows.map(r =>
-        `<tr class="${r.row_cls}">
+        `<tr>
             <td class="font-medium"><span class="name-cell"><span class="legend-dot" style="background:${r.dot_color}" aria-hidden="true"></span>${r.name}</span></td>
             <td class="${returnColorClass(r.total_return)}">${fmtPct(r.total_return)}</td>
             <td class="${returnColorClass(r.cagr)}">${fmtPct(r.cagr)}</td>
@@ -849,7 +843,8 @@ function renderCurrentMonth() {
         return;
     }
 
-    const rows = holdings.map(d => {
+    const rows = holdings.map(raw => {
+        const d = holdingFields(raw);
         const tRetClass = returnColorClass(d.monthly_return);
         const tRetStr = (d.monthly_return * 100 >= 0 ? '+' : '') + (d.monthly_return * 100).toFixed(2) + '%';
         const scoreStr = ((d.total_score ?? 0) * 100).toFixed(1);
@@ -912,7 +907,8 @@ function renderMonthlyCards() {
         const details = DATA.details_by_month[m.month] || [];
         let tableHtml;
         if (details.length > 0) {
-            const rows = details.map(d => {
+            const rows = details.map(raw => {
+                const d = holdingFields(raw);
                 const tRetClass = returnColorClass(d.monthly_return);
                 const tRetStr = (d.monthly_return * 100 >= 0 ? '+' : '') + (d.monthly_return * 100).toFixed(2) + '%';
                 return `<tr>
@@ -938,7 +934,7 @@ function renderMonthlyCards() {
                 <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-subtle);text-align:center;">No holdings this month</div>
             </div>`;
         }
-        return `<div class="month-card" data-year="${m.year}" data-month="${m.month}">
+        return `<div class="month-card" data-year="${monthYear(m)}" data-month="${m.month}">
             <div class="month-card-head">
                 <div>
                     <div class="month-card-title">${m.month}</div>
@@ -951,257 +947,256 @@ function renderMonthlyCards() {
     }).join('');
 }
 
-// Soft green / red tuned to the warm cream page (less neon than default UI greens/reds)
+// Soft green / red tuned to the warm cream page (MotherDuck-adjacent palette)
 const HIST_POS = '#5a9e6f';
 const HIST_NEG = '#d96b5c';
-
-const TV_BASE = {
-    layout: { background: { color: 'transparent' }, textColor: '#6b6560', fontSize: 10, fontFamily: 'Inter, system-ui, sans-serif' },
-    grid: {
-        vertLines: { visible: false },
-        horzLines: { visible: true, color: 'rgba(56,56,56,0.07)', style: 0 },
-    },
-    timeScale: {
-        borderColor: 'rgba(56,56,56,0.22)',
-        timeVisible: false,
-        secondsVisible: false,
-    },
-    leftPriceScale: { visible: false },
-    rightPriceScale: {
-        borderColor: 'rgba(56,56,56,0.22)',
-        scaleMargins: { top: 0.08, bottom: 0.08 },
-        entireTextOnly: false,
-    },
-    localization: { locale: 'en-US' },
-    crosshair: {
-        mode: 0,
-        vertLine: { color: 'rgba(56,56,56,0.28)', width: 1, style: 3, labelVisible: false },
-        horzLine: { color: 'rgba(56,56,56,0.28)', width: 1, style: 3, labelVisible: false },
-    },
-};
-
-// Hide the horizontal dashed line / label that tracks the series' latest value
-const SERIES_NO_LAST_PRICE = {
-    priceLineVisible: false,
-    lastValueVisible: false,
-};
-
-function createTVChart(container, height, extra = {}) {
-    if (!container || typeof LightweightCharts === 'undefined') return null;
-    const { rightPriceScale: extraRight, timeScale: extraTime, ...rest } = extra;
-    return LightweightCharts.createChart(container, {
-        width: Math.max(container.clientWidth || 0, 320),
-        height: container.clientHeight || height,
-        ...TV_BASE,
-        ...rest,
-        timeScale: { ...TV_BASE.timeScale, ...(extraTime || {}) },
-        rightPriceScale: { ...TV_BASE.rightPriceScale, ...(extraRight || {}) },
-    });
-}
-
-function bindChartResize(chart, container, height) {
-    const resize = () => {
-        const w = Math.max(container.clientWidth || 0, 320);
-        const h = container.clientHeight || height;
-        chart.applyOptions({ width: w, height: h });
-    };
-    window.addEventListener('resize', resize);
-    requestAnimationFrame(() => {
-        resize();
-        try { chart.timeScale().fitContent(); } catch (e) {}
-    });
-}
+const MD_INK = '#383838';
+const MD_MUTED = '#6b6560';
+const MD_GRID = 'rgba(56,56,56,0.08)';
+const MD_AXIS = 'rgba(56,56,56,0.18)';
+const MD_FONT = 'Inter, system-ui, sans-serif';
 
 function showChartError(container, msg) {
     container.innerHTML = `<div style="padding:12px;color:#b91c1c;font-size:12px;background:#fef2f2;border-radius:6px;">${msg}</div>`;
 }
 
-// Compact axis labels so the right price scale stays narrow
-const PCT_PRICE_FORMAT = {
-    type: 'custom',
-    minMove: 0.01,
-    formatter: (price) => {
-        const pct = price * 100;
-        const digits = Math.abs(pct) >= 10 ? 0 : 1;
-        return pct.toFixed(digits) + '%';
-    },
-};
-
-const EQUITY_PRICE_FORMAT = {
-    type: 'custom',
-    minMove: 0.1,
-    formatter: (price) => {
-        if (Math.abs(price) >= 10) return price.toFixed(0);
-        return price.toFixed(1);
-    },
-};
-
-const COUNT_PRICE_FORMAT = {
-    type: 'custom',
-    minMove: 1,
-    formatter: (price) => String(Math.round(price)),
-};
-
-function fmtChartTime(time) {
-    if (time == null) return '';
-    if (typeof time === 'string') return time.length >= 10 ? time.slice(0, 10) : time;
-    if (typeof time === 'object' && time.year != null) {
-        const m = String(time.month).padStart(2, '0');
-        const d = String(time.day).padStart(2, '0');
-        return `${time.year}-${m}-${d}`;
-    }
-    if (typeof time === 'number' && time > 1e9) {
-        const d = new Date(time * 1000);
-        if (!Number.isNaN(d.getTime())) return d.toISOString().slice(0, 10);
-    }
-    return String(time);
-}
-
-function attachChartTooltip(chart, container, seriesEntries, options = {}) {
-    const host = container.closest('.chart-panel') || container;
-    if (getComputedStyle(host).position === 'static') host.style.position = 'relative';
-
-    let tooltip = host.querySelector(':scope > .chart-tooltip');
-    if (!tooltip) {
-        tooltip = document.createElement('div');
-        tooltip.className = 'chart-tooltip';
-        host.appendChild(tooltip);
-    }
-
-    const formatTime = options.formatTime || fmtChartTime;
-    const formatValue = options.formatValue || ((v) => (typeof v === 'number' ? v.toFixed(2) : String(v)));
-
-    chart.subscribeCrosshairMove((param) => {
-        if (
-            !param ||
-            param.time === undefined ||
-            !param.point ||
-            param.point.x < 0 ||
-            param.point.y < 0 ||
-            param.point.x > container.clientWidth ||
-            param.point.y > container.clientHeight
-        ) {
-            tooltip.style.display = 'none';
-            return;
-        }
-
-        const rows = [];
-        for (const entry of seriesEntries) {
-            const raw = param.seriesData.get(entry.series);
-            if (!raw || raw.value === undefined) continue;
-            const color = raw.color
-                || entry.color
-                || (typeof entry.series.options === 'function' ? entry.series.options().color : null)
-                || '#6b7280';
-            const name = entry.name || '';
-            const valFmt = entry.formatValue || formatValue;
-            rows.push(
-                `<div class="tt-row">` +
-                `<span class="tt-dot" style="background:${color}" aria-hidden="true"></span>` +
-                (name ? `<span class="tt-name">${name}</span>` : '') +
-                `<span class="tt-val">${valFmt(raw.value, param.time, raw)}</span>` +
-                `</div>`
-            );
-        }
-        if (rows.length === 0) {
-            tooltip.style.display = 'none';
-            return;
-        }
-
-        tooltip.innerHTML = `<div class="tt-time">${formatTime(param.time)}</div>${rows.join('')}`;
-        tooltip.style.display = 'block';
-
-        const pad = 12;
-        const tipW = tooltip.offsetWidth;
-        const tipH = tooltip.offsetHeight;
-        const hostRect = host.getBoundingClientRect();
-        const contRect = container.getBoundingClientRect();
-        let left = (contRect.left - hostRect.left) + param.point.x + pad;
-        let top = (contRect.top - hostRect.top) + param.point.y + pad;
-        if (left + tipW > host.clientWidth - 4) left = (contRect.left - hostRect.left) + param.point.x - tipW - pad;
-        if (top + tipH > host.clientHeight - 4) top = (contRect.top - hostRect.top) + param.point.y - tipH - pad;
-        if (left < 4) left = 4;
-        if (top < 4) top = 4;
-        tooltip.style.left = left + 'px';
-        tooltip.style.top = top + 'px';
-    });
-}
-
-function initMultiLineChart(containerId, seriesMap, options = {}) {
-    const container = document.getElementById(containerId);
-    if (!container || !seriesMap || Object.keys(seriesMap).length === 0) return;
-    const height = options.height || 280;
-    try {
-        const chart = createTVChart(container, height, options.chartOpts || {});
-        if (!chart || typeof chart.addLineSeries !== 'function') {
-            showChartError(container, options.errorMsg || 'Chart failed to initialize');
-            return;
-        }
-        const seriesEntries = [];
-        Object.keys(seriesMap).forEach(name => {
-            const data = seriesMap[name];
-            if (!data || data.length === 0) return;
-            const lw = options.lineWidth ? options.lineWidth(name) : (name === STRATEGY_KEY ? 2 : 1.5);
-            const color = chartColors[name] || '#6b7280';
-            const seriesOpts = { color, lineWidth: lw, ...SERIES_NO_LAST_PRICE };
-            if (options.priceFormat) seriesOpts.priceFormat = options.priceFormat;
-            const series = chart.addLineSeries(seriesOpts);
-            series.setData(data);
-            seriesEntries.push({ series, name, color });
-        });
-        bindChartResize(chart, container, height);
-        attachChartTooltip(chart, container, seriesEntries, {
-            formatValue: options.formatValue,
-            formatTime: options.formatTime,
-        });
-    } catch (err) {
-        console.error(containerId, err);
-        showChartError(container, options.errorMsg || 'Chart failed to render');
-    }
-}
-
-function initHistogramChart(containerId, data, options = {}) {
-    const container = document.getElementById(containerId);
-    if (!container || !data || data.length === 0) return;
-    const height = options.height || 280;
-    try {
-        const chart = createTVChart(container, height, options.chartOpts || {});
-        const histOpts = { color: options.color, ...SERIES_NO_LAST_PRICE };
-        if (options.priceFormat) histOpts.priceFormat = options.priceFormat;
-        const series = chart.addHistogramSeries(histOpts);
-        series.setData(data);
-        bindChartResize(chart, container, height);
-        attachChartTooltip(chart, container, [{
-            series,
-            name: options.seriesName || options.title || '',
-            color: options.color || HIST_POS,
-            formatValue: options.formatValue,
-        }], {
-            formatTime: options.formatTime,
-            formatValue: options.formatValue,
-        });
-    } catch (err) {
-        console.error(containerId, err);
-        showChartError(container, options.errorMsg || 'Chart failed to render');
-    }
-}
-
 function waitForCharts(callback, container, failMsg) {
-    if (typeof LightweightCharts !== 'undefined' && typeof LightweightCharts.createChart === 'function') {
+    if (typeof Plotly !== 'undefined' && typeof Plotly.newPlot === 'function') {
         callback();
         return;
     }
     let attempts = 0;
     const iv = setInterval(() => {
         attempts++;
-        if (typeof LightweightCharts !== 'undefined' && typeof LightweightCharts.createChart === 'function') {
+        if (typeof Plotly !== 'undefined' && typeof Plotly.newPlot === 'function') {
             clearInterval(iv);
             callback();
-        } else if (attempts > 12) {
+        } else if (attempts > 20) {
             clearInterval(iv);
             if (container) container.innerHTML = `<div style="padding:12px;color:#666;font-size:12px;">${failMsg}</div>`;
         }
     }, 100);
+}
+
+function isNarrowViewport(container) {
+    const w = (container && container.clientWidth) || (typeof window !== 'undefined' ? window.innerWidth : 800);
+    return w < 560;
+}
+
+/** Pick evenly spaced category labels so mobile x-axes stay readable. */
+function sparseCategoryTicks(labels, maxTicks) {
+    const n = labels.length;
+    if (n === 0) return { tickmode: 'array', tickvals: [], ticktext: [] };
+    const max = Math.max(2, maxTicks);
+    if (n <= max) {
+        return { tickmode: 'array', tickvals: labels, ticktext: labels };
+    }
+    const show = new Set();
+    for (let i = 0; i < max; i++) {
+        show.add(Math.round(i * (n - 1) / (max - 1)));
+    }
+    // Keep every category slot so the axis span is correct; blank out skipped labels
+    return {
+        tickmode: 'array',
+        tickvals: labels,
+        ticktext: labels.map((lab, i) => (show.has(i) ? lab : '')),
+    };
+}
+
+function shortDayLabel(isoDate) {
+    // "2026-07-01" -> "7/1"
+    const s = String(isoDate || '');
+    const m = s.match(/(\d{4})-(\d{2})-(\d{2})/);
+    if (!m) return s;
+    return `${Number(m[2])}/${Number(m[3])}`;
+}
+
+function shortMonthLabel(ym, narrow) {
+    // "2020-01" -> "20-01" on narrow screens
+    const s = String(ym || '');
+    if (s.length >= 7 && narrow) return s.slice(2, 7);
+    return s.length >= 7 ? s.slice(0, 7) : s;
+}
+
+function seriesXY(points) {
+    const x = [];
+    const y = [];
+    (points || []).forEach(p => {
+        if (!p || p.value === undefined || p.value === null) return;
+        x.push(p.time);
+        y.push(p.value);
+    });
+    return { x, y };
+}
+
+function baseLayout(height, extras = {}) {
+    const { xaxis: xExtra = {}, yaxis: yExtra = {}, margin: marginExtra, ...rest } = extras;
+    return {
+        height,
+        margin: { l: 48, r: 16, t: 28, b: 40, ...(marginExtra || {}) },
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        font: {
+            family: MD_FONT,
+            size: 12,
+            color: MD_MUTED,
+        },
+        hovermode: 'x unified',
+        hoverlabel: {
+            bgcolor: '#f8f8f7',
+            bordercolor: MD_INK,
+            font: { family: MD_FONT, size: 12, color: MD_INK },
+            align: 'left',
+        },
+        legend: {
+            orientation: 'h',
+            yanchor: 'bottom',
+            y: 1.08,
+            xanchor: 'left',
+            x: 0,
+            font: { size: 11, color: MD_MUTED, family: MD_FONT },
+            bgcolor: 'rgba(0,0,0,0)',
+            borderwidth: 0,
+        },
+        xaxis: {
+            showgrid: false,
+            showline: true,
+            linecolor: MD_AXIS,
+            linewidth: 1,
+            ticks: '',
+            tickfont: { size: 11, color: MD_MUTED, family: MD_FONT },
+            automargin: true,
+            zeroline: false,
+            ...xExtra,
+        },
+        yaxis: {
+            showgrid: true,
+            gridcolor: MD_GRID,
+            gridwidth: 1,
+            showline: false,
+            ticks: '',
+            tickfont: { size: 11, color: MD_MUTED, family: MD_FONT },
+            automargin: true,
+            zeroline: true,
+            zerolinecolor: 'rgba(56,56,56,0.22)',
+            zerolinewidth: 1,
+            ...yExtra,
+        },
+        ...rest,
+    };
+}
+
+const PLOT_CONFIG = {
+    displayModeBar: false,
+    responsive: true,
+    staticPlot: false,
+};
+
+function plotChart(container, traces, layout) {
+    return Plotly.newPlot(container, traces, layout, PLOT_CONFIG).then(() => {
+        const resize = () => {
+            try { Plotly.Plots.resize(container); } catch (e) {}
+        };
+        window.addEventListener('resize', resize);
+        requestAnimationFrame(resize);
+    });
+}
+
+function initMultiLineChart(containerId, seriesMap, options = {}) {
+    const container = document.getElementById(containerId);
+    if (!container || !seriesMap || Object.keys(seriesMap).length === 0) return;
+    const height = options.height || 300;
+    try {
+        const traces = [];
+        let xMin = null;
+        let xMax = null;
+        Object.keys(seriesMap).forEach(name => {
+            const { x, y } = seriesXY(seriesMap[name]);
+            if (!x.length) return;
+            if (xMin == null || x[0] < xMin) xMin = x[0];
+            if (xMax == null || x[x.length - 1] > xMax) xMax = x[x.length - 1];
+            const color = chartColors[name] || '#6b7280';
+            const isStrategy = name === STRATEGY_KEY;
+            const lw = options.lineWidth
+                ? options.lineWidth(name)
+                : (isStrategy ? 2.5 : 1.75);
+            traces.push({
+                type: 'scatter',
+                mode: 'lines',
+                name,
+                x,
+                y,
+                line: {
+                    color,
+                    width: lw,
+                    shape: 'linear',
+                },
+                hovertemplate: options.hoverTemplate
+                    || ('%{fullData.name}: %{y:.2f}<extra></extra>'),
+            });
+        });
+        if (!traces.length) return;
+        const xaxis = {
+            ...(options.xaxis || {}),
+        };
+        if (xMin != null && xMax != null && !xaxis.range) {
+            xaxis.range = [xMin, xMax];
+        }
+        const layout = baseLayout(height, {
+            showlegend: traces.length > 1,
+            yaxis: options.yaxis || {},
+            xaxis,
+            margin: options.margin,
+        });
+        plotChart(container, traces, layout).catch(err => {
+            console.error(containerId, err);
+            showChartError(container, options.errorMsg || 'Chart failed to render');
+        });
+    } catch (err) {
+        console.error(containerId, err);
+        showChartError(container, options.errorMsg || 'Chart failed to render');
+    }
+}
+
+function initBarChart(containerId, data, options = {}) {
+    const container = document.getElementById(containerId);
+    if (!container || !data || data.length === 0) return;
+    const height = options.height || 300;
+    try {
+        const x = data.map(d => d.x);
+        const y = data.map(d => d.y);
+        const colors = data.map(d => d.color || options.color || HIST_POS);
+        const customdata = data.map(d => d.label || d.x);
+        const trace = {
+            type: 'bar',
+            x,
+            y,
+            customdata,
+            marker: {
+                color: colors,
+                line: { width: 0 },
+            },
+            hovertemplate: options.hoverTemplate
+                || '%{customdata}<br>%{y}<extra></extra>',
+            cliponaxis: false,
+        };
+        const layout = baseLayout(height, {
+            showlegend: false,
+            bargap: options.bargap != null ? options.bargap : 0.18,
+            // Closest avoids unified-x header duplicating bar labels (e.g. return %)
+            hovermode: options.hovermode || 'closest',
+            yaxis: options.yaxis || {},
+            xaxis: options.xaxis || {},
+            margin: options.margin || { l: 52, r: 18, t: 18, b: 48 },
+        });
+        plotChart(container, [trace], layout).catch(err => {
+            console.error(containerId, err);
+            showChartError(container, options.errorMsg || 'Chart failed to render');
+        });
+    } catch (err) {
+        console.error(containerId, err);
+        showChartError(container, options.errorMsg || 'Chart failed to render');
+    }
 }
 
 function filterByYear() {
@@ -1250,28 +1245,45 @@ function initCurrentMonthCurve() {
     }
     const last = curve[curve.length - 1]?.value ?? 0;
     const lineColor = last >= 0 ? HIST_POS : HIST_NEG;
+    const fillColor = last >= 0 ? 'rgba(90,158,111,0.14)' : 'rgba(217,107,92,0.14)';
     waitForCharts(() => {
-        if (typeof LightweightCharts === 'undefined') return;
         try {
-            const chart = createTVChart(container, 280);
-            if (!chart || typeof chart.addLineSeries !== 'function') {
-                showChartError(container, 'Failed to render this month\'s return curve. Please refresh.');
-                return;
-            }
-            const series = chart.addLineSeries({
-                color: lineColor,
-                lineWidth: 2,
-                priceFormat: PCT_PRICE_FORMAT,
-                ...SERIES_NO_LAST_PRICE,
-            });
-            series.setData(curve);
-            bindChartResize(chart, container, 280);
-            attachChartTooltip(chart, container, [{
-                series,
+            const { x, y } = seriesXY(curve);
+            const narrow = isNarrowViewport(container);
+            const tickLabels = x.map(shortDayLabel);
+            // Few points still crowd on phones — hard-cap visible ticks
+            const maxTicks = narrow ? 3 : Math.min(x.length, 8);
+            const ticks = sparseCategoryTicks(tickLabels, maxTicks);
+            const traces = [{
+                type: 'scatter',
+                mode: 'lines',
                 name: 'MTD',
-                color: lineColor,
-                formatValue: (v) => fmtSignedPct(v),
-            }]);
+                x: tickLabels,
+                y,
+                customdata: x,
+                line: { color: lineColor, width: 2.5, shape: 'spline', smoothing: 0.6 },
+                fill: 'tozeroy',
+                fillcolor: fillColor,
+                hovertemplate: 'MTD: %{y:.2%}<extra></extra>',
+            }];
+            const layout = baseLayout(narrow ? 260 : 300, {
+                showlegend: false,
+                hovermode: 'closest',
+                yaxis: {
+                    tickformat: '.1%',
+                },
+                xaxis: {
+                    type: 'category',
+                    tickangle: narrow ? -40 : 0,
+                    ...ticks,
+                    tickfont: { size: narrow ? 10 : 11 },
+                },
+                margin: { l: 44, r: 12, t: 16, b: narrow ? 56 : 40 },
+            });
+            plotChart(container, traces, layout).catch(err => {
+                console.error('tv-current-month-chart', err);
+                showChartError(container, 'Failed to render this month\'s return curve. Please refresh.');
+            });
         } catch (err) {
             console.error('tv-current-month-chart', err);
             showChartError(container, 'Failed to render this month\'s return curve. Please refresh.');
@@ -1279,77 +1291,101 @@ function initCurrentMonthCurve() {
     }, container, 'Chart library failed to load. Check your network and refresh.');
 }
 
-function initTradingViewEquity() {
+function initEquityChart() {
     const container = document.getElementById('tv-equity-chart');
+    const narrow = isNarrowViewport(container);
     waitForCharts(() => initMultiLineChart('tv-equity-chart', tvEquityData, {
-        height: 400,
-        lineWidth: (name) => name === STRATEGY_KEY ? 3 : 2,
-        priceFormat: EQUITY_PRICE_FORMAT,
-        formatValue: (v) => v.toFixed(2),
+        height: narrow ? 300 : 420,
+        lineWidth: (name) => name === STRATEGY_KEY ? 2.75 : 1.75,
+        // Unified hover already shows the date once — only emit series + value
+        hoverTemplate: '%{fullData.name}: %{y:.2f}<extra></extra>',
+        yaxis: { tickformat: ',.1f' },
+        xaxis: {
+            tickformat: narrow ? '%y-%m' : '%Y-%m',
+            nticks: narrow ? 4 : 8,
+            tickangle: narrow ? -35 : 0,
+            tickfont: { size: narrow ? 10 : 11 },
+        },
+        margin: { l: 44, r: 12, t: narrow ? 36 : 28, b: narrow ? 56 : 40 },
         errorMsg: 'Failed to render equity curve. Please refresh.',
     }), container, 'Chart library failed to load. Check your network and refresh.');
 }
 
-function initTradingViewDrawdown() {
+function initDrawdownChart() {
     const container = document.getElementById('tv-drawdown-chart');
+    const narrow = isNarrowViewport(container);
     waitForCharts(() => initMultiLineChart('tv-drawdown-chart', tvDrawdownSeries, {
-        priceFormat: PCT_PRICE_FORMAT,
-        formatValue: (v) => fmtSignedPct(v),
+        height: narrow ? 260 : 300,
+        hoverTemplate: '%{fullData.name}: %{y:.2%}<extra></extra>',
+        yaxis: { tickformat: '.0%' },
+        xaxis: {
+            tickformat: narrow ? '%y-%m' : '%Y-%m',
+            nticks: narrow ? 4 : 8,
+            tickangle: narrow ? -35 : 0,
+            tickfont: { size: narrow ? 10 : 11 },
+        },
+        margin: { l: 44, r: 12, t: narrow ? 36 : 28, b: narrow ? 56 : 40 },
         errorMsg: 'Failed to render drawdown chart. Please refresh.',
     }), container, 'Chart library failed to load. Check your network and refresh.');
 }
 
-function initTradingViewMonthly() {
+function initMonthlyReturnsChart() {
     const container = document.getElementById('tv-monthly-chart');
-    // Closed months only (exclude open MTD row), same as the old dedicated series.
     const monthly = (DATA.monthly_data || []).filter(
         m => !String(m.sell_date || '').includes('(open)')
     );
-    const coloredData = monthly.map(m => ({
-        time: `${m.month}-01`,
-        value: m.monthly_return,
+    const narrow = isNarrowViewport(container);
+    const labels = monthly.map(m => shortMonthLabel(m.month, narrow));
+    const maxTicks = narrow ? 4 : 10;
+    const ticks = sparseCategoryTicks(labels, maxTicks);
+    const data = monthly.map((m, i) => ({
+        x: labels[i],
+        y: m.monthly_return,
+        label: m.month,
         color: m.monthly_return >= 0 ? HIST_POS : HIST_NEG,
     }));
-    waitForCharts(() => initHistogramChart('tv-monthly-chart', coloredData, {
-        seriesName: 'Return',
-        priceFormat: PCT_PRICE_FORMAT,
-        formatValue: (v) => fmtSignedPct(v),
-        formatTime: (time) => {
-            const s = fmtChartTime(time);
-            return s.length >= 7 ? s.slice(0, 7) : s;
+    waitForCharts(() => initBarChart('tv-monthly-chart', data, {
+        bargap: 0.18,
+        hoverTemplate: '%{customdata}<br>%{y:.2%}<extra></extra>',
+        yaxis: { tickformat: '.0%' },
+        xaxis: {
+            type: 'category',
+            tickangle: narrow ? -45 : 0,
+            tickfont: { size: narrow ? 10 : 11 },
+            ...ticks,
         },
+        margin: { l: 44, r: 10, t: 16, b: narrow ? 60 : 48 },
+        height: narrow ? 260 : 300,
         errorMsg: 'Failed to render monthly returns. Please refresh.',
     }), container, 'Chart library failed to load. Check your network and refresh.');
 }
 
-function initTradingViewReturnDist() {
+function initReturnDistChart() {
     const container = document.getElementById('tv-return-dist-chart');
-    const pctByTime = new Map();
-    const coloredData = (tvReturnDistData || []).map(d => {
-        const pct = d.pct;
-        pctByTime.set(d.time, pct);
-        return {
-            time: d.time,
-            value: d.value,
-            color: pct >= 0 ? HIST_POS : HIST_NEG,
-        };
-    });
-    const fmtBin = (time) => {
-        const pct = pctByTime.get(typeof time === 'number' ? time : Number(time));
-        if (pct == null || Number.isNaN(pct)) return '';
-        return pct.toFixed(1) + '%';
-    };
-    waitForCharts(() => initHistogramChart('tv-return-dist-chart', coloredData, {
-        seriesName: 'Count',
-        priceFormat: COUNT_PRICE_FORMAT,
-        chartOpts: {
-            timeScale: {
-                ...TV_BASE.timeScale,
-                tickMarkFormatter: (time) => fmtBin(time),
-            },
+    const raw = tvReturnDistData || [];
+    if (!raw.length) return;
+    const pcts = raw.map(d => Number(d.pct));
+    const minPct = Math.min(...pcts);
+    const maxPct = Math.max(...pcts);
+    const pad = Math.max(2, (maxPct - minPct) * 0.04);
+    const data = raw.map(d => ({
+        x: d.pct,
+        y: d.value,
+        label: `${Number(d.pct).toFixed(1)}%`,
+        color: d.pct >= 0 ? HIST_POS : HIST_NEG,
+    }));
+    waitForCharts(() => initBarChart('tv-return-dist-chart', data, {
+        bargap: 0.06,
+        // One line for bin, one for count — no second copy of the return %
+        hoverTemplate: '%{customdata}<br>Count: %{y}<extra></extra>',
+        yaxis: { tickformat: 'd' },
+        xaxis: {
+            type: 'linear',
+            ticksuffix: '%',
+            tickformat: '.0f',
+            range: [minPct - pad, maxPct + pad],
         },
-        formatTime: (time) => fmtBin(time),
-        formatValue: (v) => String(Math.round(v)),
+        margin: { l: 48, r: 12, t: 18, b: 42 },
         errorMsg: 'Failed to render return distribution.',
     }), container, 'Chart library failed to load. Check your network and refresh.');
 }
@@ -1362,10 +1398,10 @@ function initializeAll() {
     renderMonthlyCards();
     filterByYear();
     initCurrentMonthCurve();
-    initTradingViewEquity();
-    initTradingViewDrawdown();
-    initTradingViewMonthly();
-    initTradingViewReturnDist();
+    initEquityChart();
+    initDrawdownChart();
+    initMonthlyReturnsChart();
+    initReturnDistChart();
 }
 
 initializeAll();
