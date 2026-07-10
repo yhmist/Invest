@@ -369,6 +369,10 @@
         .plotly-notifier .notifier-close:hover {
             color: var(--ink);
         }
+        /* Plotly paints an opaque bg underlay under dashed spikes; hide it so gaps are transparent */
+        .chart-panel .js-plotly-plot .spikeline:not([stroke-dasharray]) {
+            stroke-opacity: 0 !important;
+        }
         .mtd-badge {
             display: inline-flex;
             align-items: center;
@@ -1093,12 +1097,12 @@ function baseLayout(height, extras = {}) {
             tickfont: { size: 11, color: MD_MUTED, family: MD_FONT },
             automargin: true,
             zeroline: false,
-            // Soft dashed crosshair — transparent ink to match page chrome
+            // Soft dashed crosshair; underlay opacity killed via CSS so dash gaps stay clear
             showspikes: true,
             spikemode: 'across',
             spikesnap: 'cursor',
             spikedash: 'dash',
-            spikecolor: 'rgba(56,56,56,0.22)',
+            spikecolor: 'rgba(56,56,56,0.35)',
             spikethickness: 1,
             ...xExtra,
         },
