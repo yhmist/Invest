@@ -1093,6 +1093,13 @@ function baseLayout(height, extras = {}) {
             tickfont: { size: 11, color: MD_MUTED, family: MD_FONT },
             automargin: true,
             zeroline: false,
+            // Soft solid crosshair — matches axis/grid ink, not Plotly's default dash
+            showspikes: true,
+            spikemode: 'across',
+            spikesnap: 'cursor',
+            spikedash: 'solid',
+            spikecolor: 'rgba(56,56,56,0.28)',
+            spikethickness: 1,
             ...xExtra,
         },
         yaxis: {
@@ -1210,8 +1217,8 @@ function initBarChart(containerId, data, options = {}) {
         const layout = baseLayout(height, {
             showlegend: false,
             bargap: options.bargap != null ? options.bargap : 0.18,
-            // Closest avoids unified-x header duplicating bar labels (e.g. return %)
-            hovermode: options.hovermode || 'closest',
+            // Match equity curve: hover anywhere along x, not only on the bar glyph
+            hovermode: options.hovermode || 'x unified',
             yaxis: options.yaxis || {},
             xaxis: options.xaxis || {},
             margin: options.margin || { l: 52, r: 18, t: 18, b: 48 },
@@ -1291,11 +1298,12 @@ function initCurrentMonthCurve() {
                 line: { color: lineColor, width: 2.5, shape: 'spline', smoothing: 0.6 },
                 fill: 'tozeroy',
                 fillcolor: fillColor,
-                hovertemplate: 'MTD: %{y:.2%}<extra></extra>',
+                // Unified hover already shows the date — only emit the return
+                hovertemplate: '%{y:.2%}<extra></extra>',
             }];
             const layout = baseLayout(narrow ? 260 : 300, {
                 showlegend: false,
-                hovermode: 'closest',
+                hovermode: 'x unified',
                 yaxis: {
                     tickformat: '.1%',
                 },
@@ -1373,7 +1381,8 @@ function initMonthlyReturnsChart() {
     }));
     waitForCharts(() => initBarChart('tv-monthly-chart', data, {
         bargap: 0.18,
-        hoverTemplate: '%{customdata}<br>%{y:.2%}<extra></extra>',
+        // Unified hover already shows the month — only emit the return
+        hoverTemplate: '%{y:.2%}<extra></extra>',
         yaxis: { tickformat: '.0%' },
         xaxis: {
             type: 'category',
@@ -1403,8 +1412,8 @@ function initReturnDistChart() {
     }));
     waitForCharts(() => initBarChart('tv-return-dist-chart', data, {
         bargap: 0.06,
-        // One line for bin, one for count — no second copy of the return %
-        hoverTemplate: '%{customdata}<br>Count: %{y}<extra></extra>',
+        // Unified hover already shows the bin — only emit the count
+        hoverTemplate: 'Count: %{y}<extra></extra>',
         yaxis: { tickformat: 'd' },
         xaxis: {
             type: 'linear',
