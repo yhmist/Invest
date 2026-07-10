@@ -1093,12 +1093,12 @@ function baseLayout(height, extras = {}) {
             tickfont: { size: 11, color: MD_MUTED, family: MD_FONT },
             automargin: true,
             zeroline: false,
-            // Soft solid crosshair — matches axis/grid ink, not Plotly's default dash
+            // Soft dashed crosshair — transparent ink to match page chrome
             showspikes: true,
             spikemode: 'across',
             spikesnap: 'cursor',
-            spikedash: 'solid',
-            spikecolor: 'rgba(56,56,56,0.28)',
+            spikedash: 'dash',
+            spikecolor: 'rgba(56,56,56,0.22)',
             spikethickness: 1,
             ...xExtra,
         },
