@@ -373,6 +373,10 @@
         .chart-panel .js-plotly-plot .spikeline:not([stroke-dasharray]) {
             stroke-opacity: 0 !important;
         }
+        /* Avoid crispEdges rounding that makes the dash look thicker at some x positions */
+        .chart-panel .js-plotly-plot .spikeline {
+            shape-rendering: geometricPrecision;
+        }
         .mtd-badge {
             display: inline-flex;
             align-items: center;
@@ -1100,7 +1104,7 @@ function baseLayout(height, extras = {}) {
             // Soft dashed crosshair; underlay opacity killed via CSS so dash gaps stay clear
             showspikes: true,
             spikemode: 'across',
-            spikesnap: 'cursor',
+            spikesnap: 'data',
             spikedash: 'dash',
             spikecolor: 'rgba(56,56,56,0.35)',
             spikethickness: 1,
@@ -1131,6 +1135,29 @@ const PLOT_CONFIG = {
 
 function plotChart(container, traces, layout) {
     return Plotly.newPlot(container, traces, layout, PLOT_CONFIG).then(() => {
+        // Snap spike lines to half-pixels so 1px strokes don't blur thicker at subpixel x/y
+        const snapSpikeLines = () => {
+            requestAnimationFrame(() => {
+                container.querySelectorAll('.spikeline[stroke-dasharray]').forEach(el => {
+                    const x1 = el.getAttribute('x1');
+                    const x2 = el.getAttribute('x2');
+                    if (x1 != null && x1 === x2) {
+                        const x = Math.round(parseFloat(x1)) + 0.5;
+                        el.setAttribute('x1', x);
+                        el.setAttribute('x2', x);
+                    }
+                    const y1 = el.getAttribute('y1');
+                    const y2 = el.getAttribute('y2');
+                    if (y1 != null && y1 === y2) {
+                        const y = Math.round(parseFloat(y1)) + 0.5;
+                        el.setAttribute('y1', y);
+                        el.setAttribute('y2', y);
+                    }
+                });
+            });
+        };
+        container.on('plotly_hover', snapSpikeLines);
+        container.on('plotly_relayout', snapSpikeLines);
         const resize = () => {
             try { Plotly.Plots.resize(container); } catch (e) {}
         };
