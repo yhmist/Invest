@@ -377,14 +377,9 @@
         .chart-panel .js-plotly-plot .spikeline {
             shape-rendering: geometricPrecision;
         }
-        /* No drop shadows on Plotly hover windows (flat border only, match page cards) */
-        .chart-panel .js-plotly-plot .hoverlayer .legend,
-        .chart-panel .js-plotly-plot .hoverlayer .legend .bg,
-        .chart-panel .js-plotly-plot .hoverlayer .hovertext,
-        .chart-panel .js-plotly-plot .hoverlayer .hovertext path,
-        .chart-panel .js-plotly-plot .hoverlayer .hovertext rect {
-            filter: none !important;
-            box-shadow: none !important;
+        /* Unified hover is a legend .bg rect; crispEdges + subpixel x/y makes one side look thicker */
+        .chart-panel .js-plotly-plot .hoverlayer .legend .bg {
+            shape-rendering: geometricPrecision;
         }
         .chart-panel .js-plotly-plot .hoverlayer text {
             text-shadow: none !important;
@@ -1147,8 +1142,8 @@ const PLOT_CONFIG = {
 
 function plotChart(container, traces, layout) {
     return Plotly.newPlot(container, traces, layout, PLOT_CONFIG).then(() => {
-        // Snap spike lines to half-pixels so 1px strokes don't blur thicker at subpixel x/y
-        const snapSpikeLines = () => {
+        // Snap 1px SVG strokes to the pixel grid so borders/spikes don't look thicker at some positions
+        const snapOverlayStrokes = () => {
             requestAnimationFrame(() => {
                 container.querySelectorAll('.spikeline[stroke-dasharray]').forEach(el => {
                     const x1 = el.getAttribute('x1');
@@ -1166,10 +1161,26 @@ function plotChart(container, traces, layout) {
                         el.setAttribute('y2', y);
                     }
                 });
+                // Unified hover box = legend group; Plotly places it at fractional lx-1/ly-1
+                container.querySelectorAll('.hoverlayer g.legend').forEach(el => {
+                    const t = el.getAttribute('transform') || '';
+                    const m = /translate\(([^,\s]+)[,\s]+([^)]+)\)/.exec(t);
+                    if (!m) return;
+                    const x = Math.round(parseFloat(m[1])) + 0.5;
+                    const y = Math.round(parseFloat(m[2])) + 0.5;
+                    el.setAttribute('transform', `translate(${x},${y})`);
+                });
+                container.querySelectorAll('.hoverlayer g.legend rect.bg').forEach(el => {
+                    ['x', 'y', 'width', 'height'].forEach(attr => {
+                        const v = el.getAttribute(attr);
+                        if (v == null) return;
+                        el.setAttribute(attr, Math.round(parseFloat(v)));
+                    });
+                });
             });
         };
-        container.on('plotly_hover', snapSpikeLines);
-        container.on('plotly_relayout', snapSpikeLines);
+        container.on('plotly_hover', snapOverlayStrokes);
+        container.on('plotly_relayout', snapOverlayStrokes);
         const resize = () => {
             try { Plotly.Plots.resize(container); } catch (e) {}
         };
