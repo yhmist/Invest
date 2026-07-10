@@ -377,6 +377,18 @@
         .chart-panel .js-plotly-plot .spikeline {
             shape-rendering: geometricPrecision;
         }
+        /* No drop shadows on Plotly hover windows (flat border only, match page cards) */
+        .chart-panel .js-plotly-plot .hoverlayer .legend,
+        .chart-panel .js-plotly-plot .hoverlayer .legend .bg,
+        .chart-panel .js-plotly-plot .hoverlayer .hovertext,
+        .chart-panel .js-plotly-plot .hoverlayer .hovertext path,
+        .chart-panel .js-plotly-plot .hoverlayer .hovertext rect {
+            filter: none !important;
+            box-shadow: none !important;
+        }
+        .chart-panel .js-plotly-plot .hoverlayer text {
+            text-shadow: none !important;
+        }
         .mtd-badge {
             display: inline-flex;
             align-items: center;
@@ -1079,7 +1091,7 @@ function baseLayout(height, extras = {}) {
         hoverlabel: {
             bgcolor: '#f8f8f7',
             bordercolor: MD_INK,
-            font: { family: MD_FONT, size: 12, color: MD_INK },
+            font: { family: MD_FONT, size: 12, color: MD_INK, shadow: 'none' },
             align: 'left',
         },
         legend: {
