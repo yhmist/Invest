@@ -17,31 +17,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f4efea;
+            --bg: #f5efe7;
             --bg-deep: #ebe4db;
-            --surface: #f8f8f7;
-            --surface-muted: #efe9e2;
-            --ink: #383838;
-            --text: #383838;
+            --surface: #fffdf8;
+            --surface-muted: #f8f3ec;
+            --ink: #26231e;
+            --text: #26231e;
             --text-muted: #6b6560;
-            --text-subtle: #8a837c;
-            --border: #383838;
-            --border-soft: rgba(56, 56, 56, 0.18);
+            --text-subtle: #8a8177;
+            --border: #26231e;
+            --border-soft: rgba(38, 35, 30, 0.13);
             --accent: #97d4ff;
             --accent-deep: #6fc2ff;
-            --yellow: #ffde00;
+            --yellow: #ffd900;
             --orange: #ff9538;
-            --pos: #16a34a;
-            --neg: #e11d48;
-            --radius: 2px;
-            /* Inter via Google Fonts */
+            --pos: #0f8a3d;
+            --neg: #d61f45;
+            --radius: 12px;
+            --shadow: 3px 3px 0 var(--ink);
             --font-display: 'Inter', system-ui, sans-serif;
             --font-mono: 'Inter', system-ui, sans-serif;
             --font-fono: 'Inter', system-ui, sans-serif;
             --font-weight-body: 400;
             --font-weight-strong: 600;
             --letter-spacing-body: 0.01em;
-            --letter-spacing-wide: 0.06em;
+            --letter-spacing-wide: 0.08em;
             --plan-action-w: 2.25rem;
         }
         * { box-sizing: border-box; }
@@ -59,7 +59,7 @@
             color: var(--text);
             min-height: 100vh;
         }
-        .page { max-width: 1120px; margin: 0 auto; padding: 2rem 1.5rem 4.5rem; }
+        .page { max-width: 1080px; margin: 0 auto; padding: 1.75rem 1.5rem 4.5rem; }
         .font-display {
             font-family: var(--font-display);
             font-weight: var(--font-weight-strong);
@@ -83,30 +83,45 @@
         }
         @media (min-width: 640px) { .month-cards-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (min-width: 1024px) { .month-cards-grid { grid-template-columns: repeat(3, 1fr); } }
-        .top-banner {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--yellow);
-            border-bottom: 1.5px solid var(--ink);
-            color: var(--ink);
-            font-family: var(--font-fono);
-            font-size: 0.75rem;
-            font-weight: var(--font-weight-strong);
-            letter-spacing: var(--letter-spacing-wide);
-            text-transform: uppercase;
-            text-align: center;
-            padding: 0.55rem 1rem;
-            line-height: 1.2;
-        }
+        .top-banner { display: none; }
         .site-nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
-            padding: 1.1rem 0 1.6rem;
-            border-bottom: 1.5px solid var(--ink);
+            padding: 0 0 1.35rem;
+            margin-bottom: 1.25rem;
+            border-bottom: none;
+        }
+        .hero-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
             margin-bottom: 2rem;
+        }
+        .hero-stat {
+            background: var(--surface);
+            border: 2px solid var(--ink);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1rem 1.1rem;
+        }
+        .hero-stat-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-subtle);
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+        .hero-stat-value {
+            margin-top: 0.35rem;
+            font-family: var(--font-mono);
+            font-size: 1.85rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
         }
         /* ===== Position Plan (on-demand drawer) ===== */
         .plan-fab {
@@ -118,16 +133,16 @@
             align-items: center;
             gap: 0.55rem;
             padding: 0.7rem 1rem;
-            border: 1.5px solid var(--ink);
-            border-radius: var(--radius);
+            border: 2px solid var(--ink);
+            border-radius: 999px;
             background: var(--surface);
             color: var(--ink);
             font-family: var(--font-mono);
             font-size: 0.82rem;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 0.02em;
             cursor: pointer;
-            box-shadow: 0 8px 24px rgba(56, 56, 56, 0.12);
+            box-shadow: var(--shadow);
         }
         .plan-fab:hover { background: var(--yellow); }
         .plan-fab-badge {
@@ -483,23 +498,40 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 0.7rem;
+            gap: 0.75rem;
         }
         .brand-mark {
-            width: 1.75rem;
-            height: 1.75rem;
-            border-radius: 50%;
-            background: var(--orange);
-            border: 1.5px solid var(--ink);
+            width: 2.1rem;
+            height: 2.1rem;
+            border-radius: 8px;
+            background: var(--ink);
+            border: 2px solid var(--ink);
+            color: var(--yellow);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             flex-shrink: 0;
         }
+        .brand-text { display: flex; flex-direction: column; gap: 0.15rem; }
         .brand-name {
             font-family: var(--font-mono);
-            font-size: 1.1rem;
-            font-weight: var(--font-weight-strong);
+            font-size: 1rem;
+            font-weight: 800;
             letter-spacing: var(--letter-spacing-wide);
             color: var(--ink);
             line-height: 1;
+            text-transform: uppercase;
+        }
+        .brand-tagline {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-subtle);
+            letter-spacing: 0.02em;
+            line-height: 1.2;
         }
         .date-badge {
             display: inline-flex;
@@ -507,27 +539,30 @@
             justify-content: center;
             font-family: var(--font-mono);
             font-size: 0.72rem;
-            letter-spacing: 0.04em;
+            font-weight: 700;
+            letter-spacing: 0.02em;
             color: var(--ink);
-            background: var(--surface);
-            border: 1.5px solid var(--ink);
-            border-radius: var(--radius);
-            padding: 0.4rem 0.75rem;
+            background: var(--yellow);
+            border: 2px solid var(--ink);
+            border-radius: 999px;
+            box-shadow: 2px 2px 0 var(--ink);
+            padding: 0.45rem 0.85rem;
             white-space: nowrap;
             line-height: 1;
         }
         .panel {
             background: var(--surface);
-            border: 1.5px solid var(--ink);
+            border: 2px solid var(--ink);
             border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
         .panel-padded { padding: 1.35rem 1.4rem; }
-        .section-block { margin-bottom: 2rem; }
+        .section-block { margin-bottom: 2.25rem; }
         .section-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 0.9rem;
+            margin-bottom: 1rem;
             gap: 1rem;
         }
         .section-title {
@@ -535,10 +570,10 @@
             align-items: center;
             gap: 0.55rem;
             font-family: var(--font-mono);
-            font-size: 1.1rem;
-            font-weight: var(--font-weight-strong);
+            font-size: 1.05rem;
+            font-weight: 700;
             color: var(--ink);
-            letter-spacing: var(--letter-spacing-body);
+            letter-spacing: 0.02em;
             text-transform: none;
             line-height: 1.2;
         }
@@ -548,7 +583,8 @@
             width: 0.55rem;
             height: 0.55rem;
             background: var(--accent);
-            border: 1.5px solid var(--ink);
+            border: 2px solid var(--ink);
+            border-radius: 3px;
             flex-shrink: 0;
         }
         .section-subtitle {
@@ -572,37 +608,49 @@
             flex-direction: column;
             justify-content: center;
             background: var(--surface);
-            border: 1.5px solid var(--ink);
+            border: 2px solid var(--ink);
             border-radius: var(--radius);
+            box-shadow: var(--shadow);
             padding: 1rem 1.05rem;
             min-height: 5.25rem;
+            transition: transform 0.12s ease;
+        }
+        .metric-card.is-featured {
+            background: linear-gradient(180deg, #fffdf8 0%, #f8f3ec 100%);
+        }
+        .metric-card.is-featured .metric-value {
+            font-size: 1.75rem;
+            font-weight: 800;
         }
         .metric-label {
             font-family: var(--font-mono);
-            font-size: 0.65rem;
-            font-weight: 400;
+            font-size: 0.68rem;
+            font-weight: 600;
             color: var(--text-subtle);
             text-transform: uppercase;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.04em;
             line-height: 1.25;
         }
         .metric-value {
-            margin-top: 0.55rem;
+            margin-top: 0.5rem;
             font-family: var(--font-mono);
-            font-size: 1.55rem;
-            font-weight: 600;
+            font-size: 1.45rem;
+            font-weight: 700;
             font-variant-numeric: tabular-nums;
-            letter-spacing: 0.01em;
+            letter-spacing: -0.01em;
             line-height: 1.15;
             color: var(--ink);
         }
         #signals-container .metric-card {
-            min-height: 4rem;
+            min-height: 4.5rem;
             align-items: center;
             justify-content: center;
+            text-align: center;
         }
         #signals-container .metric-value {
             margin-top: 0;
+            font-size: 1.35rem;
+            font-weight: 800;
         }
         .val-pos { color: var(--pos); }
         .val-neg { color: var(--neg); }
@@ -644,7 +692,13 @@
         }
         .data-table td:not(:first-child) { text-align: right; }
         .data-table tr:last-child td { border-bottom: none; }
-        .data-table tbody tr:hover { background: rgba(151, 212, 255, 0.18); }
+        .data-table tbody tr:hover { background: rgba(151, 212, 255, 0.14); }
+        .data-table tbody tr.is-strategy {
+            background: rgba(255, 217, 0, 0.16);
+        }
+        .data-table tbody tr.is-strategy:hover {
+            background: rgba(255, 217, 0, 0.24);
+        }
         .data-table th:first-child,
         .data-table td:first-child {
             position: sticky;
@@ -702,8 +756,9 @@
         .chart-panel {
             position: relative;
             background: var(--surface);
-            border: 1.5px solid var(--ink);
+            border: 2px solid var(--ink);
             border-radius: var(--radius);
+            box-shadow: var(--shadow);
             padding: 0.85rem 0.65rem 0.55rem 0.35rem;
             overflow: hidden;
         }
@@ -762,13 +817,19 @@
             align-items: center;
             justify-content: center;
             font-family: var(--font-mono);
-            font-size: 0.95rem;
-            font-weight: 400;
+            font-size: 1.05rem;
+            font-weight: 800;
             font-variant-numeric: tabular-nums;
-            letter-spacing: 0.02em;
+            letter-spacing: -0.01em;
             line-height: 1;
-            min-height: 1.5rem;
+            min-height: 2rem;
+            padding: 0.35rem 0.85rem;
+            border: 2px solid var(--ink);
+            border-radius: 10px;
+            box-shadow: 2px 2px 0 var(--ink);
         }
+        .mtd-badge.val-pos { background: rgba(15, 138, 61, 0.12); color: var(--pos); }
+        .mtd-badge.val-neg { background: rgba(214, 31, 69, 0.1); color: var(--neg); }
         .year-toolbar {
             display: flex;
             flex-wrap: wrap;
@@ -800,26 +861,26 @@
             align-items: center;
             justify-content: center;
             font-family: var(--font-mono);
-            background: #ffffff;
-            border: 1px solid var(--ink);
-            border-radius: 2px;
-            padding: 4px 12px;
-            min-height: 28.8px;
+            background: var(--surface);
+            border: 2px solid var(--ink);
+            border-radius: 999px;
+            padding: 4px 14px;
+            min-height: 30px;
             font-size: 12px;
-            font-weight: 400;
+            font-weight: 600;
             letter-spacing: normal;
             text-transform: none;
             color: var(--ink);
             cursor: pointer;
             white-space: nowrap;
-            transition: background 0.12s ease, border-color 0.12s ease;
+            transition: background 0.12s ease, transform 0.12s ease;
         }
         .year-btn:hover {
             background: var(--surface-muted);
         }
         .year-btn.is-active {
-            background: var(--accent);
-            border-color: var(--ink);
+            background: var(--yellow);
+            box-shadow: 2px 2px 0 var(--ink);
         }
         .year-btn:focus-visible {
             outline: 2px solid var(--accent-deep);
@@ -829,9 +890,10 @@
             font-size: 0.8125rem;
             line-height: 1.3;
             background: var(--surface);
-            border: 1.5px solid var(--ink);
+            border: 2px solid var(--ink);
             border-radius: var(--radius);
-            padding: 0.9rem;
+            box-shadow: var(--shadow);
+            padding: 0.95rem;
             display: flex;
             flex-direction: column;
         }
@@ -908,22 +970,22 @@
             justify-content: center;
             align-self: center;
             flex-shrink: 0;
-            min-width: 4.25rem;
-            height: 1.5rem;
+            min-width: 4.5rem;
+            height: 1.55rem;
             box-sizing: border-box;
             font-family: var(--font-mono);
-            font-size: 0.65rem;
-            font-weight: 400;
-            letter-spacing: 0.02em;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.01em;
             line-height: 1;
-            padding: 0 0.45rem;
-            border: 1.5px solid var(--ink);
-            border-radius: var(--radius);
+            padding: 0 0.5rem;
+            border: 2px solid var(--ink);
+            border-radius: 8px;
             text-align: center;
             font-variant-numeric: tabular-nums;
         }
-        .ret-badge-pos { background: rgba(22, 163, 74, 0.14); color: var(--pos); }
-        .ret-badge-neg { background: rgba(225, 29, 72, 0.1); color: var(--neg); }
+        .ret-badge-pos { background: rgba(15, 138, 61, 0.14); color: var(--pos); }
+        .ret-badge-neg { background: rgba(214, 31, 69, 0.12); color: var(--neg); }
         .ret-badge-flat { background: var(--surface-muted); color: var(--text-muted); }
         .empty-state {
             text-align: center;
@@ -931,8 +993,9 @@
             color: var(--text-muted);
             font-size: 0.875rem;
             background: var(--surface);
-            border: 1.5px dashed var(--ink);
+            border: 2px dashed var(--ink);
             border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
         .signal-meta {
             font-family: var(--font-mono);
@@ -956,6 +1019,8 @@
         @media (max-width: 640px) {
             .page { padding: 1.25rem 1rem 3rem; }
             .site-nav { flex-wrap: wrap; }
+            .hero-strip { grid-template-columns: 1fr; }
+            .hero-stat-value { font-size: 1.55rem; }
             .chart-panel { padding: 0.85rem 0.75rem 0.8rem; }
             .chart-panel.chart-tall .chart-canvas { height: 300px; }
             .chart-panel .chart-canvas { height: 240px; }
@@ -967,10 +1032,16 @@
     <div class="page">
         <nav class="site-nav">
             <div class="brand">
-                <span class="brand-mark" aria-hidden="true"></span>
-                <span class="brand-name">Stock Picker</span>
+                <span class="brand-mark" aria-hidden="true">SP</span>
+                <div class="brand-text">
+                    <span class="brand-name">Stock Picker</span>
+                    <span class="brand-tagline">Russell 1000 · Monthly Momentum · Top 5</span>
+                </div>
             </div>
+            <span class="date-badge" id="nav-asof"></span>
         </nav>
+
+        <section class="hero-strip" id="hero-stats" aria-label="Key performance summary"></section>
 
         <section class="section-block" id="current-month-section">
             <div class="section-head">
@@ -1677,7 +1748,32 @@ function renderPositionPlan() {
 }
 
 // ===== Header + next-session signals =====
+function renderHeroStats() {
+    const el = document.getElementById('hero-stats');
+    if (!el) return;
+    const kpis = DATA.performance_kpis || [];
+    const year = new Date().getFullYear();
+    const picks = [
+        kpis.find(k => k.label === `${year} YTD`),
+        kpis.find(k => k.label === 'Total return'),
+        kpis.find(k => k.label === 'CAGR'),
+    ].filter(Boolean);
+    if (!picks.length) {
+        el.style.display = 'none';
+        return;
+    }
+    el.style.display = '';
+    el.innerHTML = picks.map(k =>
+        `<div class="hero-stat">
+            <div class="hero-stat-label">${k.label}</div>
+            <div class="hero-stat-value ${kpiColorClass(k)}">${formatKpiValue(k)}</div>
+        </div>`
+    ).join('');
+}
+
 function renderHeader() {
+    const asof = document.getElementById('nav-asof');
+    if (asof) asof.textContent = `As of ${DATA.asof_date_str}`;
     document.getElementById('date-range').textContent = DATA.date_range;
     document.getElementById('signal-asof').textContent = DATA.asof_date_str;
     document.getElementById('signal-next-date').textContent = DATA.next_date_str;
@@ -1685,9 +1781,9 @@ function renderHeader() {
     const container = document.getElementById('signals-container');
     if (DATA.next_picks && DATA.next_picks.length > 0) {
         const cards = DATA.next_picks.map(p =>
-            `<div class="metric-card" style="text-align:center;">
-                <div class="metric-value" style="font-size:1.25rem;">${p.ticker}</div>
-                <div class="metric-label" style="margin-top:0.5rem;">Score ${((p.total_score ?? 0) * 100).toFixed(1)}</div>
+            `<div class="metric-card">
+                <div class="metric-value">${p.ticker}</div>
+                <div class="metric-label" style="margin-top:0.45rem;">Score ${((p.total_score ?? 0) * 100).toFixed(1)}</div>
             </div>`
         ).join('');
         container.innerHTML = `<div class="signals-grid">${cards}</div>`;
@@ -1700,12 +1796,16 @@ function renderHeader() {
 // ===== KPI cards =====
 function renderKPIs() {
     const container = document.getElementById('kpi-container');
-    container.innerHTML = DATA.performance_kpis.map(k =>
-        `<div class="metric-card">
+    const featured = new Set(['Total return', 'CAGR']);
+    const year = new Date().getFullYear();
+    featured.add(`${year} YTD`);
+    container.innerHTML = DATA.performance_kpis.map(k => {
+        const feat = featured.has(k.label) ? ' is-featured' : '';
+        return `<div class="metric-card${feat}">
             <div class="metric-label">${k.label}</div>
             <div class="metric-value ${kpiColorClass(k)}">${formatKpiValue(k)}</div>
-        </div>`
-    ).join('');
+        </div>`;
+    }).join('');
 }
 
 // ===== Strategy vs benchmarks table =====
@@ -1729,16 +1829,17 @@ function retBadgeClass(ret) {
 
 function renderComparison() {
     const tbody = document.getElementById('comparison-tbody');
-    tbody.innerHTML = DATA.comparison_rows.map(r =>
-        `<tr>
+    tbody.innerHTML = DATA.comparison_rows.map(r => {
+        const rowCls = r.name === 'Strategy' ? ' class="is-strategy"' : '';
+        return `<tr${rowCls}>
             <td class="font-medium"><span class="name-cell"><span class="legend-dot" style="background:${r.dot_color}" aria-hidden="true"></span>${r.name}</span></td>
             <td class="${returnColorClass(r.total_return)}">${fmtPct(r.total_return)}</td>
             <td class="${returnColorClass(r.cagr)}">${fmtPct(r.cagr)}</td>
             <td class="val-neg">${fmtPct(r.max_drawdown)}</td>
             <td class="${sharpeColorClass(r.sharpe)}">${Number(r.sharpe).toFixed(2)}</td>
             <td class="val-neutral">${fmtPct(r.win_rate, 0)}</td>
-        </tr>`
-    ).join('');
+        </tr>`;
+    }).join('');
 }
 
 function formatMonthLabel(ym) {
@@ -1762,10 +1863,12 @@ function renderCurrentMonth() {
         const curve = tvCurrentMonthCurve || [];
         if (curve.length === 0) {
             badge.innerHTML = '';
+            badge.className = 'mtd-badge';
         } else {
             const val = curve[curve.length - 1].value * 100;
             const cls = val >= 0 ? 'val-pos' : 'val-neg';
-            badge.innerHTML = `<span class="${cls}">${(val >= 0 ? '+' : '') + val.toFixed(2)}%</span>`;
+            badge.className = `mtd-badge ${cls}`;
+            badge.textContent = `${(val >= 0 ? '+' : '') + val.toFixed(2)}%`;
         }
     }
 
@@ -1884,12 +1987,12 @@ function renderMonthlyCards() {
 }
 
 // Soft green / red tuned to the warm cream page (MotherDuck-adjacent palette)
-const HIST_POS = '#5a9e6f';
-const HIST_NEG = '#d96b5c';
-const MD_INK = '#383838';
-const MD_MUTED = '#6b6560';
-const MD_GRID = 'rgba(56,56,56,0.08)';
-const MD_AXIS = 'rgba(56,56,56,0.18)';
+const HIST_POS = '#0f8a3d';
+const HIST_NEG = '#d61f45';
+const MD_INK = '#26231e';
+const MD_MUTED = '#8a8177';
+const MD_GRID = 'rgba(38,35,30,0.08)';
+const MD_AXIS = 'rgba(38,35,30,0.16)';
 const MD_FONT = 'Inter, system-ui, sans-serif';
 
 function showChartError(container, msg) {
@@ -1982,7 +2085,7 @@ function baseLayout(height, extras = {}) {
         hoverdistance: -1,
         spikedistance: -1,
         hoverlabel: {
-            bgcolor: '#f8f8f7',
+            bgcolor: '#fffdf8',
             bordercolor: MD_INK,
             font: { family: MD_FONT, size: 12, color: MD_INK, shadow: 'none' },
             align: 'left',
@@ -2377,6 +2480,7 @@ function initReturnDistChart() {
 
 function initializeAll() {
     renderPositionPlan();
+    renderHeroStats();
     renderHeader();
     renderKPIs();
     renderComparison();
