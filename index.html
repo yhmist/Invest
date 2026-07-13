@@ -693,11 +693,11 @@
         .data-table td:not(:first-child) { text-align: right; }
         .data-table tr:last-child td { border-bottom: none; }
         .data-table tbody tr:hover { background: rgba(151, 212, 255, 0.14); }
-        .data-table tbody tr.is-strategy {
-            background: rgba(255, 217, 0, 0.16);
+        .data-table tbody tr.is-strategy td {
+            background: rgba(255, 217, 0, 0.18);
         }
-        .data-table tbody tr.is-strategy:hover {
-            background: rgba(255, 217, 0, 0.24);
+        .data-table tbody tr.is-strategy:hover td {
+            background: rgba(255, 217, 0, 0.28);
         }
         .data-table th:first-child,
         .data-table td:first-child {
@@ -731,8 +731,13 @@
         }
         .comparison-table th:first-child,
         .comparison-table td:first-child {
+            position: static;
+            left: auto;
+            z-index: auto;
             width: 18%;
             max-width: none;
+            background: transparent;
+            box-shadow: none;
         }
         .comparison-table th:not(:first-child),
         .comparison-table td:not(:first-child) {
