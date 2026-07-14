@@ -33,7 +33,7 @@
             --pos: #0f8a3d;
             --neg: #d61f45;
             --radius: 12px;
-            --shadow: 3px 3px 0 var(--ink);
+            --shadow: none;
             --font-display: 'Inter', system-ui, sans-serif;
             --font-mono: 'Inter', system-ui, sans-serif;
             --font-fono: 'Inter', system-ui, sans-serif;
@@ -190,7 +190,7 @@
             border-left: 1.5px solid var(--ink);
             display: flex;
             flex-direction: column;
-            box-shadow: -12px 0 40px rgba(56, 56, 56, 0.12);
+            box-shadow: none;
         }
         .plan-drawer-head {
             display: flex;
@@ -499,22 +499,6 @@
             align-items: center;
             gap: 0.75rem;
         }
-        .brand-mark {
-            width: 2.1rem;
-            height: 2.1rem;
-            border-radius: 8px;
-            background: var(--ink);
-            border: 2px solid var(--ink);
-            color: var(--yellow);
-            font-family: var(--font-mono);
-            font-size: 0.72rem;
-            font-weight: 900;
-            letter-spacing: 0.02em;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
         .brand-text { display: flex; flex-direction: column; gap: 0.15rem; }
         .brand-name {
             font-family: var(--font-mono);
@@ -544,7 +528,7 @@
             background: var(--yellow);
             border: 2px solid var(--ink);
             border-radius: 999px;
-            box-shadow: 2px 2px 0 var(--ink);
+            box-shadow: none;
             padding: 0.45rem 0.85rem;
             white-space: nowrap;
             line-height: 1;
@@ -790,7 +774,7 @@
             padding: 0.35rem 0.85rem;
             border: 2px solid var(--ink);
             border-radius: 10px;
-            box-shadow: 2px 2px 0 var(--ink);
+            box-shadow: none;
         }
         .mtd-badge.val-pos { background: rgba(15, 138, 61, 0.12); color: var(--pos); }
         .mtd-badge.val-neg { background: rgba(214, 31, 69, 0.1); color: var(--neg); }
@@ -844,7 +828,7 @@
         }
         .year-btn.is-active {
             background: var(--yellow);
-            box-shadow: 2px 2px 0 var(--ink);
+            box-shadow: none;
         }
         .year-btn:focus-visible {
             outline: 2px solid var(--accent-deep);
@@ -1011,7 +995,6 @@
     <div class="page">
         <nav class="site-nav">
             <div class="brand">
-                <span class="brand-mark" aria-hidden="true">SP</span>
                 <div class="brand-text">
                     <span class="brand-name">Stock Picker</span>
                     <span class="brand-tagline">Russell 1000 · Monthly Momentum · Top 5</span>
