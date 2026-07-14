@@ -541,6 +541,48 @@
         }
         .panel-padded { padding: 1.35rem 1.4rem; }
         .section-block { margin-bottom: 2.25rem; }
+        .explain-lead {
+            margin: 0 0 1rem;
+            font-size: 0.92rem;
+            line-height: 1.55;
+            color: var(--text-muted);
+            max-width: none;
+        }
+        .explain-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+        }
+        @media (min-width: 720px) {
+            .explain-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        .explain-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem 1.1rem;
+        }
+        .explain-card h3 {
+            margin: 0 0 0.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-subtle);
+        }
+        .explain-card p {
+            margin: 0;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: var(--text);
+        }
+        .explain-note {
+            margin: 0.85rem 0 0;
+            font-size: 0.78rem;
+            line-height: 1.45;
+            color: var(--text-subtle);
+        }
         .section-head {
             display: flex;
             align-items: center;
@@ -1025,6 +1067,34 @@
                 <span class="date-badge" id="signal-next-date"></span>
             </div>
             <div id="signals-container"></div>
+        </section>
+
+        <section class="section-block" id="strategy-explain-section">
+            <div class="section-head">
+                <div class="section-title">Strategy Explanation</div>
+            </div>
+            <p class="explain-lead">A rules-based monthly book that concentrates in a handful of large-cap U.S. names when the tape is supportive, and can step aside into cash when conditions are not.</p>
+            <div class="explain-grid">
+                <div class="explain-card">
+                    <h3>Universe</h3>
+                    <p>Candidates come from the live Russell 1000 ETF holdings each month—not a static stock list—so the pool tracks what large-cap investors actually own.</p>
+                </div>
+                <div class="explain-card">
+                    <h3>Selection</h3>
+                    <p>Names are ranked by medium-term price momentum and relative strength versus the broader market, then the top equal-weight slots are kept for the month.</p>
+                </div>
+                <div class="explain-card">
+                    <h3>Rebalance</h3>
+                    <p>The book turns over on a monthly schedule: entries and exits use the open of the first trading day of each month window, with trading costs included in the backtest.</p>
+                </div>
+                <div class="explain-card">
+                    <h3>Risk overlay</h3>
+                    <p>When the growth-market regime looks weak, the strategy can hold cash instead of forcing equity exposure—so some months intentionally show no stock holdings.</p>
+                </div>
+            </div>
+            <p class="explain-note">
+                This page is a research / tracking view, not investment advice. Past simulated results do not guarantee future outcomes.
+            </p>
         </section>
 
         <section class="section-block" id="performance-section">
